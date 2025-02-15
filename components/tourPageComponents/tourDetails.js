@@ -1,9 +1,4 @@
-git init
-git add README.md
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/BishtJatin/devsthan-fronend-new.git
-git push -u origin mainimport React from 'react'
+import React from 'react'
 import styles from "../../pages/package/openHour/tour.module.css";
 import { CiClock2 } from "react-icons/ci";
 import { FaCheck } from "react-icons/fa6";
