@@ -1,0 +1,144 @@
+.faq-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #4caf50;
+}
+
+.faq-heading {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.search-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1.1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Show dropdown suggestions on hover */
+.search-wrapper:hover .custom-dropdown,
+.search-input:focus + .custom-dropdown {
+  display: block;
+}
+
+.custom-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1;
+  display: none; /* Initially hidden */
+}
+
+.dropdown-item {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+
+#category-suggestions {
+  width: 100%; /* Set the width to 100% to match the input */
+  font-size: 1.1rem;
+}
+
+#category-suggestions option {
+  font-size: 1.1rem;
+  padding: 8px;
+}
+
+.question-item{
+  list-style-type: none;
+}
+
+.question-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+}
+
+.question {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  
+}
+
+.answer {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.no-results {
+  text-align: center;
+  font-style: italic;
+  color: #999;
+}
+
+@media screen and (max-width: 1040px) {
+  .faq-container {
+    max-width: 650px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    
+  }
+  .faq-heading {
+    font-size: 1.2rem;
+  }
+  }
+
+  @media screen and (max-width: 820px) {
+    .faq-container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      
+    }
+    .faq-heading {
+      font-size: 1.2rem;
+    }
+    }
+  
+
+@media screen and (max-width: 450px) {
+.faq-container {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+ 
+}
+.faq-heading {
+  font-size: 1.2rem;
+}
+}

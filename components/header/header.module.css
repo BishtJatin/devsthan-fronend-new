@@ -1,0 +1,187 @@
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9rem 2rem;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
+
+.profile-icon{
+  font-size: 22px;
+  color: black;
+}
+.login-link{
+  color: black;
+  text-decoration: none;
+
+}
+.auth-links{
+  display: flex;
+  gap: 5px;
+  text-decoration: none;
+  color: black;
+}
+
+
+
+
+.hamburger {
+  cursor: pointer;
+  display: none;
+  font-size: 24px;
+  color: #333;
+}
+
+.logo {
+  width: 100%;
+}
+
+.logo-container {
+  max-width: 200px;
+}
+
+.nav-menu ul {
+  display: flex;
+  gap: 25px;
+  list-style: none;
+}
+
+.header-right-option {
+  display: flex;
+  align-items: center;
+}
+
+.nav-link {
+
+  color: black;
+  display: flex;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  gap: 20px;
+  position: relative;
+  font-weight: 400;
+  font-size: 17px;
+  transition: all .5s ease-out 0s;
+  position: relative;
+  text-decoration: none;
+}
+
+.inquiry {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+}
+
+.inquiry a {
+  color: green;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 17px;
+}
+
+.user-icon {
+  font-size: 22px;
+}
+
+.header-right-option {
+  display: flex;
+  gap: 15px;
+}
+
+.inquiry-icon {
+  font-size: 29px;
+  color: #63ab45;
+
+  /* padding-right: 10px; */
+
+}
+
+.inquiry-details {
+  border-left: 1px solid gray;
+  padding-left: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.inquiry-details>span {
+  font-size: 14px;
+  font-weight: 500;
+
+}
+
+/* Container for the dropdown menu */
+.dropdown-menu {
+  display: none; /* Hide initially */
+  position: absolute; /* Position the dropdown properly */
+  top: 100%; /* Position it below the "Tours" link */
+  left: 0; /* Align it with the left edge of the "Tours" link */
+  background-color: #fff; /* Background color of the dropdown */
+  border: 1px solid #ddd; /* Optional: Add a border around the dropdown */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add some shadow for better visibility */
+  width: max-content; /* Ensure dropdown width fits its content */
+  z-index: 100; /* Make sure it appears above other content */
+  padding: 5px 0;
+}
+
+/* Ensure the dropdown appears under the "Tours" link */
+.nav-menu li {
+  position: relative; /* Make sure the dropdown is positioned relative to this list item */
+}
+
+/* Display the dropdown when the "Tours" link is clicked */
+.nav-menu li:hover .dropdown-menu {
+  display: block; /* Show the dropdown when the parent is hovered */
+}
+
+/* Styling for dropdown links */
+.dropdown-menu .nav-link {
+  padding: 8px 20px; /* Space out the links */
+  color: #000;
+  text-decoration: none;
+  display: block; /* Make links block-level for easier clicking */
+}
+
+/* Hover effect for dropdown links */
+.dropdown-menu .nav-link:hover {
+  background-color: #f0f0f0; /* Light background for hover effect */
+  color: #0070f3; /* Change text color on hover */
+}
+
+
+@media screen and (max-width: 1220px) {
+  .inquiry {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .hamburger {
+    display: block;
+  }
+  .nav-menu {
+    display: none;
+  }
+  .auth-links{
+    display:none;
+  }
+  .header-container {
+    padding: .9rem .7rem;
+    justify-content: space-between;
+   
+
+}
+}
+
+
+@media screen and (max-width: 470px) {
+  .header-container {
+    max-height: 50px;
+}
+}
+
+

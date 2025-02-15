@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://devsthanexpert.com
+
+# Sitemaps
+Sitemap: https://devsthanexpert.com/sitemap.xml

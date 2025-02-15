@@ -1,0 +1,168 @@
+
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+:root {
+  --font-poppins: 'Poppins', sans-serif;
+}
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: var(--font-poppins);
+
+}
+
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+.quickbuttons-wrapper{
+  position: fixed;
+  bottom: 40px;
+  right: 0px;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: all 0.3s ease; 
+}
+.quickbuttons3{
+  position: fixed;
+  bottom: 320px;
+  right: 0px;
+  background-color: #213f98;
+  color: #fff;
+  width: 45px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: all 0.3s ease; 
+}
+.quickbuttons1 {
+  position: fixed;
+  bottom: 240px;
+  right: 0px;
+  background-color: #25D366;
+  color: #fff;
+  width: 45px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: all 0.3s ease; 
+}
+
+.quickbuttons2 {
+
+  position: fixed;
+  bottom: 160px;
+  right: 0px;
+  background-color: #213f98;
+  color: #fff;
+  width: 45px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: all 0.3s ease; 
+}
+
+/* Media query for smaller screens */
+
+
+@media screen and (max-width: 450px) {
+  .quickbuttons1,
+  .quickbuttons2 {
+    width: 35px;
+    height: 90px;
+
+  }
+  .quickbuttons1 {
+    bottom: 161px !important;
+  }
+  .quickbuttons2 {
+    bottom: 71px !important;
+  }
+}
+
+/* Media query for landscape orientation */
+/* .quickbuttons1 {
+  position: fixed;
+  bottom: 240px;
+  right: 0px;
+  background-color: #25D366;
+  color: #fff;
+  width: 45px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: all 0.3s ease; 
+}
+
+.quickbuttons2 {
+  position: fixed;
+  bottom: 121px;
+  right: 0px;
+  background-color: #213f98;
+  color: #fff;
+  width: 45px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: all 0.3s ease; 
+} */
+
+/* Media query for smaller screens */
+@media screen and (max-width: 450px) {
+  .quickbuttons1,
+  .quickbuttons2 ,.quickbuttons3{
+    width: 35px;
+    height: 90px;
+  }
+
+
+  .quickbuttons3{
+    bottom: 251px;
+  }
+  .quickbuttons2 {
+    bottom: 151px;
+  }
+}
+
+/* Media query for landscape orientation */
+@media screen and (max-width: 1000px) and (orientation: landscape) {
+  .quickbuttons1,
+  .quickbuttons2 {
+    width: 30px;
+    height: 80px;
+  }
+
+  .quickbuttons1 {
+    bottom: 180px; /* Adjust positioning for landscape */
+  }
+
+  .quickbuttons2 {
+    bottom: 100px; /* Adjust positioning for landscape */
+  }
+
+}
+

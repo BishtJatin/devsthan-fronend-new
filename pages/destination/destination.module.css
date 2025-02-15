@@ -1,0 +1,817 @@
+.container {
+    display: flex;
+    padding: 2rem;
+    gap: 2rem;
+    max-width: 1350px;
+    margin-inline: auto;
+  }
+  
+  .mainContent {
+    flex: 2;
+    margin-top: 3%;
+  }
+  .carousel-tour{
+    max-width: 1350px;
+    margin-inline: auto;
+        padding: 2rem;
+  }
+  
+  .mainContent h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+
+
+  
+  .card-wrapper {
+    padding: 0 15px; /* Adds horizontal space between cards */
+  }
+  
+  .tourcardsslide {
+    margin-bottom: 40px; /* Adds spacing between sliders */
+  }
+  
+  .slick-list {
+    margin: 0 -15px; /* Aligns cards with the container edges */
+  }
+  
+  
+  .mainContent p {
+    line-height: 1.6;
+    color: #555;
+  }
+  
+  .imageGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  .header {
+    position: relative;
+    height: 50vh; /* Adjust height as needed */
+    overflow: hidden;
+    display: flex;
+          justify-content: center;
+        align-items: center;
+}
+.parallax-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height:100%;
+  overflow: hidden;
+}
+
+.parallax-image {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  transform: translateY(0);
+  will-change: transform;
+}
+
+.header_content {
+  position: relative;
+  z-index: 2;
+  color: white;
+  text-align: center;
+}
+
+.parallax-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Optional overlay for better text contrast */
+}
+  .header_content{
+    position: absolute;
+  }
+  
+  .title {
+    font-size: 3.5rem;
+    font-weight: bold;
+  }
+  .imageCard {
+    overflow: hidden;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+    width: 300px;
+    height: 300px;
+  }
+  
+  .imageCard:hover {
+    transform: scale(1.05);
+  }
+  .carousel-container {
+    width: 100%;
+    max-width: 900px; /* Adjust this to your preferred max width */
+   margin: 50px auto;
+  
+  }
+  .image {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .imageCard:hover .image {
+    transform: scale(1.1);
+  }
+  
+  .features {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+  }
+  
+  .features li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+    animation: fadeInUp 0.5s ease-in;
+  }
+  .detailsBox > p{
+    border-bottom: 1px solid #eee;
+    padding-block: 20px;
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .sidebar {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .detailsBox, .offerBox {
+    background-color: #fff;
+    padding: 1.5rem;
+    min-width: 300px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .detailsBox h3 {
+    font-size: 1.2rem;
+    color: #888;
+    margin-bottom: 1rem;
+  }
+  
+  .offerBox {
+    text-align: center;
+    background-color: #ffde5a;
+    color: #333;
+  }
+  
+  .offerBox p {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
+  .offerButton {
+    margin-top: 1rem;
+    padding: 0.8rem 1.5rem;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .offerButton:hover {
+    background-color: #555;
+  }
+  
+  .image-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    width: 100%;
+  }
+  .carousel-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: left;
+  
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    border-radius: 8px;
+    background: #fff;
+  }
+  
+  .carousel-item:hover {
+    transform: translateY(-10px);
+    /* box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); */
+  }
+  
+  .carousel-item img {
+    width: 210px;
+    height: 210px;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.5s ease, filter 0.5s ease;
+  }
+  
+  .carousel-item img:hover {
+    transform: scale(1.1);
+    filter: brightness(1.1);
+  }
+  
+  .carousel-item h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin: 0.5rem 0;
+  }
+  
+  .carousel-item p {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 35px;
+    color: #787878;
+    margin-bottom: 10px;
+  }
+
+.custom-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  font-size: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Next arrow */
+.next-arrow {
+  right: 10px;
+}
+
+/* Previous arrow */
+.prev-arrow {
+  left: 10px;
+}
+
+/* Hover effect */
+.custom-arrow:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+  transform: translateY(-50%) scale(1.1);
+}
+
+
+/* related tours */
+.header-text {
+  margin-bottom: 20px;
+  margin-top: 4% ;
+  display: flex;
+  flex-direction: column;
+}
+
+.header-text-subtitle {
+  color: #6da06f;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  margin: 0 auto;
+}
+
+.header-text-title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 24px;
+  margin: 0 auto;
+}
+
+.header-text-title1 {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 24px;
+  margin: 0 auto;
+  color: #6da06f;
+}
+
+.loading-text{
+  display: flex;
+  justify-content: center;
+}
+
+@media screen and (max-width: 1180px) {
+
+  .imageCard {
+    width: 260px;
+    height: 260px;
+  }
+
+  .mainContent h1 {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+  
+  .mainContent p {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+
+}
+
+@media screen and (max-width: 1105px) {
+
+  .imageCard {
+    width: 240px;
+    height: 240px;
+  }
+
+  .carousel-item img {
+    width: 180px;
+    height: 180px;
+  }
+
+}
+
+  @media screen and (max-width: 860px) {
+   .container{
+    flex-direction: column;
+    padding: 10px;
+   }
+    .carousel-tour{
+   
+        padding: 1rem;
+  }
+   .mainContent > h1{
+    font-size: 2rem;
+    margin-bottom: 5px;
+   }
+   .carousel-item > p{
+    font-size: 14px;
+    line-height: 25px;
+   }
+   .header{
+    height: 300px;
+      }
+      .title{
+        font-size: 2rem;
+      }
+      .imageGrid{
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .header-text-subtitle {  
+        font-size: 14px; 
+      }  
+      .header-text-title {
+        font-size: 22px;
+      }
+
+      .carousel-item img {
+        width: 150px;
+        height: 150px;
+      }
+
+      .imageCard {
+        width: 210px;
+        height: 210px;
+      }
+    
+      
+}
+
+@media screen and (max-width: 700px) {
+   
+  .carousel-item img {
+    width: 130px;
+    height: 130px;
+  }
+
+  .imageCard {
+    width: 190px;
+    height: 190px;
+  }
+
+  .header-text-subtitle {  
+    font-size: 10px; 
+  }  
+  .header-text-title {
+    font-size: 14.5px;
+  }
+
+}
+
+@media screen and (max-width: 600px) {
+   
+  .carousel-item img {
+    width: 160px;
+    height: 160px;
+  }
+
+  /* .carousel-container{
+    width: 50px;
+  } */
+  /* .image-grid{
+    w
+  } */
+  .imageGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding-left: 20px;
+    padding-right: 10px
+  }; 
+  .imageCard {
+    width: 220px;
+    height: 220px;
+    
+  }
+
+  .header-text-subtitle {  
+    font-size: 10px; 
+  }  
+  .header-text-title {
+    font-size: 14.5px;
+  }
+
+}
+@media screen and (max-width: 500px) {
+
+  .mainContent > h1{
+   font-size: 1.3rem;
+  }
+  .mainContent > p{
+    font-size:12px;
+  }
+  .header-text-subtitle {  
+    font-size: 11px; 
+  }  
+  .header-text-title {
+    font-size: 15px;
+  }
+  .header-text{
+    margin-top: 6%;
+  }
+
+  .carousel-item h2 {
+    font-size: 20px;
+  }
+
+  .imageGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two equal columns */
+    gap: 10px; /* Space between items */
+  }
+  
+  .imageCard {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .imageCard:nth-child(1),
+  .imageCard:nth-child(2) {
+    height: 200px;
+    width: 210px;
+  }
+  
+  .imageCard:nth-child(3),
+  .imageCard:nth-child(4) {
+    grid-row: span 2; /* Make these images span two rows */
+    height: 400px;
+    width: 210px; /* Set a larger height for the last two images */
+  }
+  
+  .image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .carousel-item {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  .carousel-item img:nth-child(1),
+  .carousel-item img:nth-child(2) {
+    width: 190px;
+    height: 220px;
+  }
+
+  .carousel-item img:nth-child(3),
+  .carousel-item img:nth-child(4){
+    width: 190px;
+    height: 140px;
+  }
+  
+}
+
+@media screen and (max-width: 470px) {
+
+  .imageGrid {
+    gap: 10px; /* Space between items */
+  }
+  
+  .imageCard:nth-child(1),
+  .imageCard:nth-child(2) {
+    height: 200px;
+    width: 200px;
+  }
+  
+  .imageCard:nth-child(3),
+  .imageCard:nth-child(4) {
+    grid-row: span 2; /* Make these images span two rows */
+    height: 400px;
+    width: 200px; /* Set a larger height for the last two images */
+  }
+  
+
+  .carousel-item {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  .carousel-item img:nth-child(1),
+  .carousel-item img:nth-child(2) {
+    width: 190px;
+    height: 220px;
+  }
+
+  .carousel-item img:nth-child(3),
+  .carousel-item img:nth-child(4){
+    width: 190px;
+    height: 140px;
+  }
+
+  .header-text-subtitle {  
+    font-size: 11px; 
+  }  
+  .header-text-title {
+    font-size: 13px;
+  }
+  .header-text{
+    margin-top: 6%;
+  }
+}
+
+@media screen and (max-width: 450px) {
+
+  .imageGrid {
+    gap: 8px; /* Space between items */
+  }
+  
+  .imageCard:nth-child(1),
+  .imageCard:nth-child(2) {
+    height: 200px;
+    width: 175px;
+  }
+  
+  .imageCard:nth-child(3),
+  .imageCard:nth-child(4) {
+    grid-row: span 2; /* Make these images span two rows */
+    height: 400px;
+    width: 175px; /* Set a larger height for the last two images */
+  }
+  
+
+  .carousel-item {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  .carousel-item img:nth-child(1),
+  .carousel-item img:nth-child(2) {
+    width: 160px;
+    height: 220px;
+  }
+
+  .carousel-item img:nth-child(3),
+  .carousel-item img:nth-child(4){
+    width: 160px;
+    height: 140px;
+  }
+
+  .header-text-subtitle {  
+    font-size: 11px; 
+  }  
+  .header-text-title {
+    font-size: 12px;
+  }
+  .header-text{
+    margin-top: 6%;
+  }
+}
+
+@media screen and (max-width: 405px) {
+
+  .imageGrid {
+    gap: 8px; /* Space between items */
+  }
+  
+  .imageCard:nth-child(1),
+  .imageCard:nth-child(2) {
+    height: 180px;
+    width: 168px;
+  }
+  
+  .imageCard:nth-child(3),
+  .imageCard:nth-child(4) {
+    grid-row: span 2; /* Make these images span two rows */
+    height: 400px;
+    width: 168px; /* Set a larger height for the last two images */
+  }
+  
+
+  .carousel-item {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  .carousel-item img:nth-child(1),
+  .carousel-item img:nth-child(2) {
+    width: 150px;
+    height: 220px;
+  }
+
+  .carousel-item img:nth-child(3),
+  .carousel-item img:nth-child(4){
+    width: 150px;
+    height: 140px;
+  }
+
+  .header-text-subtitle {  
+    font-size: 11px; 
+  }  
+  .header-text-title {
+    font-size: 11px;
+  }
+  .header-text{
+    margin-top: 6%;
+  }
+}
+
+@media screen and (max-width: 391px) {
+
+  .imageGrid {
+    gap: 8px; /* Space between items */
+  }
+  
+  .imageCard:nth-child(1),
+  .imageCard:nth-child(2) {
+    height: 180px;
+    width: 155px;
+  }
+  
+  .imageCard:nth-child(3),
+  .imageCard:nth-child(4) {
+    grid-row: span 2; /* Make these images span two rows */
+    height: 400px;
+    width: 155px; /* Set a larger height for the last two images */
+  }
+  
+
+  .carousel-item {
+    padding-left: 18px;
+    padding-right: 10px;
+  }
+
+  .carousel-item h2{
+    margin-left: 3%;
+  }
+
+  .carousel-item img:nth-child(1),
+  .carousel-item img:nth-child(2) {
+    width: 150px;
+    height: 220px;
+  }
+
+  .carousel-item img:nth-child(3),
+  .carousel-item img:nth-child(4){
+    width: 150px;
+    height: 120px;
+  }
+
+  .header-text-subtitle {  
+    font-size: 11px; 
+  }  
+  .header-text-title {
+    font-size: 11px;
+  }
+  .header-text{
+    margin-top: 6%;
+  }
+}
+
+@media screen and (max-width: 370px) {
+
+  .imageGrid {
+    gap: 8px; /* Space between items */
+  }
+  
+  .imageCard:nth-child(1),
+  .imageCard:nth-child(2) {
+    height: 180px;
+    width: 140px;
+  }
+  
+  .imageCard:nth-child(3),
+  .imageCard:nth-child(4) {
+    grid-row: span 2; /* Make these images span two rows */
+    height: 400px;
+    width: 140px; /* Set a larger height for the last two images */
+  }
+  
+
+  .carousel-item {
+    padding-left: 15px;
+    padding-right: 6px;
+  }
+
+  .carousel-item img:nth-child(1),
+  .carousel-item img:nth-child(2) {
+    width: 140px;
+    height: 220px;
+  }
+
+  .carousel-item img:nth-child(3),
+  .carousel-item img:nth-child(4){
+    width: 140px;
+    height: 120px;
+  }
+
+  .header-text-subtitle {  
+    font-size: 11px; 
+  }  
+  .header-text-title {
+    font-size: 11px;
+  }
+  .header-text{
+    margin-top: 6%;
+  }
+}
+
+@media screen and (max-width: 358px) {
+
+  .imageGrid {
+    gap: 8px; /* Space between items */
+  }
+  
+  .imageCard:nth-child(1),
+  .imageCard:nth-child(2) {
+    height: 180px;
+    width: 132px;
+  }
+  
+  .imageCard:nth-child(3),
+  .imageCard:nth-child(4) {
+    grid-row: span 2; /* Make these images span two rows */
+    height: 400px;
+    width: 132px; /* Set a larger height for the last two images */
+  }
+  
+
+  .carousel-item {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .carousel-item img:nth-child(1),
+  .carousel-item img:nth-child(2) {
+    width: 260px;
+    height: 220px;
+  }
+
+  .carousel-item img:nth-child(3),
+  .carousel-item img:nth-child(4){
+    width: 260px;
+    height: 120px;
+  }
+
+  .header-text-subtitle {  
+    font-size: 8px; 
+  }  
+  .header-text-title {
+    font-size: 8px;
+  }
+  .header-text{
+    margin-top: 6%;
+  }
+}

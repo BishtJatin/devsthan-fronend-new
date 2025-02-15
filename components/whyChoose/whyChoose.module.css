@@ -1,0 +1,170 @@
+.about-us-section {
+  /* background-color: #f9f9f9; */
+  padding: 4rem 2rem;
+  text-align: center;
+  opacity: 0;
+  transform: translateX(-10%); /* Start off-screen to the right */
+  transition: opacity 1s ease-out, transform 1s ease-out; /* Smooth transition for both opacity and position */
+}
+
+
+.about-us-section.animate {
+  opacity: 1;
+  transform: translateX(0); /* Slide in to original position */
+}
+
+
+.section-title {
+  
+  margin-bottom: 2rem;
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+.subtitle {
+  color: #6da06f;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.imageContainer {
+  
+  width: 100%;
+  max-width: 1300px;
+  height: 200px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  margin: 50px auto; /* Center the container horizontally */
+}
+
+.backgroundImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+}
+
+.playstoreLink {
+  z-index: 1;
+}
+
+.playstoreIcon {
+  width: 150px;
+  margin-top: 70px;
+  margin-left: 380px;
+  height: auto;
+  cursor: pointer;
+}
+
+
+.title {
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 24px;
+}
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 2rem;
+  justify-items: center;
+  width: 100%;
+  max-width: 1300px;
+  margin-inline: auto;
+}
+
+.about-card {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px #0000001a;
+  overflow: hidden;
+  transition: transform .3s, box-shadow .3s;
+  display: flex;
+  width: 100%;
+  text-align: left;
+  height: 100%;
+}
+
+.carousel-container {
+  padding-bottom: 30px; /* Add extra space at the bottom for the dots */
+}
+
+
+.about-card:hover {
+  transform: translateY(-10px);
+  /* box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15); */
+}
+
+.image-wrapper img {
+  width: 100%;
+ height: 100%;
+  object-fit: cover;
+  max-width: 300px;
+  min-width: 200px;
+}
+
+.card-content {
+  padding: 1.5rem;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  color: #222;
+  margin-bottom: 0.5rem;
+}
+
+.card-description {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.5;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.cards-container .about-card {
+  animation: fadeIn 0.8s ease forwards;
+  opacity: 0;
+}
+
+
+@media screen and (max-width: 650px) {
+
+.about-card{
+  flex-direction: column;
+}
+.image-wrapper > img{
+  max-width: none;
+}
+.cards-container{
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+.about-us-section{
+
+  padding-inline: 10px;
+}
+.card-content{
+  padding: 1rem;
+}
+
+}
+
+@media screen and (max-width: 450px) {
+  .about-us-section {
+    margin-top: 5%;
+  }
+
+}

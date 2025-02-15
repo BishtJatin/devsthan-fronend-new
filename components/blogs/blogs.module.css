@@ -1,0 +1,84 @@
+.blogsContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Responsive columns */
+    gap: 20px; /* Space between grid items */
+    padding: 20px;
+    max-width: 1300px;
+    margin-inline: auto;
+    opacity: 0;
+    transform: translateY(10%); /* Start from below */
+    transition: opacity 1s ease-out, transform 1s ease-out; /* Smooth transition for opacity and position */
+  }
+
+  
+  /* Visible state when animation triggers */
+  .blogsContainer.animate {
+    opacity: 1;
+    transform: translateY(0); /* Slide up to the original position */
+  }
+  
+  .blogsHeading{
+    text-align: center;
+    margin-top: 20px;
+  
+  }
+  .header {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .subtitle {
+    color: #6da06f;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  
+  .title {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 24px;
+  }
+  .prevArrow,
+  .nextArrow {
+    font-size: 60px;
+    position: absolute;
+    top: 35%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1;
+    /* Increase height */
+  }
+  
+
+.prevArrow {
+  left: 0px; /* Adjust position as needed */
+}
+
+.nextArrow {
+  right: 0px; /* Adjust position as needed */
+}
+
+
+
+  @media (max-width: 740px) {
+    .blogsContainer {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive columns */
+      padding: 10px;
+    }
+  }
+
+  @media (max-width: 450px) {
+
+    .header {
+      margin-top: -5%;
+    }
+    
+    .blogsContainer{
+      margin-bottom: 10%;
+    }
+  }
