@@ -40,7 +40,7 @@ const About = () => {
     <section className={styles["about-us-section"]}>
       <div className={styles["text-container"]}>
         <p className={styles["subtitle"]}>About Us</p>
-        <h2 className={styles["title"]}>Let's Know About Devsthan Expert</h2>
+        <h2 className={styles["title"]}>Lets Know About Devsthan Expert</h2>
         <div className={styles["icons"]}>
           <div
             className={styles["icon-item"]}
