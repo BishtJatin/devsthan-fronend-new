@@ -75,7 +75,7 @@ const About = () => {
       <div className={styles["images-container"]}>
         <div className={styles["image-wrapper"]}>
           <Image
-            src="https://res.cloudinary.com/dmyzudtut/image/upload/v1735376268/images/uxs5pgmanov5vyntgom4.webp"
+            src="https://res.cloudinary.com/dmhae1fgo/image/upload/v1739707906/rkhmt2bitz5vtrpzqofu.png"
             alt="Group"
             width={200}
             height={200}
@@ -84,7 +84,7 @@ const About = () => {
         </div>
         <div className={styles["image-wrapper"]}>
           <Image
-            src="https://res.cloudinary.com/dmyzudtut/image/upload/v1735376398/about_zlvr4e.jpg"
+            src="https://res.cloudinary.com/dmhae1fgo/image/upload/v1739707980/nmo6w69unrj1brvqaeds.png"
             alt="Resort"
             width={200}
             height={200}
@@ -93,7 +93,7 @@ const About = () => {
         </div>
         <div className={styles["image-wrapper"]}>
           <Image
-            src="https://res.cloudinary.com/dmyzudtut/image/upload/v1735376406/about2_yy6k9x.jpg"
+            src="https://res.cloudinary.com/dmhae1fgo/image/upload/v1739708049/x1e1emy52vucbkrfxeew.png"
             alt="Desert"
             width={200}
             height={200}
@@ -102,7 +102,7 @@ const About = () => {
         </div>
         <div className={styles["image-wrapper"]}>
           <Image
-            src="https://res.cloudinary.com/dmyzudtut/image/upload/v1735377308/about3_qul6sh.jpg"
+            src="https://res.cloudinary.com/dmhae1fgo/image/upload/v1739708120/qzdrdjirxsp6hvikbzzz.png"
             alt="Couple"
             width={200}
             height={200}

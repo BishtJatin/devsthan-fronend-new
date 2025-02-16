@@ -79,7 +79,7 @@
 }
 .about-images{
   width: 100% !important;
-  object-fit: cover;
+  /* object-fit: cover; */
 
 }
 @media  screen and (max-width:900px)  {
