@@ -93,6 +93,11 @@
   .images-container{
     width: 100%;
   }
+  .about-images{
+    width: 100% !important;
+    /* object-fit: cover; */
+  
+  }
 }
 @media  screen and (max-width:450px)  {
   .about-us-section{
