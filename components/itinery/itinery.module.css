@@ -584,8 +584,7 @@ max-width: 100%;
     margin-left: 80px;
   }
   .tooltip-overlay {
-    width: 400px;
-    margin-left: 180px;
+    display: none;
    }
 
   .section img {
@@ -1014,7 +1013,7 @@ max-width: 100%;
   
   
   .day-details-inner{
-    font-size: 11px;
+    font-size: 15px;
     padding: 13px 16px;
   }
 
@@ -1031,6 +1030,10 @@ max-width: 100%;
   .day-details{
     padding: 2px;
   }
+
+  /* .day-details-dayheading{
+    font-size: 1.5rem;
+  } */
 
 /* 
   .day-details-heading {

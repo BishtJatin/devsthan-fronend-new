@@ -6,6 +6,8 @@ import { apiCall } from "../../utils/common";
 import { toast } from 'react-hot-toast';
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { IoEyeOutline } from "react-icons/io5";
+import { IoEyeOffOutline } from "react-icons/io5";
 
 const SignupForm = ({ isComponent, toggleToSignup, toggleToHide }) => {
   const router = useRouter()
@@ -24,6 +26,7 @@ const SignupForm = ({ isComponent, toggleToSignup, toggleToHide }) => {
   const [otpSent, setOtpSent] = useState(false); // Flag for OTP form visibility
   const [otp, setOtp] = useState("");
   const [otpError, setOtpError] = useState("");
+   const [showPassword, setShowPassword] = useState(false);
 
   // Validate the form inputs
   const validate = () => {
@@ -52,6 +55,10 @@ const SignupForm = ({ isComponent, toggleToSignup, toggleToHide }) => {
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
+  };
+
+  const handlePasswordToggle = () => {
+    setShowPassword((prev) => !prev);
   };
 
   const submitDataToApi = async (formData) => {
@@ -258,6 +265,7 @@ const SignupForm = ({ isComponent, toggleToSignup, toggleToHide }) => {
             <label className={styles["form-label"]} htmlFor="password">
               Password<span className={styles["required"]}>*</span>
             </label>
+            <div className={styles["password-container"]}>
             <input
               type="password"
               id="password"
@@ -267,6 +275,14 @@ const SignupForm = ({ isComponent, toggleToSignup, toggleToHide }) => {
               className={styles["form-input"]}
               placeholder="Enter password"
             />
+             <button
+                type="button"
+                onClick={handlePasswordToggle}
+                className={styles["password-toggle"]}
+              > 
+                {showPassword ? <IoEyeOffOutline  size={20}/> : <IoEyeOutline  size={20}/>}
+              </button>
+            </div>
             {errors.password && <span className={styles["error"]}>{errors.password}</span>}
           </div>
 

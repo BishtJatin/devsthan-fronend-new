@@ -76,23 +76,30 @@ const FAQ = ({ faqData }) => {
 
       {/* Display Questions and Answers */}
       <ul className={styles["questions-list"]}>
-        {filteredData.map((item, index) => (
-          <li key={item._id} className={styles["question-item"]}>
-            <div
-              className={styles["question"]}
-              onClick={() => toggleQuestion(index)}
-            >
-              {item.question}
-              <span className={styles["toggle"]}>
-                {expandedQuestions[index] ? "▲" : "▼"}
-              </span>
-            </div>
-            {expandedQuestions[index] && (
-              <div className={styles["answer"]}>{item.answer}</div>
-            )}
-          </li>
-        ))}
-      </ul>
+  {filteredData.map((item, index) => (
+    <li key={item._id} className={styles["question-item"]}>
+      {/* Question with dropdown arrow aligned to the right */}
+      <div
+        className={styles["question"]}
+        onClick={() => toggleQuestion(index)}
+      >
+        {item.question}
+        <span className={styles["dropdown-icon"]}>
+          {expandedQuestions[index] ? "▲" : "▼"}
+        </span>
+      </div>
+
+      {/* Answer displayed in a separate div */}
+      {expandedQuestions[index] && (
+        <div className={styles["answer-container"]}>
+          <p className={styles["answer"]}>{item.answer}</p>
+        </div>
+      )}
+    </li>
+  ))}
+</ul>
+
+
     </div>
   );
 };

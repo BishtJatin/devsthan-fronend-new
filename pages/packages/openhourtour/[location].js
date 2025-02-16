@@ -22,7 +22,7 @@ const durationOptions = [
   { label: "7 Days", count: 7 },
   { label: "15 Days", count: 15 },
 ];
-const TourCategory = ({ tourData, categories, locations, location }) => {
+const TourCategory = ({ tourData, categories, locations, location, toursBanner }) => {
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
   const [isListVisible, setIsListVisible] = useState(false);
@@ -30,11 +30,12 @@ const TourCategory = ({ tourData, categories, locations, location }) => {
   const [filteredOptions, setFilteredOptions] = useState(
     locations.destinations
   );
+   const [viewport, setViewport] = useState("desktop");
   const router = useRouter();
 
   const { query } = router;
   
-  console.log( query );
+  console.log( toursBanner );
 
   const toggleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
@@ -145,6 +146,40 @@ const TourCategory = ({ tourData, categories, locations, location }) => {
 
     fetchToursByCategories();
   }, [checkedCategories, checkedDuration, minPrice, maxPrice, location]);
+
+
+   useEffect(() => {
+      const updateViewport = () => {
+        if (window.matchMedia("(max-width: 768px)").matches) {
+          setViewport("mobile");
+        } else if (window.matchMedia("(max-width: 1024px)").matches) {
+          setViewport("tablet");
+        } else {
+          setViewport("desktop");
+        }
+      };
+  
+      // Initial check
+      updateViewport();
+  
+      // Listen for changes
+      window.addEventListener("resize", updateViewport);
+      return () => window.removeEventListener("resize", updateViewport);
+    }, []);
+
+  const getBannerImages = () => {
+    switch (viewport) {
+      case "mobile":
+        return toursBanner?.data?.bannerUrls?.mobile[0] || [];
+      case "tablet":
+        return toursBanner?.data?.bannerUrls?.tablet[0] || [];
+      case "desktop":
+      default:
+        return toursBanner?.data?.bannerUrls?.desktop[0] || [];
+    }
+  };
+
+  const bannerImages = getBannerImages();
   return (
     <>
     <Head>
@@ -178,9 +213,17 @@ const TourCategory = ({ tourData, categories, locations, location }) => {
       <meta name="twitter:image" content="/path-to-your-thumbnail-image.jpg" />
     </Head>
     <div className={styles["tour-main"]}>
-      <header className={styles.header}>
+      <header className={styles["parallax-container"]}>
         {/* <h1 className={styles.title}>Tours </h1>
+
         <nav>Home ➔ </nav> */}
+        
+          <img
+            src={bannerImages}
+            alt="Destination Banner"
+            className={styles["parallax-image"]}
+          />
+        
       </header>
 
       <div className={styles["header-text"]}>
@@ -465,12 +508,17 @@ export async function getStaticProps({ params }) {
       endpoint: `/api/tours/${location}`,
       method: "POST",
     });
+    const toursBanner = await apiCall({
+      endpoint: `/api/getBanner?page=toursBanner`,
+      method: "GET",
+    });
     return {
       props: {
         tourData,
         categories,
         location,
         locations,
+        toursBanner,
       },
 
       revalidate: 600,
@@ -482,7 +530,7 @@ export async function getStaticProps({ params }) {
         tourData: [],
         categories: [],
         location: "",
-
+        toursBanner:[],
         locations: [],
       },
     };

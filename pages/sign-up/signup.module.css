@@ -40,6 +40,7 @@
   
   .form-group {
     margin-bottom: 15px;
+    
   }
   
   .form-label {
@@ -69,6 +70,7 @@
   
   .form-checkbox {
     font-size: 14px;
+    
   }
   
   .link {
@@ -95,5 +97,28 @@
     text-align: center;
     margin-top: 15px;
     font-size: 14px;
+  }
+  
+
+  .password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .password-toggle {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+
+  .form-checkbox input[type="checkbox"] {
+    margin-right: 12px; 
+    margin-bottom: 1px;/* Adds space between checkbox and text */
+    vertical-align: middle; /* Aligns the checkbox with the label text */
   }
   

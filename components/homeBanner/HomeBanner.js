@@ -49,6 +49,7 @@ const PrevArrow = ({ onClick }) => (
 
 const HomeBanner = ({ locations, homebanner }) => {
   const [viewport, setViewport] = useState("desktop");
+  const [viewports, setViewports] = useState("desktop");
   const [selected, setSelected] = useState("Tour");
   const [showComminSoon, setShowComminSoon] = useState(false);
 
@@ -91,6 +92,21 @@ const HomeBanner = ({ locations, homebanner }) => {
   }, []);
 
 
+  useEffect(() => {
+    const updateViewport1 = () => {
+      if (window.matchMedia("(max-width: 470px)").matches) {
+        setViewports("mobile");
+    };
+  }
+    // Initial check
+    updateViewport1();
+
+    // Listen for changes
+    window.addEventListener("resize", updateViewport1);
+    return () => window.removeEventListener("resize", updateViewport1);
+  }, []);
+
+
   const getBannerImages = () => {
     switch (viewport) {
       case "mobile":
@@ -130,36 +146,39 @@ const HomeBanner = ({ locations, homebanner }) => {
     </div>
     </div>
     <div className={styles['search-bar']}>
-      <div className={styles['search-headings']}>
-        {headings.map((heading, index) => (
-          <div
-            key={index}
-            className={`${styles['search-headings-tour']} 
-              ${selected === heading.title ? styles['search-headings-tour-selected'] : styles['unavailable']}`}
-            onClick={() => {
-              if (!heading.isAvailable) {
-                setSelected(heading.title);
-                setShowComminSoon(true);
-              } else {
-                setShowComminSoon(false);
-                setSelected(heading.title);
-              }
-            }}
-          >
-            {!heading.isAvailable && selected === heading.title ? (
-              <p className={styles['coming-soon']}>Coming Soon</p>
-            ) : (
-              <>
-                {React.createElement(heading.icon, { className: styles['icon-class'] })}
-                <p>{heading.title}</p>
-              </>
-            )}
-          </div>
-        ))}
-      </div>
+  <div className={styles['search-headings']}>
+    {headings
+      .filter((heading) => viewports !== "mobile" || heading.title === "Tour" || heading.title === "Hotel")
+      .map((heading, index) => (
+        <div
+          key={index}
+          className={`${styles['search-headings-tour']} 
+            ${selected === heading.title ? styles['search-headings-tour-selected'] : styles['unavailable']}`}
+          onClick={() => {
+            if (!heading.isAvailable) {
+              setSelected(heading.title);
+              setShowComminSoon(true);
+            } else {
+              setShowComminSoon(false);
+              setSelected(heading.title);
+            }
+          }}
+        >
+          {!heading.isAvailable && selected === heading.title ? (
+            <p className={styles['coming-soon']}>Coming Soon</p>
+          ) : (
+            <>
+              {React.createElement(heading.icon, { className: styles['icon-class'] })}
+              <p>{heading.title}</p>
+            </>
+          )}
+        </div>
+      ))}
+  </div>
 
-      <TourSearch locations={locations} />
-    </div>
+  <TourSearch locations={locations} />
+</div>
+
   </div>
   </>
   );

@@ -96,14 +96,14 @@ export default function Footer() {
           <img
             src="https://cdn.shopify.com/s/files/1/0623/9010/8391/files/google-play-store-icon.jpg?v=1722921856"
             alt="Download on Google Play"
-            className={styles['store-button']}
+            className={styles['store-button1']}
           />
         </a>
         <a href="https://www.apple.com/app-store/" target="_blank" rel="noopener noreferrer">
           <img
             src="https://cdn.shopify.com/s/files/1/0623/9010/8391/files/app-store-icon.jpg?v=1717044385"
             alt="Download on App Store"
-            className={styles['store-button']}
+            className={styles['store-button1']}
           />
         </a>
       </div>

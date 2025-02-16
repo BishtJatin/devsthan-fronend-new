@@ -13,9 +13,10 @@ import Itinerary from "../../../components/itinery/itinery";
 import Loader from "../../../components/loader/loader";
 
 import { PiArrowBendLeftDownBold } from "react-icons/pi";
+import FAQ from "../../../components/faq/faq";
 
 
-const TourPage = ({ tourAllData }) => {
+const TourPage = ({ tourAllData,faqData,tourBanner }) => {
   const [selectedCategory, setSelectedCategory] = useState("standardDetails");
   const [activeTab, setActiveTab] = useState("Itinerary");
   
@@ -224,18 +225,21 @@ const handleDateTooltipDone = () => {
         />
         
       </Head>
-      <div className={styles["tour-main"]}>
+
       <div className={styles["gallery"]}>
         <TourGallery
           duration={tourAllData[0].duration}
-          images={tourAllData[0].images}
-          bannerImage={tourAllData[0].bannerImage}
+          // images={tourAllData[0].images}
+          // bannerImage={tourAllData[0].bannerImage}
+          tourBanner={tourBanner}
           name={tourAllData[0].name}
           state={tourAllData[0].state}
           city={tourAllData[0].city}
           location={tourAllData[0].location}
         />
       </div>
+      <div className={styles["tour-main"]}>
+      
 
 
       { isSmallScreen == false &&   <div
@@ -459,6 +463,9 @@ const handleDateTooltipDone = () => {
               </div>
             </div>
           )}
+          <div className={styles["faq"]}><FAQ
+        faqData={faqData}
+        /></div>
             { isSmallScreen && <div className={styles["tour-booking-panel"]}>
       <p className={styles["panel-heading"]}>Book Your Tour</p>
       <p className={styles["panel-des"]}>
@@ -615,15 +622,20 @@ export async function getStaticProps({ params }) {
       endpoint: `/api/getFaqs/${tour.uuid}`,
       method: "GET",
     });
+    
+    const tourBanner = await apiCall({
+      endpoint: `/api/getBanner?page=toursBanner`,
+      method: "GET",
+    });
 
     return {
-      props: { tourAllData, faqData },
+      props: { tourAllData, faqData, tourBanner },
       revalidate: 600,
     };
   } catch (error) {
     console.error("Error fetching tour data:", error);
     return {
-      props: { tourAllData: null, faqData: null },
+      props: { tourAllData: null, faqData: null, tourBanner: null },
       notFound: true,
     };
   }

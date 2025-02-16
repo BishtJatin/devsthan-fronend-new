@@ -163,17 +163,17 @@ color: white;
   
   .app-download1 {
     text-align: center;
-    padding: 10px;
+    padding: 10px 60px;
     background-color: #f9f9f9;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    max-width: 350px;
+    max-width: 550px ;
     margin: 10px auto;
     margin-top: 30px;
   }
 
   .title1 {
-    font-size: 1rem;
+    font-size: 1.4rem;
     font-weight: bold;
     margin-bottom: 8px;
     color: #333;
@@ -186,7 +186,7 @@ color: white;
   }
 
   .store-button1 {
-    width: 50px;
+    width:115px;
     transition: transform 0.2s ease-in-out;
   }
 
@@ -274,4 +274,31 @@ color: white;
 
 
 
+}
+
+@media screen and (max-width: 400px) {
+  .app-download1 {
+    text-align: center;
+    padding: 10px 49px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 550px ;
+    margin: 10px auto;
+    margin-top: 30px;
+  }
+.title1 {
+    font-size: 1.1rem;
+  }
+  .store-button1 {
+    width:95px;
+    transition: transform 0.2s ease-in-out;
+  }
+ 
+  
+  .social-links{
+ 
+  
+  margin-top: 108px;/* Optional: Light background color */ /* Optional: Space between items */
+  }
 }

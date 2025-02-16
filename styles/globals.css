@@ -84,17 +84,17 @@ body {
 
 
 @media screen and (max-width: 450px) {
-  .quickbuttons1,
+  /* .quickbuttons1,
   .quickbuttons2 {
     width: 35px;
     height: 90px;
 
-  }
+  } */
   .quickbuttons1 {
-    bottom: 161px !important;
+    bottom: 156px !important;
   }
   .quickbuttons2 {
-    bottom: 71px !important;
+    bottom: 101px !important;
   }
 }
 
@@ -136,12 +136,14 @@ body {
   .quickbuttons1,
   .quickbuttons2 ,.quickbuttons3{
     width: 35px;
-    height: 90px;
+    height: 60px;
   }
 
-
-  .quickbuttons3{
+  /* .quickbuttons1{
     bottom: 251px;
+  } */
+  .quickbuttons3{
+    bottom: 215px;
   }
   .quickbuttons2 {
     bottom: 151px;

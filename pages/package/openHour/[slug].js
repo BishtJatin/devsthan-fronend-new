@@ -15,11 +15,12 @@ import Loader from "../../../components/loader/loader";
 import { PiArrowBendLeftDownBold } from "react-icons/pi";
 import FAQ from "../../../components/faq/faq";
 
-const TourPage = ({ tourAllData,faqData }) => {
+const TourPage = ({ tourAllData,faqData,tourBanner }) => {
   const [selectedCategory, setSelectedCategory] = useState("standardDetails");
   const [activeTab, setActiveTab] = useState("Itinerary");
+   
 
-  console.log(faqData);
+  console.log(tourBanner);
 
   const [showTooltip, setShowTooltip] = useState(true);
   const [isSticky, setIsSticky] = useState(false);
@@ -205,6 +206,8 @@ const TourPage = ({ tourAllData,faqData }) => {
     }
   }, [activeTab]); // Runs this effect whenever activeTab changes
 
+    
+
   const categoryDetails =
     selectedCategory === "standardDetails"
       ? tourAllData[0].standardDetails
@@ -257,8 +260,9 @@ const TourPage = ({ tourAllData,faqData }) => {
       <div className={styles["gallery"]}>
         <TourGallery
           duration={tourAllData[0].duration}
-          images={tourAllData[0].images}
-          bannerImage={tourAllData[0].bannerImage}
+          // images={bannerImages}
+          // bannerImage={bannerImages}
+          tourBanner={tourBanner}
           name={tourAllData[0].name}
           state={tourAllData[0].state}
           city={tourAllData[0].city}
@@ -515,7 +519,9 @@ const TourPage = ({ tourAllData,faqData }) => {
             )}
 
 
-           
+<div className={styles["faq"]}><FAQ
+        faqData={faqData}
+        /></div>
             {isSmallScreen && (
               <div className={styles["tour-booking-panel"]}>
                 <p className={styles["panel-heading"]}>Book Your Tour</p>
@@ -573,7 +579,7 @@ const TourPage = ({ tourAllData,faqData }) => {
             )}
             
           </div>
-
+          
           <TourBookingPanel
             duration={tourAllData[0].duration}
             category={selectedCategory}
@@ -589,9 +595,7 @@ const TourPage = ({ tourAllData,faqData }) => {
             seasons={categoryDetails.seasons}
           />
         </div>
-        <div className={styles["faq"]}><FAQ
-        faqData={faqData}
-        /></div>
+        
       </div>
     </>
   );
@@ -662,14 +666,19 @@ export async function getStaticProps({ params }) {
       method: "GET",
     });
 
+    const tourBanner = await apiCall({
+      endpoint: `/api/getBanner?page=toursBanner`,
+      method: "GET",
+    });
+
     return {
-      props: { tourAllData, faqData },
+      props: { tourAllData, faqData,tourBanner },
       revalidate: 600,
     };
   } catch (error) {
     console.error("Error fetching tour data:", error);
     return {
-      props: { tourAllData: null, faqData: null },
+      props: { tourAllData: null, faqData: null, tourBanner:null },
       notFound: true,
     };
   }
