@@ -77,7 +77,7 @@ const About = () => {
           <Image
             src="https://res.cloudinary.com/dmhae1fgo/image/upload/v1739707906/rkhmt2bitz5vtrpzqofu.png"
             alt="Group"
-            width={200}
+            width={250}
             height={200}
             className={styles["about-images"]}
           />
@@ -86,7 +86,7 @@ const About = () => {
           <Image
             src="https://res.cloudinary.com/dmhae1fgo/image/upload/v1739707980/nmo6w69unrj1brvqaeds.png"
             alt="Resort"
-            width={200}
+            width={250}
             height={200}
             className={styles["about-images"]}
           />
@@ -95,7 +95,7 @@ const About = () => {
           <Image
             src="https://res.cloudinary.com/dmhae1fgo/image/upload/v1739708049/x1e1emy52vucbkrfxeew.png"
             alt="Desert"
-            width={200}
+            width={250}
             height={200}
             className={styles["about-images"]}
           />
@@ -104,7 +104,7 @@ const About = () => {
           <Image
             src="https://res.cloudinary.com/dmhae1fgo/image/upload/v1739708120/qzdrdjirxsp6hvikbzzz.png"
             alt="Couple"
-            width={200}
+            width={250}
             height={200}
             className={styles["about-images"]}
           />
