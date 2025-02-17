@@ -1,16 +1,15 @@
-
 import React, { useState } from "react";
-import styles from "../../pages/sign-up/signup.module.css"
+import styles from "../../pages/sign-up/signup.module.css";
 import Loader from "../../components/loader/loader"; // Assuming you have a Loader component
 import { apiCall } from "../../utils/common";
-import { toast } from 'react-hot-toast';
+import { toast } from "react-hot-toast";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { IoEyeOutline } from "react-icons/io5";
 import { IoEyeOffOutline } from "react-icons/io5";
 
 const SignupForm = ({ isComponent, toggleToSignup, toggleToHide }) => {
-  const router = useRouter()
+  const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -26,7 +25,7 @@ const SignupForm = ({ isComponent, toggleToSignup, toggleToHide }) => {
   const [otpSent, setOtpSent] = useState(false); // Flag for OTP form visibility
   const [otp, setOtp] = useState("");
   const [otpError, setOtpError] = useState("");
-   const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   // Validate the form inputs
   const validate = () => {
@@ -44,7 +43,8 @@ const SignupForm = ({ isComponent, toggleToSignup, toggleToHide }) => {
     if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = "Passwords do not match.";
     }
-    if (!formData.termsAccepted) newErrors.termsAccepted = "You must accept the terms.";
+    if (!formData.termsAccepted)
+      newErrors.termsAccepted = "You must accept the terms.";
     return newErrors;
   };
 
@@ -63,28 +63,27 @@ const SignupForm = ({ isComponent, toggleToSignup, toggleToHide }) => {
 
   const submitDataToApi = async (formData) => {
     try {
-      setLoading(true)
+      setLoading(true);
       const response = await apiCall({
         endpoint: `/api/user/signup`,
-        method: 'POST',
+        method: "POST",
 
         body: formData,
       });
       if (response.success) {
-
         setOtpSent(true); // Show OTP form after successful signup
-        toast.success('Account Created Successfully.Please verify OTP to Login ');
+        toast.success(
+          "Account Created Successfully.Please verify OTP to Login "
+        );
       } else {
-
         setErrors({ general: "Signup failed. Please try again." });
         toast.error(response.error);
       }
-
     } catch (error) {
       console.error("API call error:", error);
       return { success: false, error: error.message };
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
   // Handle form submission to signup
@@ -99,8 +98,6 @@ const SignupForm = ({ isComponent, toggleToSignup, toggleToHide }) => {
       try {
         // Assuming you have an API function `submitDataToApi`
         const response = await submitDataToApi(formData); // Your API call
-
-
       } catch (err) {
         setLoading(false);
         setErrors({ general: "Error occurred. Please try again." });
@@ -111,44 +108,30 @@ const SignupForm = ({ isComponent, toggleToSignup, toggleToHide }) => {
     try {
       const response = await apiCall({
         endpoint: `/api/user/verify-otp`,
-        method: 'POST',
+        method: "POST",
 
         body: data,
       });
-     
 
-        if (response.success) {
-          setLoading(false);
-          setOtpSent(true);
-          toast.success('Otp Verified seccessfully ');
+      if (response.success) {
+        setLoading(false);
+        setOtpSent(true);
+        toast.success("Otp Verified seccessfully ");
 
+        localStorage.setItem("token", response.token);
+        localStorage.setItem("username", response.user.name);
+        localStorage.setItem("phone", response.user.phone);
+        localStorage.setItem("userId", response.user.id);
+        localStorage.setItem("email", response.user.email);
 
-
-
-          localStorage.setItem("token", response.token);
-          localStorage.setItem("username", (response.user.name));
-          localStorage.setItem("phone", (response.user.phone));
-          localStorage.setItem("userId", (response.user.id));
-          localStorage.setItem("email", (response.user.email));
-
-          if (isComponent != true) {
-
-
-            window.location.href = '/'; 
-
-          } else (
-            toggleToHide()
-          )
-
-        }
-
-
-       else {
+        if (isComponent != true) {
+          window.location.href = "/";
+        } else toggleToHide();
+      } else {
         setLoading(false);
         setErrors({ general: "Signup failed. Please try again." });
-        toast.error('Invalid Otp');
+        toast.error("Invalid Otp");
       }
-
     } catch (error) {
       console.error("API call error:", error);
       return { success: false, error: error.message };
@@ -159,16 +142,16 @@ const SignupForm = ({ isComponent, toggleToSignup, toggleToHide }) => {
     e.preventDefault();
     setLoading(true);
     try {
-
       // Call the API to verify OTP and receive the response
-      const response = await verifyOtpdApi({ email: formData.email, otp, phone: formData.phone, name: formData.name });
-
+      const response = await verifyOtpdApi({
+        email: formData.email,
+        otp,
+        phone: formData.phone,
+        name: formData.name,
+      });
 
       // Redirect to the home page or dashboard after successful login/verification
-
-
     } catch (err) {
-
       setOtpError("Error occurred. Please try again.");
     } finally {
       setLoading(false);
@@ -176,8 +159,6 @@ const SignupForm = ({ isComponent, toggleToSignup, toggleToHide }) => {
   };
 
   return (
-
-
     <>
       <h2 className={styles["card-title"]}>Register</h2>
 
@@ -204,12 +185,13 @@ const SignupForm = ({ isComponent, toggleToSignup, toggleToHide }) => {
             />
             {otpError && <span className={styles["error"]}>{otpError}</span>}
           </div>
-          {
-            loading ? <Loader /> : <button type="submit" className={styles["submit-button"]}>
+          {loading ? (
+            <Loader />
+          ) : (
+            <button type="submit" className={styles["submit-button"]}>
               Verify OTP
             </button>
-          }
-
+          )}
         </form>
       ) : (
         // Signup form
@@ -227,7 +209,9 @@ const SignupForm = ({ isComponent, toggleToSignup, toggleToHide }) => {
               className={styles["form-input"]}
               placeholder="Enter name"
             />
-            {errors.name && <span className={styles["error"]}>{errors.name}</span>}
+            {errors.name && (
+              <span className={styles["error"]}>{errors.name}</span>
+            )}
           </div>
 
           <div className={styles["form-group"]}>
@@ -243,7 +227,9 @@ const SignupForm = ({ isComponent, toggleToSignup, toggleToHide }) => {
               className={styles["form-input"]}
               placeholder="Enter e-mail"
             />
-            {errors.email && <span className={styles["error"]}>{errors.email}</span>}
+            {errors.email && (
+              <span className={styles["error"]}>{errors.email}</span>
+            )}
           </div>
 
           <div className={styles["form-group"]}>
@@ -259,31 +245,39 @@ const SignupForm = ({ isComponent, toggleToSignup, toggleToHide }) => {
               className={styles["form-input"]}
               placeholder="Enter phone number"
             />
-            {errors.phone && <span className={styles["error"]}>{errors.phone}</span>}
+            {errors.phone && (
+              <span className={styles["error"]}>{errors.phone}</span>
+            )}
           </div>
           <div className={styles["form-group"]}>
             <label className={styles["form-label"]} htmlFor="password">
               Password<span className={styles["required"]}>*</span>
             </label>
             <div className={styles["password-container"]}>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className={styles["form-input"]}
-              placeholder="Enter password"
-            />
-             <button
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className={styles["form-input"]}
+                placeholder="Enter password"
+              />
+              <button
                 type="button"
                 onClick={handlePasswordToggle}
                 className={styles["password-toggle"]}
-              > 
-                {showPassword ? <IoEyeOffOutline  size={20}/> : <IoEyeOutline  size={20}/>}
+              >
+                {showPassword ? (
+                  <IoEyeOffOutline size={20} />
+                ) : (
+                  <IoEyeOutline size={20} />
+                )}
               </button>
             </div>
-            {errors.password && <span className={styles["error"]}>{errors.password}</span>}
+            {errors.password && (
+              <span className={styles["error"]}>{errors.password}</span>
+            )}
           </div>
 
           <div className={styles["form-group"]}>
@@ -313,10 +307,13 @@ const SignupForm = ({ isComponent, toggleToSignup, toggleToHide }) => {
                 onChange={handleChange}
               />
               I accept the{" "}
-              <a href="/terms-and-conditions" className={styles["link"]}>
+              <Link
+                href="/terms-and-conditions"
+                className={styles["link"]}
+                passHref
+              >
                 terms and conditions
-              </a>
-              .
+              </Link>
             </label>
             {errors.termsAccepted && (
               <span className={styles["error"]}>{errors.termsAccepted}</span>
@@ -334,25 +331,36 @@ const SignupForm = ({ isComponent, toggleToSignup, toggleToHide }) => {
               I agree to receive emails and marketing messages.
             </label>
           </div>
-          {
-            loading ? <Loader /> :
-              <button type="submit" className={styles["submit-button"]}>
-                Register
-              </button>
-          }
+          {loading ? (
+            <Loader />
+          ) : (
+            <button type="submit" className={styles["submit-button"]}>
+              Register
+            </button>
+          )}
         </form>
       )}
 
       <div className={styles["login-text"]}>
         Already have an account?{" "}
-        {isComponent == true ? (loading ? <Loader /> : <p className={styles["link"]} onClick={toggleToSignup}>
-          Login
-        </p>) : (loading ? <Loader /> : <Link href="/login" className={styles["link"]}>
-          Login
-        </Link>)}
+        {isComponent == true ? (
+          loading ? (
+            <Loader />
+          ) : (
+            <p className={styles["link"]} onClick={toggleToSignup}>
+              Login
+            </p>
+          )
+        ) : loading ? (
+          <Loader />
+        ) : (
+          <Link href="/login" className={styles["link"]}>
+            Login
+          </Link>
+        )}
       </div>
     </>
-  )
-}
+  );
+};
 
-export default SignupForm
+export default SignupForm;
