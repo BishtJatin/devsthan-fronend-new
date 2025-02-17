@@ -11,8 +11,6 @@ import { FaBus } from "react-icons/fa";
 import { MdFlight } from "react-icons/md";
 import { MdOutlineKeyboardArrowDown, MdOutlineArrowForwardIos, MdOutlineArrowBackIos } from "react-icons/md";
 import TourSearch from '../searchbar-components/tour-search';
-import Search from '../search/search'
-
 
 const BannerInner = styled(Slider)`
   height: 100% !important;
@@ -60,7 +58,6 @@ const HomeBanner = ({ locations, homebanner }) => {
     { title: 'Flight', isAvailable: false, icon: MdFlight },
   ];
 
-
   var settings = {
     infinite: true,
     slidesToShow: 1,
@@ -72,6 +69,7 @@ const HomeBanner = ({ locations, homebanner }) => {
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
   };
+
   useEffect(() => {
     const updateViewport = () => {
       if (window.matchMedia("(max-width: 768px)").matches) {
@@ -91,21 +89,24 @@ const HomeBanner = ({ locations, homebanner }) => {
     return () => window.removeEventListener("resize", updateViewport);
   }, []);
 
-
   useEffect(() => {
-    const updateViewport1 = () => {
+    const updateViewports = () => {
       if (window.matchMedia("(max-width: 470px)").matches) {
         setViewports("mobile");
+      } else if (window.matchMedia("(max-width: 1024px)").matches) {
+        setViewports("tablet");
+      } else {
+        setViewports("desktop");
+      }
     };
-  }
+
     // Initial check
-    updateViewport1();
+    updateViewports();
 
     // Listen for changes
-    window.addEventListener("resize", updateViewport1);
-    return () => window.removeEventListener("resize", updateViewport1);
+    window.addEventListener("resize", updateViewports);
+    return () => window.removeEventListener("resize", updateViewports);
   }, []);
-
 
   const getBannerImages = () => {
     switch (viewport) {
@@ -122,65 +123,67 @@ const HomeBanner = ({ locations, homebanner }) => {
   const bannerImages = getBannerImages();
   return (
     <>
-    
-    <div className={styles['home-banner']}>
-    <div className={styles['banner-outer']}>
-    <div className={styles['home-bannerr']}>
-      <div className={styles['banner-outer']}>
-        <BannerInner {...settings}>
-          {bannerImages.map((image, index) => (
-            <div key={index} className={styles['banner-inner']}>
-              <img
-                className={styles['banner-img']}
-                src={image}
-                alt={`Banner ${index}`}
-              />
-              <div className={styles['banner-overlay']}></div>
-              <div className={styles['banner-inner-content']}>
-                <div className={styles['banner-inner-location']}></div>
-              </div>
+      <div className={styles['home-banner']}>
+        <div className={styles['banner-outer']}>
+          <div className={styles['home-bannerr']}>
+            <div className={styles['banner-outer']}>
+              <BannerInner {...settings}>
+                {bannerImages.map((image, index) => (
+                  <div key={index} className={styles['banner-inner']}>
+                    <img
+                      className={styles['banner-img']}
+                      src={image}
+                      alt={`Banner ${index}`}
+                    />
+                    <div className={styles['banner-overlay']}></div>
+                    <div className={styles['banner-inner-content']}>
+                      <div className={styles['banner-inner-location']}></div>
+                    </div>
+                  </div>
+                ))}
+              </BannerInner>
             </div>
-          ))}
-        </BannerInner>
-      </div>
-    </div>
-    </div>
-    <div className={styles['search-bar']}>
-  <div className={styles['search-headings']}>
-    {headings
-      .filter((heading) => viewports !== "mobile" || heading.title === "Tour" || heading.title === "Hotel")
-      .map((heading, index) => (
-        <div
-          key={index}
-          className={`${styles['search-headings-tour']} 
-            ${selected === heading.title ? styles['search-headings-tour-selected'] : styles['unavailable']}`}
-          onClick={() => {
-            if (!heading.isAvailable) {
-              setSelected(heading.title);
-              setShowComminSoon(true);
-            } else {
-              setShowComminSoon(false);
-              setSelected(heading.title);
-            }
-          }}
-        >
-          {!heading.isAvailable && selected === heading.title ? (
-            <p className={styles['coming-soon']}>Coming Soon</p>
-          ) : (
-            <>
-              {React.createElement(heading.icon, { className: styles['icon-class'] })}
-              <p>{heading.title}</p>
-            </>
-          )}
+          </div>
         </div>
-      ))}
-  </div>
-
-  <TourSearch locations={locations} />
-</div>
-
-  </div>
-  </>
+        <div className={styles['search-bar']}>
+          <div className={styles['search-headings']}>
+            {headings
+              .filter((heading) => {
+                if (viewports === "mobile") {
+                  return heading.title === "Tour" || heading.title === "Hotel";
+                }
+                return true; // Show all buttons for tablet and desktop
+              })
+              .map((heading, index) => (
+                <div
+                  key={index}
+                  className={`${styles['search-headings-tour']} 
+                    ${selected === heading.title ? styles['search-headings-tour-selected'] : styles['unavailable']}`}
+                  onClick={() => {
+                    if (!heading.isAvailable) {
+                      setSelected(heading.title);
+                      setShowComminSoon(true);
+                    } else {
+                      setShowComminSoon(false);
+                      setSelected(heading.title);
+                    }
+                  }}
+                >
+                  {!heading.isAvailable && selected === heading.title ? (
+                    <p className={styles['coming-soon']}>Coming Soon</p>
+                  ) : (
+                    <>
+                      {React.createElement(heading.icon, { className: styles['icon-class'] })}
+                      <p>{heading.title}</p>
+                    </>
+                  )}
+                </div>
+              ))}
+          </div>
+          <TourSearch locations={locations} />
+        </div>
+      </div>
+    </>
   );
 };
 

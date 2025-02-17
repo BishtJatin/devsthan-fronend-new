@@ -372,7 +372,7 @@ const FixTourBookingPanel = ({ tourAllData }) => {
     <>
       <div className={styles["tour-booking-panel-outer"]}>
         <div className={styles["tour-seasonsCardfix"]}>
-          <h1 className={styles["tour-seasonsCard-headingfix"]}>Seasons</h1>
+          <h1 className={styles["tour-seasonsCard-headingfix"]}>Choose Best Season & Price</h1>
 
           {/* Month Buttons */}
           <div className={styles["filter-buttons"]}>

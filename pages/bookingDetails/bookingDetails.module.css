@@ -210,16 +210,37 @@
     background-color: #ccc;
     cursor: not-allowed;
   } */
+  @media (max-width: 1040px) {
+  .forget-password-link{
+    margin-left: 200px;
+  }
+  }
+
+  @media (max-width: 820px) {
+    .forget-password-link{
+      margin-left: 90px;
+    }
+    }
 
 @media (max-width: 768px) {
   .container {
     flex-direction: column;
   }
 
- 
+  .forget-password-link{
+      margin-left: 278px;
+    }
   .package-details-box {
     max-width: none !important;
   }
+}
+
+@media (max-width: 600px) {
+
+  .forget-password-link{
+      margin-left: 170px;
+    }
+
 }
 
 @media (max-width: 450px) {

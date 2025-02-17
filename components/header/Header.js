@@ -8,16 +8,22 @@ import Link from "next/link";
 import MobileMenu from "../mobileMenue/mobileMenue";
 import { FaWhatsapp } from "react-icons/fa";
 import TestButton from "../testbutton/TestButton";
+import CustomizedQuery from "../tourPageComponents/customizedQuery";
+
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Track user login status
-  
-
   const [isToursOpen, setIsToursOpen] = useState(false);
+  const [isQueryFormVisible, setIsQueryFormVisible] = useState(false); // State for controlling CustomizedQuery visibility
 
   const handleToursClick = () => {
     setIsToursOpen((prev) => !prev); // Toggle the visibility of the additional buttons
+  };
+
+  // Show CustomizedQuery form
+  const toggleQueryForm = () => {
+    setIsQueryFormVisible(!isQueryFormVisible);
   };
 
   // Check login status when the component mounts
@@ -55,14 +61,12 @@ const Header = () => {
         <nav className={styles["nav-menu"]}>
           <ul>
             <li>
-              {/* "Tours" link that toggles the visibility of other links */}
               <span
                 className={styles["nav-link"]}
                 onClick={handleToursClick} // Toggle on text click
               >
                 Tours
               </span>
-              {/* Conditionally render the additional links if isToursOpen is true */}
               {isToursOpen && (
                 <div className={styles["dropdown-menu"]}>
                   <Link
@@ -126,12 +130,10 @@ const Header = () => {
             </div>
           )}
 
-          {/* Logout Button for Logged In Users */}
-          {/* {isLoggedIn && (
-            <button onClick={handleLogout} className={styles['logout-btn']}>
-              Log Out
-            </button>
-          )} */}
+          {/* Button to trigger CustomizedQuery form */}
+          <button className={styles["customized-query-button"]} onClick={toggleQueryForm}>
+            Customized Query
+          </button>
 
           {/* Hamburger Menu */}
           <HiOutlineMenuAlt3
@@ -140,6 +142,12 @@ const Header = () => {
           />
         </div>
       </header>
+
+      {/* Conditionally render the CustomizedQuery form in the center */}
+      {isQueryFormVisible && (
+        <CustomizedQuery handleClose={toggleQueryForm} />
+      )}
+
       <MobileMenu
         isOpen={menuOpen}
         toggleMenu={toggleMenu}

@@ -3,10 +3,15 @@ import styles from './mobileMenue.module.css';
 import { FaRegUser, FaArrowRight } from "react-icons/fa6";
 
 import Link from 'next/link';
+import CustomizedQuery from '../tourPageComponents/customizedQuery';
 
 const MobileMenu = ({ isOpen, toggleMenu, isLoggedIn }) => {
-
+     const [isQueryFormVisible, setIsQueryFormVisible] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const toggleQueryForm = () => {
+        setIsQueryFormVisible(!isQueryFormVisible);
+      };
 
     const toggle = () => {
       setIsMenuOpen((prev) => !prev);
@@ -78,8 +83,15 @@ const MobileMenu = ({ isOpen, toggleMenu, isLoggedIn }) => {
                     )}
                    
                 </li>
-
+            <button className={styles["customized-query-button"]} onClick={toggleQueryForm}>
+            Customized Query
+          </button>
             </ul>
+
+            {isQueryFormVisible && (
+        <CustomizedQuery handleClose={toggleQueryForm} />
+      )}
+
             <div className={styles['menu-footer']}>
                 <div className={styles['contact-info']}>
                     <FaRegUser className={styles['contact-icon']} />

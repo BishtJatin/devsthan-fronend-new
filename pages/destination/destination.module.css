@@ -350,6 +350,13 @@
     height: 180px;
   }
 
+  .header-text-subtitle {  
+    font-size: 14px; 
+  }  
+  .header-text-title {
+    font-size: 22px;
+  }
+
 }
 
   @media screen and (max-width: 860px) {

@@ -500,7 +500,7 @@ const TourBookingPanel = ({
     <>
       <div className={styles["tour-booking-panel-outer"]}>
         <div className={styles["tour-seasonsCard"]}>
-          <h1 className={styles["tour-seasonsCard-heading"]}>Seasons</h1>
+          <h1 className={styles["tour-seasonsCard-heading"]}>Choose Best Season & Price</h1>
 
           {/* Buttons for filtering by month */}
           <div className={styles["filter-buttons"]}>
@@ -700,9 +700,9 @@ const TourBookingPanel = ({
           </div>
         )}
 
-        {showCustomizeDialog && (
+        {/* {showCustomizeDialog && (
           <CustomizedQuery uuid={uuid} handleClose={close} />
-        )}
+        )} */}
         {isLargeScreen && (
           <div className={styles["tour-booking-panel"]}>
             <p className={styles["panel-heading"]}>Book Your Tour</p>

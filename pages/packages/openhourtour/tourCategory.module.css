@@ -106,7 +106,7 @@
     padding: 10px;
     border-radius: 15px;
     color: white;
-  left: 40%;
+  left: 45%;
   }
   /* */
 
@@ -358,7 +358,8 @@
   .tour-length {
     color: black; /* Make sure the text color is visible */
     position: absolute;
-    top: 480px;
+    top: 580px;
+    margin-left: 170px;
   }
 
   .header-text-subtitle {
@@ -413,6 +414,10 @@
   margin-left: 40px;
   top: 560px;
   font-size: 16px;
+}
+.filter-mobile-button{
+  
+left: 40%;
 }
 }
 

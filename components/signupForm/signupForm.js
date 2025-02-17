@@ -313,7 +313,7 @@ const SignupForm = ({ isComponent, toggleToSignup, toggleToHide }) => {
                 onChange={handleChange}
               />
               I accept the{" "}
-              <a href="/terms" className={styles["link"]}>
+              <a href="/terms-and-conditions" className={styles["link"]}>
                 terms and conditions
               </a>
               .

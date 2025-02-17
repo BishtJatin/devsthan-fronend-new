@@ -114,6 +114,8 @@ export default function EnquiryPopup() {
                   onChange={handleChange}
                   required
                 />
+                <label className={styles["date-label"]}>
+                Travel Date *
                 <input
                   type="date"
                   name="date"
@@ -121,7 +123,9 @@ export default function EnquiryPopup() {
                   onChange={handleChange}
                   required
                 />
+                </label>
               </div>
+              
               <textarea
                 name="message"
                 placeholder="Please write your queries. *"

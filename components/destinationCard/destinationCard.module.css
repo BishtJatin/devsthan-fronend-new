@@ -31,12 +31,15 @@
   bottom: 8px;
   text-align: left;
   color: white;
+  background-color: rgba(0, 0, 0, 0.7); /* Transparent black background */
+  padding: 10px; /* Add some padding to make the text more readable */
+  border-radius: 5px; /* Optional, to round the corners */
 }
 
 .tourBadge {
   background-color: #ffbf00;
   color: #333;
-  font-size: 0.8rem;
+  font-size: 1.6rem;
   padding: 0.3rem 0.5rem;
   border-radius: 4px;
   position: absolute;

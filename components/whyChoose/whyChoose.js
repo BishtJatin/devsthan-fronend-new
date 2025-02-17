@@ -56,11 +56,20 @@ const WhyChoose = ({ whyChoose }) => {
       items: 1,
     },
   };
-const CustomDots = styled(Carousel)`
-.react-multi-carousel-dot-list {
-margin-bottom: 8px;}
+  const CustomDots = styled(Carousel)`
+  .react-multi-carousel-dot-list {
+    position: absolute;
+    bottom: 0; /* Adjust this to control the bottom position */
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    res dots appear above other elements */
+  }
+`;
 
-`
+
+
+
 
 
 if (!whyChoose || whyChoose.length === 0) {
