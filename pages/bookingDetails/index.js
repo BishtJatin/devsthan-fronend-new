@@ -242,6 +242,10 @@ export default function TravellerDetails() {
     // Fetch data whenever 'selectedDate' changes
     fetchCartData();
   }, []);
+
+
+ console.log(cartData);
+
   const distributePersons = (adults, children) => {
     const totalPersons = adults + children;
     const roomArr = [];
@@ -377,15 +381,16 @@ export default function TravellerDetails() {
 
               console.log("Order Response:", orderResponse);
               try {
-                if (orderResponse?.success) {  // Ensure orderResponse exists before checking success
+                if (orderResponse?.success) {
+                  // Ensure orderResponse exists before checking success
                   const queryParams = {
                     tourName: tourInfo?.name || "N/A",
-                    totalPrice: orderResponse.order?.finalPrice || 0,  // Ensure finalPrice exists
+                    totalPrice: orderResponse.order?.finalPrice || 0, // Ensure finalPrice exists
                     adults: cartData?.adults || 0,
                     children: cartData?.childern || 0,
                     date: date || "N/A",
                   };
-              
+
                   router.push({
                     pathname: "/booked-tour",
                     query: queryParams,
@@ -393,7 +398,7 @@ export default function TravellerDetails() {
                 } else {
                   toast.error("Order creation failed. Please try again.");
                 }
-                
+
                 setFullLoading(false);
               } catch (verifyError) {
                 console.error("Verification Error:", verifyError); // Log the error for debugging
@@ -464,7 +469,6 @@ export default function TravellerDetails() {
               <SignupForm
                 isComponent={true}
                 toggleToSignup={toggleRegisterMode}
-               
                 toggleToHide={hidePanel}
               />
             ) : showForgotPassword ? (
@@ -506,56 +510,65 @@ export default function TravellerDetails() {
               handleRazorpay();
             }}
           >
-            {rooms.map((room, roomIndex) => (
-              <div key={roomIndex} className={styles["form-container"]}>
-                <h3>Room {room.room}</h3>
-                {room.details.map((person, personIndex) => {
-                  const isAdult = personIndex < room.adults; // Assuming `room.adults` indicates the count of adults
-                  const label = isAdult
-                    ? `Adult ${personIndex + 1}`
-                    : `Child ${personIndex + 1 - room.adults}`;
-                  return (
-                    <div key={personIndex} className={styles["traveller-row"]}>
-                      <h4>{label}</h4>
-                      <div className={styles["traveller-row-merge"]}>
-                        <label>
-                          First Name:
-                          <input
-                            type="text"
-                            required
-                            value={person.firstName}
-                            onChange={(e) =>
-                              handleInputChange(
-                                roomIndex,
-                                personIndex,
-                                "firstName",
-                                e.target.value
-                              )
-                            }
-                          />
-                        </label>
-                        <label>
-                          Last Name:
-                          <input
-                            type="text"
-                            required
-                            value={person.lastName}
-                            onChange={(e) =>
-                              handleInputChange(
-                                roomIndex,
-                                personIndex,
-                                "lastName",
-                                e.target.value
-                              )
-                            }
-                          />
-                        </label>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            ))}
+          <div className={styles["form-container"]}>
+          {/* <h3>Traveler Details</h3> */}
+  {/* Ensure that adults and children are numbers, default to 0 if undefined */}
+  {/* {[...Array((cartData?.adults || 0) + (cartData?.childern || 0))].map(
+    (_, personIndex) => {
+      // Determine if the person is an adult based on their index
+      const isAdult = personIndex < (cartData?.adults || 0); // Default to 0 if undefined
+      const label = isAdult
+        ? `Adult ${personIndex + 1}`
+        : `Child ${personIndex + 1 - (cartData?.adults || 0)}`;
+
+      // Safely access person data or create a placeholder object
+      const person = cartData?.details?.[personIndex] || {
+        firstName: "",
+        lastName: "",
+      };
+
+      return (
+        <div key={personIndex} className={styles["traveller-row"]}>
+          <h4>{label}</h4>
+          <div className={styles["traveller-row-merge"]}>
+            <label>
+              First Name:
+              <input
+                type="text"
+                required
+                value={person.firstName}
+                onChange={(e) =>
+                  handleInputChange(
+                    personIndex,
+                    "firstName",
+                    e.target.value
+                  )
+                }
+              />
+            </label>
+            <label>
+              Last Name:
+              <input
+                type="text"
+                required
+                value={person.lastName}
+                onChange={(e) =>
+                  handleInputChange(
+                    personIndex,
+                    "lastName",
+                    e.target.value
+                  )
+                }
+              />
+            </label>
+          </div>
+        </div>
+      );
+    }
+  )} */}
+</div>
+
+
             <div className={styles["input-group"]}>
               <label>
                 Address:
@@ -667,7 +680,7 @@ export default function TravellerDetails() {
               <span>No. of Adults</span> <strong>{cartData?.adults}</strong>
             </p>
             <p>
-              <span>No. of Child</span> <strong>{cartData?.children}</strong>
+              <span>No. of Child</span> <strong>{cartData?.childern}</strong>
             </p>
             <p>
               <span>Amount</span>{" "}
@@ -688,7 +701,7 @@ export default function TravellerDetails() {
                 <strong>₹{responsedata.discountedPrice.toFixed(2)}</strong>
               </p>
             )}
-{console.log(cartData)}
+            {console.log(cartData)}
             <p>
               <span>Gst</span> <strong>₹{gst}</strong>
             </p>

@@ -27,6 +27,13 @@ function MyApp({ Component, pageProps }) {
     if (typeof window !== 'undefined') {
       setWindowHeight(window.innerHeight);
     }
+    
+    const script = document.createElement('script');
+    script.src = "https://joyz.ai/lib/chatbot.bundle.js";
+    script.setAttribute('eid', "67b39709a7577b84035a0fb9");
+    script.setAttribute('chatbotId', "5f79faf0-c7ac-45d5-aace-48b228fcae44");
+    document.head.appendChild(script);
+
   }, []);
   
 
@@ -70,8 +77,6 @@ function MyApp({ Component, pageProps }) {
       <Toaster
         position="top-right" // You can change the position
         autoClose={5000} // Time in milliseconds to auto close
-        
-
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick

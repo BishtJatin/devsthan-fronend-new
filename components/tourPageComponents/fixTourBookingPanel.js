@@ -50,6 +50,46 @@ const FixTourBookingPanel = ({ tourAllData }) => {
 
   const [selectedPayment, setSelectedPayment] = useState("default");
   const [isLargeScreen, setIsLargeScreen] = useState(false);
+    const [selectedDate, setSelectedDate] = useState(new Date());
+  
+    // Sync with localStorage on component mount
+    useEffect(() => {
+      const storedDate = localStorage.getItem("departureDate");
+      if (storedDate) {
+        const [day, month, year] = storedDate.split("-").map(Number);
+        const parsedDate = new Date(year, month - 1, day); // Parse from dd-MM-yyyy
+        if (!isNaN(parsedDate)) {
+          setSelectedDate(parsedDate);
+        }
+      }
+    }, []);
+  
+    // Listen for storage events to sync date changes
+    useEffect(() => {
+      const handleStorageChange = (event) => {
+        if (event.key === "departureDate" && event.newValue) {
+          const [day, month, year] = event.newValue.split("-").map(Number);
+          const parsedDate = new Date(year, month - 1, day); // Parse from dd-MM-yyyy
+          if (!isNaN(parsedDate)) {
+            setSelectedDate(parsedDate);
+          }
+        }
+      };
+  
+      window.addEventListener("storage", handleStorageChange);
+      return () => {
+        window.removeEventListener("storage", handleStorageChange);
+      };
+    }, []);
+  
+    // Handle date selection and update localStorage
+    const handleDateChange = (date) => {
+      setSelectedDate(date);
+      const formattedDate = `${date.getDate().toString().padStart(2, "0")}-${(date.getMonth() + 1)
+        .toString()
+        .padStart(2, "0")}-${date.getFullYear()}`; // Format as dd-MM-yyyy
+      localStorage.setItem("departureDate", formattedDate);
+    };
 
   const uuid = tourAllData[0].uuid;
 
@@ -124,7 +164,6 @@ const FixTourBookingPanel = ({ tourAllData }) => {
     }));
   };
 
-  const [selectedDate, setSelectedDate] = useState(null);
 
   const close = () => {
     setShowCustomizeDialog(false);
@@ -446,16 +485,16 @@ const FixTourBookingPanel = ({ tourAllData }) => {
                         <input
                           type="radio"
                           name={`sharing-${season._id}`}
-                          value="groupSharingPrice"
+                          value="trippleSharingPrice"
                           checked={
-                            selectedPrices[season._id] === "groupSharingPrice"
+                            selectedPrices[season._id] === "trippleSharingPrice"
                           }
                           onChange={() =>
-                            handlePriceChange(season._id, "groupSharingPrice")
+                            handlePriceChange(season._id, "trippleSharingPrice")
                           }
                           style={{ marginRight: "8px" }}
                         />
-                        Group Sharing
+                        Triple Sharing
                       </label>
                       <label>
                         <input
@@ -534,7 +573,7 @@ const FixTourBookingPanel = ({ tourAllData }) => {
                   <div className={styles["dialog-row"]}></div>
                 </div>
 
-                <div>
+                {/* <div>
                   {isLoadingBook ? (
                     <Loader />
                   ) : (
@@ -545,7 +584,7 @@ const FixTourBookingPanel = ({ tourAllData }) => {
                       Book Now
                     </button>
                   )}
-                </div>
+                </div> */}
 
                 <ToastContainer position="top-right" autoClose={3000} />
               </div>
@@ -575,6 +614,29 @@ const FixTourBookingPanel = ({ tourAllData }) => {
                 ) : null}
               </div>
               <div className={styles["dialog-content"]}>
+              <div className={styles["button-fix"]}> 
+              <div className={styles["search-options-destination"]}>
+               <DatePicker
+                                  selected={selectedDate}
+                                  onChange={handleDateChange}
+                                  dateFormat="dd/MM/yyyy"
+                                  minDate={new Date()} // Disables all dates before today
+                                  className={styles["custom-datepicker-input"]}
+                                />
+                </div>
+                <div>
+                  {isLoadingBook ? (
+                    <Loader />
+                  ) : (
+                    <button
+                      className={styles["dialog-button-primary"]}
+                      onClick={handleBookNow}
+                    >
+                      Book Now
+                    </button>
+                  )}
+                </div>
+                </div>
                 <div className={styles["dialog-room-section"]}>
                   <div className={styles["dialog-row"]}>
                     <label>Adult</label>

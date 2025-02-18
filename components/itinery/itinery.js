@@ -148,6 +148,8 @@ const Itinerary = ({
     }
   };
 
+ 
+
   useEffect(() => {
     const handleStorageChange = () => {
       const storedDate = localStorage.getItem("departureDate");

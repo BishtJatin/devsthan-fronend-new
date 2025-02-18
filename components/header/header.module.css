@@ -169,9 +169,10 @@
   }
 }
 
-@media screen and (max-width: 950px) {
+@media screen and (max-width: 1040px) {
   .hamburger {
     display: block;
+    font-size: 36px;
   }
   .nav-menu,.customized-query-button {
     display: none;
@@ -191,6 +192,10 @@
 @media screen and (max-width: 470px) {
   .header-container {
     max-height: 50px;
+}
+.hamburger {
+  
+  font-size: 30px;
 }
 }
 

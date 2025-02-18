@@ -80,7 +80,7 @@ const Destination = ({ destinationData, destinationBanner }) => {
   const [loading, setLoading] = useState(true); // Track loading state
   const [error, setError] = useState(null); // Track error state
   const [fixtours, setFixTours] = useState();
-  console.log(destinationBanner);
+  console.log(destinationData);
 
   const slickSettings = {
     dots: true,
@@ -313,6 +313,28 @@ const Destination = ({ destinationData, destinationBanner }) => {
                         alt={`Photo ${photoIndex + 1}`}
                       />
                     ))}
+                  </div>
+                </div>
+              ))}
+            </SubDestinationCarousel>
+          </div>
+
+          <div className={styles["carousel-container"]}>
+            <SubDestinationCarousel {...settings}>
+              {destinationData?.highlights?.map((dest, index) => (
+                <div key={index} className={styles["carousel-item"]}>
+                  <h2>{dest.heading}</h2>
+                  <p>
+                    {dest.subHeading}
+                  </p>
+                  <div className={styles["image-grid"]}>
+                    
+                      <img
+                       
+                        src={dest.image}
+                        alt={`Photo`}
+                      />
+                   
                   </div>
                 </div>
               ))}

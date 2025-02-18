@@ -20,7 +20,7 @@ const TourPage = ({ tourAllData,faqData,tourBanner }) => {
   const [activeTab, setActiveTab] = useState("Itinerary");
    
 
-  console.log(tourBanner);
+  console.log(tourAllData);
 
   const [showTooltip, setShowTooltip] = useState(true);
   const [isSticky, setIsSticky] = useState(false);
@@ -466,57 +466,56 @@ const TourPage = ({ tourAllData,faqData,tourBanner }) => {
               </div>
             )}
 
-            {activeTab === "Summary" && (
-              <div ref={summaryRef} className={styles["summary"]}>
-                <h2>Highlights</h2>
-                {Array.isArray(categoryDetails?.highlights) ? (
-                  <ol className={styles["highlights"]}>
-                    {categoryDetails.highlights.map((text, index) => (
-                      <li
-                        key={index}
-                        dangerouslySetInnerHTML={{ __html: text }}
-                      />
-                    ))}
-                  </ol>
-                ) : (
-                  <p>No highlights available.</p>
-                )}
+{activeTab === "Summary" && (
+  <div ref={summaryRef} className={styles["summary"]}>
+    <h2>Highlights</h2>
+    {categoryDetails?.highlights ? (
+      <ol className={styles["highlights"]}>
+        <li
+          dangerouslySetInnerHTML={{
+            __html: categoryDetails.highlights || "No highlights available.",
+          }}
+        />
+      </ol>
+    ) : (
+      <p>No highlights available.</p>
+    )}
 
-                <div className={styles["details-container"]}>
-                  <div className={styles["inclusions"]}>
-                    <h2>Inclusions</h2>
+    <div className={styles["details-container"]}>
+      <div className={styles["inclusions"]}>
+        <h2>Inclusions</h2>
+        {categoryDetails?.whatsIncluded ? (
+          <ol>
+            <li
+              dangerouslySetInnerHTML={{
+                __html:
+                  categoryDetails.whatsIncluded || "No inclusions available.",
+              }}
+            />
+          </ol>
+        ) : (
+          <p>No inclusions available.</p>
+        )}
+      </div>
+      <div className={styles["exclusions"]}>
+        <h2>Exclusions</h2>
+        {categoryDetails?.whatsExcluded ? (
+          <ol>
+            <li
+              dangerouslySetInnerHTML={{
+                __html:
+                  categoryDetails.whatsExcluded || "No exclusions available.",
+              }}
+            />
+          </ol>
+        ) : (
+          <p>No exclusions available.</p>
+        )}
+      </div>
+    </div>
+  </div>
+)}
 
-                    {Array.isArray(categoryDetails?.whatsIncluded) ? (
-                      <ol>
-                        {categoryDetails.whatsIncluded.map((text, index) => (
-                          <li
-                            key={index}
-                            dangerouslySetInnerHTML={{ __html: text }}
-                          />
-                        ))}
-                      </ol>
-                    ) : (
-                      <p>No inclusions available.</p>
-                    )}
-                  </div>
-                  <div className={styles["exclusions"]}>
-                    <h2>Exclusions</h2>
-                    {Array.isArray(categoryDetails?.whatsExcluded) ? (
-                      <ol>
-                        {categoryDetails.whatsExcluded.map((text, index) => (
-                          <li
-                            key={index}
-                            dangerouslySetInnerHTML={{ __html: text }}
-                          />
-                        ))}
-                      </ol>
-                    ) : (
-                      <p>No exclusions available.</p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            )}
 
 
 <div className={styles["faq"]}><FAQ

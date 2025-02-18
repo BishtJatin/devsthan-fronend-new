@@ -35,7 +35,7 @@ const TourCategory = ({ tourData, categories, locations, location, toursBanner }
 
   const { query } = router;
   
-  console.log( toursBanner );
+  
 
   const toggleDialog = () => {
     setIsDialogOpen(!isDialogOpen);

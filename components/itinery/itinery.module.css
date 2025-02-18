@@ -520,10 +520,9 @@ max-width: 100%;
   .tooltip {
     margin-top: 60px;
   }
-  .tooltip-overlay {
-    width: 350px;
-    margin-left: 200px;
-   }
+  .tooltip-overlay{
+    display: none;
+  }
 }
 
 @media screen and (max-width:990px){
