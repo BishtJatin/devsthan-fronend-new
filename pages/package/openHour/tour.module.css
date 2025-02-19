@@ -143,7 +143,7 @@
 .button-done {
   padding: 8px 12px !important;
   border: none;
-  background-color: #63ab45 !important;
+  background-color: #17567E !important;
   font-size: 12px !important;
   border-radius: 4px;
   color: white !important;
@@ -391,7 +391,7 @@
 }
 
 .panel-buttons>button {
-  color: #63ab45;
+  color: #17567E;
   text-align: center;
   background: transparent;
   font-size: 16px;
@@ -406,7 +406,7 @@
   border-radius: 10px;
   max-width: 400px;
   min-width: 300px;
-  background: linear-gradient(125deg, rgba(99, 171, 69, 0.1) 0%, rgba(251, 176, 59, 0.1) 100%);
+  background: rgb(234 243 249);
   border-radius: 5px;
   padding: 25px;
 
@@ -494,11 +494,11 @@
 }
 
 .inquiryForm input:focus {
-  border-color: #4caf50;
+  border-color: #17567E;
 }
 
 .inquiryForm button {
-  background-color: #4caf50;
+  background-color: #17567E;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -593,7 +593,7 @@
 }
 
 .tour-booking-button-normal{
-  background-color: #63ab45;
+  background-color: #17567E;
     color: #fff;
     width: 250px;
     padding: 10px;
@@ -967,8 +967,8 @@
 }
 
 .tab-active {
-  border-bottom: 3px solid #63ab45 !important;
-  color: #63ab45;
+  border-bottom: 3px solid #17567E !important;
+  color: #17567E;
 
 }
 
@@ -1021,13 +1021,13 @@
   position: sticky;
   top: 100px;
   z-index: 999;
-  /* background: linear-gradient(125deg, #63ab451a, #fbb03b1a); */
+  /* background: linear-gradient(125deg, #17567E1a, #fbb03b1a); */
   background-color: #edf2de !important;
 }
 
 .tour-booking-button-pannel>button {
 margin-bottom: 10px;
-  background-color: #63ab45;
+  background-color: #17567E;
   outline: none;
   border: none;
   margin-left: 5px;
@@ -1120,7 +1120,7 @@ margin-bottom: 10px;
 
 .dialog-button-primary {
   margin-top: 30px;
-  background-color: #63ab45;
+  background-color: #17567E;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -1167,7 +1167,7 @@ margin-bottom: 10px;
 }
 
 .dialog-counter button:hover {
-  background-color: #63ab45;
+  background-color: #17567E;
   color: white;
 }
 
@@ -1186,7 +1186,7 @@ margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #63ab45;
+  background-color: #17567E;
   padding: 10px;
   border-radius: 5px;
   font-size: 14px;
@@ -1256,7 +1256,7 @@ margin-bottom: 10px;
 }
 
 .customize-dialog-right {
-  background-color: #edf2de ;
+  background-color: rgb(234 243 249) ;
   color: #fff;
   position: relative;
  max-width: 550px;
@@ -1307,7 +1307,7 @@ margin-bottom: 10px;
 
 
 .customize-dialog-button {
-  background: #63ab45;
+  background: #17567E;
   color: #fff;
   border: none;
   padding: 12px 20px;
@@ -1360,7 +1360,7 @@ margin-bottom: 10px;
 
 .summary h2 {
   margin-bottom: 2%;
-  background-color: #63ab45;
+  background-color: #17567E;
   color: #fff;
   max-width: 160px;
   padding-left: 20px;
@@ -1423,12 +1423,12 @@ margin-bottom: 10px;
   padding: 10px 12px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 
   border-radius: 8px;
-  background-color: #f1f6e3;
+  background-color: rgb(234 243 249);
 }
 
 .seasonsCard-item-heading {
   display: flex;
-  color: #63ab45;
+  color: #17567E;
   border: 0px solid #ccc; /* Adds a border with light gray color */
   border-radius: 8px; /* Optional: Rounds the corners */
   padding: 10px; /* Adds space inside the border */
@@ -1503,7 +1503,7 @@ margin-bottom: 10px;
   flex-direction: column;
   justify-content: space-around;
   gap: 20px;
-  
+  background-color: rgb(234 243 249);
 }
 
 .tour-booking-button-linefix{
@@ -1563,7 +1563,7 @@ margin-bottom: 10px;
   gap: 10px;
 }
 .tour-booking-button-fix{
-  background-color: #63ab45;
+  background-color: #17567E;
   color: #fff;
   width: 250px;
   padding: 10px;
@@ -1824,7 +1824,7 @@ padding: 10px 20px !important;
 @media screen and (max-width: 400px) {
   .dialog-button-primary {
     margin-top: 37px;
-    background-color: #63ab45;
+    background-color: #17567E;
     color: white;
     border: none;
     padding: 8px 10px;

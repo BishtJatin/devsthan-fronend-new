@@ -111,7 +111,7 @@
 .button-done {
   padding: 8px 12px !important;
   border: none;
-  background-color: #63ab45 !important;
+  background-color: #17567E !important;
   font-size: 12px !important;
   border-radius: 4px;
   color: white !important;
@@ -275,7 +275,7 @@
 }
 
 .panel-buttons>button {
-  color: #63ab45;
+  color: #17567E;
   text-align: center;
   background: transparent;
   font-size: 16px;
@@ -866,8 +866,8 @@ padding: 10px 20px !important;
 }
 
 .tab-active {
-  border-bottom: 3px solid #63ab45 !important;
-  color: #63ab45;
+  border-bottom: 3px solid #17567E !important;
+  color: #17567E;
 
 }
 
@@ -920,13 +920,13 @@ padding: 10px 20px !important;
   position: sticky;
   top: 100px;
   z-index: 999;
-  /* background: linear-gradient(125deg, #63ab451a, #fbb03b1a); */
+  /* background: linear-gradient(125deg, #17567E1a, #fbb03b1a); */
   background-color: #edf2de !important;
 }
 
 .tour-booking-button-pannel>button {
 margin-bottom: 10px;
-  background-color: #63ab45;
+  background-color: #17567E;
   outline: none;
   border: none;
   margin-left: 5px;
@@ -1013,7 +1013,7 @@ margin-bottom: 10px;
 }
 
 .dialog-button-primary {
-  background-color: #63ab45;
+  background-color: #17567E;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -1060,7 +1060,7 @@ margin-bottom: 10px;
 }
 
 .dialog-counter button:hover {
-  background-color: #63ab45;
+  background-color: #17567E;
   color: white;
 }
 
@@ -1079,7 +1079,7 @@ margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #63ab45;
+  background-color: #17567E;
   padding: 10px;
   border-radius: 5px;
   font-size: 14px;
@@ -1200,7 +1200,7 @@ margin-bottom: 10px;
 
 
 .customize-dialog-button {
-  background: #63ab45;
+  background: #17567E;
   color: #fff;
   border: none;
   padding: 12px 20px;

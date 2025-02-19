@@ -150,7 +150,7 @@ max-width: 100%;
   padding: 1rem;
   border-bottom: 1px solid #ddd;
   justify-content: space-between;
-  background-color: #edf2de;
+  background-color: rgb(234 243 249);
 }
 
 .tabs button {
@@ -171,8 +171,8 @@ max-width: 100%;
   font-weight: bold;
   background: var(--details-itinerary-tab-active-bg-color, #ffffff);
   border-radius: 20px;
-  border: 1px solid #63ab45;
-  color: #63ab45;
+  border: 1px solid #17567E;
+  color: #17567E;
   white-space: nowrap;
   height: fit-content;
 }
@@ -200,7 +200,7 @@ max-width: 100%;
   align-items: flex-start;
   padding: 13px 18px;
   font-size: 16px;
-  background-color: #63ab45;
+  background-color: #17567E;
   font-weight: 400;
   color: #fff;
 }
@@ -274,8 +274,8 @@ max-width: 100%;
 }
 
 .day-item.active-day {
-  border-left: 3px solid #63ab45;
-  background-color: #edf2de;
+  border-left: 3px solid #17567E;
+  background-color: rgb(234 243 249);
   padding: 0.4rem;
   display: flex;
   flex-direction: row-reverse;
@@ -765,7 +765,7 @@ max-width: 100%;
 .done-button {
   padding: 6px 10px;
   border: none;
-  background-color:  #63ab45;
+  background-color:  #17567E;
   color: white;
   font-size: 12px;
   border-radius: 4px;

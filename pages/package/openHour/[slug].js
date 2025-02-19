@@ -391,9 +391,6 @@ const TourPage = ({ tourAllData,faqData,tourBanner }) => {
                       </div>
                     </div>
                   )} */}
-                 
-                    
-                        <p>Select a package</p>
                   
                   <select
                     id="category-select"
