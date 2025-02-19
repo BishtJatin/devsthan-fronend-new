@@ -58,6 +58,7 @@
   .blog-image-container {
     overflow: hidden;
     border-radius: 8px;
+    max-height: 500px;
     transition: transform 0.3s ease;
   }
   

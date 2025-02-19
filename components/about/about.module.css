@@ -17,7 +17,7 @@
 }
 
 .subtitle {
-  color: #6da06f;
+  color: #17567E;
   font-size: 16px;
   font-weight: bold;
   margin-bottom: 8px;
@@ -44,7 +44,7 @@
 .icon-text {
   font-size: 14px;
   font-weight: 500;
-  color: #6da06f;
+  color: #17567E;
 }
 
 .description {
@@ -58,7 +58,7 @@
 }
 
 .button {
-  background-color: #63ab45;
+  background-color: #17567E;
   color: white;
   padding: 10px 20px;
   border: none;

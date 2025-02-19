@@ -119,8 +119,9 @@ if (!whyChoose || whyChoose.length === 0) {
       ) : (
         // Show grid on larger screens
         <div className={styles['cards-container']}>
-          {whyChoose.data.slice(0, 4).map((card) => (
-            <div key={card.id} className={styles['about-card']}>
+          {whyChoose.data.slice(0, 4).map((card, index) => (
+            <div  key={card.id}
+            className={`${styles['about-card']} ${index % 2 === 0 ? styles['flex-normal'] : styles['flex-reverse']}`}>
               <div className={styles['image-wrapper']}>
                 <img src={card.bannerImage} alt={card.title} />
               </div>

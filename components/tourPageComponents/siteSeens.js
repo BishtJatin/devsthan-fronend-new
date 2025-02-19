@@ -14,6 +14,9 @@ const BannerInner = styled(Carousel)`
 const Meals = ({ itinerary }) => {
   const [isClient, setIsClient] = useState(false);
 
+
+
+
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -33,6 +36,9 @@ const Meals = ({ itinerary }) => {
     },
   };
 
+
+  console.log(itinerary);
+
   return (
     <div className={styles["day-details-outer"]}>
       {/* Heading Section */}
@@ -45,64 +51,55 @@ const Meals = ({ itinerary }) => {
 
       {/* Iterate Over SiteSeen */}
       {itinerary?.siteSeen?.length > 0 ? (
-        itinerary.siteSeen.map((site, index) => (
-          <div key={index} className={styles["day-details"]}>
-            <div className={styles["content"]}>
-              {/* Render Site Name */}
-              <h3>{site.name}</h3>
+  itinerary.siteSeen.map((site, index) => (
+    <div key={index} className={styles["day-details"]}>
+      <div className={styles["content"]}>
+        {/* Render Site Name */}
+        <h3>{site.name}</h3>
 
-              {/* Check if SiteSeen is Available */}
-              {site.isAvailable ? (
-                <>
-                  {/* Photos Carousel */}
-                  {site.photos?.length > 0 ? (
-                    <BannerInner
-                      responsive={responsive}
-                      infinite
-                      autoPlay={site.photos.length > 1}
-                      autoPlaySpeed={5000}
-                      arrows
-                    >
-                      {site.photos.map((photo, idx) => (
-                        <div key={idx} className={styles["carousel-item"]}>
-                          <Image
-                            src={photo}
-                            width={300}
-                            height={300}
-                            alt={`Day ${itinerary.day} - Site ${index} - Image ${idx}`}
-                          />
-                        </div>
-                      ))}
-                    </BannerInner>
-                  ) : (
-                    <p>No photos available</p>
-                  )}
+        {/* Photos Carousel */}
+        {site.photos?.length > 0 ? (
+          <BannerInner
+            responsive={responsive}
+            infinite
+            autoPlay={site.photos.length > 1}
+            autoPlaySpeed={5000}
+            arrows
+          >
+            {site.photos.map((photo, idx) => (
+              <div key={idx} className={styles["carousel-item"]}>
+                <Image
+                  src={photo}
+                  width={300}
+                  height={300}
+                  alt={`Day ${itinerary.day} - Site ${index} - Image ${idx}`}
+                />
+              </div>
+            ))}
+          </BannerInner>
+        ) : (
+          
+          <p className={styles["no-hotel"]}>No photos available</p>
+        )}
 
-                  {/* Render Description */}
-                  {isClient && site.description && (
-                    <p
-                      className={styles["blog-card-description"]}
-                      dangerouslySetInnerHTML={{
-                        __html: site.description,
-                      }}
-                    />
-                  )}
-                </>
-              ) : (
-                // Fallback if Site Seen is Not Available
-                <div className={styles["no-hotel"]}>
-                <p>No site seen included for this site.</p>
-                </div>
-              )}
-            </div>
-          </div>
-        ))
-      ) : (
-        // Fallback if No SiteSeen Exists
-        <div className={styles["no-hotel"]}>
-          <p>No site seen included for this day</p>
-        </div>
-      )}
+        {/* Render Description */}
+        {isClient && site.description && (
+          <p
+            className={styles["blog-card-description"]}
+            dangerouslySetInnerHTML={{
+              __html: site.description,
+            }}
+          />
+        )}
+      </div>
+    </div>
+  ))
+) : (
+  // Fallback if No SiteSeen Exists
+  <div className={styles["no-hotel"]}>
+    <p>No site seen included for this day</p>
+  </div>
+)}
     </div>
   );
 };

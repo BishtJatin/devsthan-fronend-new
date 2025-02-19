@@ -32,12 +32,17 @@
 }
 
 
+.selectdate{
+  font-size: 0.8rem;
+  margin-left: 10px;
+}
+
 .tooltip-overlay {
   position: absolute;
   margin-top: 0px;
   width: 230px;
   margin-left: 180px;
- 
+ display: none;
  
  }
  
@@ -78,6 +83,7 @@
   color: #ff0000;
   font-weight: bold;
 }
+
 .day-carousel{
 max-width: 100%;
 }
@@ -569,6 +575,11 @@ max-width: 100%;
 @media screen and  (max-width: 740px) {
   .day-details {
     padding: 15px;
+  }
+
+  .selectdate{
+    font-size: 0.9rem;
+    margin-left: 15px;
   }
 
   .arrow{

@@ -375,7 +375,7 @@ const TourPage = ({ tourAllData,faqData,tourBanner }) => {
                 </button>
 
                 <div className={styles["category-selector"]}>
-                  {showTooltip && (
+                  {/* {showTooltip && (
                     <div className={styles["tooltip-overlay"]} ref={tooltipRef}>
                       <div className={styles["tooltip"]}>
                         <p>Select the package</p>
@@ -390,7 +390,11 @@ const TourPage = ({ tourAllData,faqData,tourBanner }) => {
                         <PiArrowBendLeftDownBold />
                       </div>
                     </div>
-                  )}
+                  )} */}
+                 
+                    
+                        <p>Select a package</p>
+                  
                   <select
                     id="category-select"
                     value={selectedCategory}
@@ -415,8 +419,10 @@ const TourPage = ({ tourAllData,faqData,tourBanner }) => {
                       <option value="premiumDetails">Premium</option>
                     )}
                   </select>
+               
                 </div>
               </div>
+             
             )}
             {activeTab === "Itinerary" && (
               <div ref={itineraryRef}>

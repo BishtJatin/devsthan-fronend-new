@@ -43,7 +43,7 @@ export default function BlogCard({ blogs }) {
                     </span>
                 </div>
 
-                <Link href={`/blog/${blogs.uuid}`} passHref>
+                <Link href={`/blog/${blogs.title.replace(/\s+/g, '-').toLowerCase()}`} passHref>
                     <p className={styles['read-more']}>Read More</p>
                 </Link>
             </div>

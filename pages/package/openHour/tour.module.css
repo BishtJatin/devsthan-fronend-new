@@ -114,6 +114,7 @@
  position: absolute;
  margin-top: -160px;
  width: 260px;
+ display: none;
 }
 
 .arrow{
@@ -604,6 +605,7 @@
 @media screen and (max-width: 1040px){
 .tour-seasonsCard-heading{
   font-size: 1.5rem;
+  max-width: 200px;
 }
 .tooltip-overlay {
   display: none;
@@ -1358,6 +1360,12 @@ margin-bottom: 10px;
 
 .summary h2 {
   margin-bottom: 2%;
+  background-color: #63ab45;
+  color: #fff;
+  max-width: 160px;
+  padding-left: 20px;
+  opacity: 0.8;
+  /* margin: 10px 100px; */
 }
 
 .success-message p {
@@ -1732,8 +1740,9 @@ padding: 10px 20px !important;
   .policies{
     padding-left:5%;
   }
-  .summary {
-    padding-left:5%;
+  .summary h2 {
+   
+    margin: 10px 100px;
   }
   /* .tooltip {
     left: 50%;
@@ -1753,6 +1762,8 @@ padding: 10px 20px !important;
     padding: 5px 10px;
     color: #333;
   }
+
+ 
 }
 
 @media (orientation: landscape) and (max-width: 884px) {

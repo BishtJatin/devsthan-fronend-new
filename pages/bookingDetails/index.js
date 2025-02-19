@@ -9,14 +9,11 @@ import Loader from "../../components/loader/loader.js";
 import { toast } from "react-hot-toast";
 import "react-toastify/dist/ReactToastify.css";
 import FullScreenLoader from "../../components/fullScreenLoader/fullScreenLoader.js";
-
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ForgotPasswordForm from "../../components/forgetForm/forgot.js";
-
 export default function TravellerDetails() {
   const router = useRouter();
-
   const [isLoading, setIsLoading] = useState(false);
   const [fullLoading, setFullLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -32,7 +29,6 @@ export default function TravellerDetails() {
   const [tourid, setTourid] = useState("");
   const [username, setUsername] = useState("");
   const [date, setDate] = useState("");
-
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [code, setCouponCode] = useState(""); // State for coupon code
   const [couponStatus, setCouponStatus] = useState(null);
@@ -221,7 +217,7 @@ export default function TravellerDetails() {
           method: "POST",
           body: userData,
         });
-
+        console.log(response);
         // Handle response
         setTourInfo(response.tour);
         distributePersons(response.cart.adults, response.cart.children);
@@ -243,8 +239,10 @@ export default function TravellerDetails() {
     fetchCartData();
   }, []);
 
+ 
 
- console.log(cartData);
+
+ console.log(date);
 
   const distributePersons = (adults, children) => {
     const totalPersons = adults + children;
@@ -269,13 +267,55 @@ export default function TravellerDetails() {
     setRooms(roomArr);
   };
 
-  console.log(cartData?.partialPayment?.amount);
+  console.log(cartData);
 
-  const handleInputChange = (roomIndex, personIndex, key, value) => {
-    const updatedRooms = [...rooms];
-    updatedRooms[roomIndex].details[personIndex][key] = value;
-    setRooms(updatedRooms);
+  // useEffect(() => {
+  //   if (!cartData.details) {
+  //     setCartData((prev) => ({
+  //       ...prev,
+  //       details: Array((cartData?.adults || 0) + (cartData?.children || 0)).fill({
+  //         firstName: "",
+  //         lastName: "",
+  //       }),
+  //     }));
+  //   }
+  // }, [cartData]);
+  
+
+  // const handleInputChange = (personIndex, key, value) => {
+  //   setCartData((prev) => {
+  //     const updatedDetails = prev.details ? [...prev.details] : [];
+  //     if (!updatedDetails[personIndex]) {
+  //       updatedDetails[personIndex] = { firstName: "", lastName: "" };
+  //     }
+  //     updatedDetails[personIndex][key] = value;
+  //     return { ...prev, details: updatedDetails };
+  //   });
+  // };
+
+  const [travelerDetails, setTravelerDetails] = useState([]);
+
+  // Populate initial state based on the number of adults and children
+  useEffect(() => {
+    const totalTravelers = (cartData?.adults || 0) + (cartData?.childern || 0);
+    const initialDetails = Array.from({ length: totalTravelers }, (_, index) => ({
+      firstName: "",
+      lastName: "",
+      isAdult: index < (cartData?.adults || 0),
+    }));
+    setTravelerDetails(initialDetails);
+  }, [cartData]);
+
+  // Handle input changes
+  const handleInputChange = (index, key, value) => {
+    setTravelerDetails((prevDetails) =>
+      prevDetails.map((person, personIndex) =>
+        personIndex === index ? { ...person, [key]: value } : person
+      )
+    );
   };
+  
+  
 
   const toggleForgotPasswordMode = () => {
     setShowForgotPassword((prev) => !prev); // Toggle the forgot password view
@@ -379,7 +419,7 @@ export default function TravellerDetails() {
                 },
               });
 
-              console.log("Order Response:", orderResponse);
+             
               try {
                 if (orderResponse?.success) {
                   // Ensure orderResponse exists before checking success
@@ -388,7 +428,7 @@ export default function TravellerDetails() {
                     totalPrice: orderResponse.order?.finalPrice || 0, // Ensure finalPrice exists
                     adults: cartData?.adults || 0,
                     children: cartData?.childern || 0,
-                    date: date || "N/A",
+                    date: selectedDate || "N/A",
                   };
 
                   router.push({
@@ -458,6 +498,8 @@ export default function TravellerDetails() {
   <button id="rzp-button1" onClick={handleRazorpay}>
     Pay Now
   </button>;
+  
+  console.log("selectedDate", selectedDate);
 
   return (
     <>
@@ -510,62 +552,41 @@ export default function TravellerDetails() {
               handleRazorpay();
             }}
           >
-          <div className={styles["form-container"]}>
-          {/* <h3>Traveler Details</h3> */}
-  {/* Ensure that adults and children are numbers, default to 0 if undefined */}
-  {/* {[...Array((cartData?.adults || 0) + (cartData?.childern || 0))].map(
-    (_, personIndex) => {
-      // Determine if the person is an adult based on their index
-      const isAdult = personIndex < (cartData?.adults || 0); // Default to 0 if undefined
-      const label = isAdult
-        ? `Adult ${personIndex + 1}`
-        : `Child ${personIndex + 1 - (cartData?.adults || 0)}`;
-
-      // Safely access person data or create a placeholder object
-      const person = cartData?.details?.[personIndex] || {
-        firstName: "",
-        lastName: "",
-      };
-
-      return (
-        <div key={personIndex} className={styles["traveller-row"]}>
-          <h4>{label}</h4>
-          <div className={styles["traveller-row-merge"]}>
+  <div className={styles["form-container"]}>
+  <h3>Traveler Details</h3>
+      <div  className={styles["traveller-row"]}>
+        {travelerDetails.map((traveler, index) => (
+          <><h4>
+          {traveler.isAdult
+            ? `Adult ${index + 1}`
+            : `Child ${index + 1 - (cartData?.adults || 0)}`}
+        </h4>
+          <div key={index} className={styles["traveller-row-merge"]}>
+            
             <label>
               First Name:
               <input
                 type="text"
-                required
-                value={person.firstName}
+                value={traveler.firstName}
                 onChange={(e) =>
-                  handleInputChange(
-                    personIndex,
-                    "firstName",
-                    e.target.value
-                  )
+                  handleInputChange(index, "firstName", e.target.value)
                 }
               />
             </label>
-            <label>
+            <label style={{ marginLeft: "10px" }}>
               Last Name:
               <input
                 type="text"
-                required
-                value={person.lastName}
+                value={traveler.lastName}
                 onChange={(e) =>
-                  handleInputChange(
-                    personIndex,
-                    "lastName",
-                    e.target.value
-                  )
+                  handleInputChange(index, "lastName", e.target.value)
                 }
               />
             </label>
           </div>
-        </div>
-      );
-    }
-  )} */}
+          </>
+        ))}
+      </div>
 </div>
 
 
@@ -642,7 +663,6 @@ export default function TravellerDetails() {
                 />
               </div>
             </div>
-
             {/* Coupon Code Section */}
             {paymentAmount === null && (
               <div className={styles["coupon-section"]}>

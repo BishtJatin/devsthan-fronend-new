@@ -418,10 +418,10 @@ const TourBookingPanel = ({
       const createInquiry = await apiCall({
         endpoint: "/api/createInquiry",
         method: "POST",
-
         body: formData,
       });
-      if (createInquiry.success == true) {
+
+      if (createInquiry.success) {
         toast.success("Inquiry submitted successfully!");
       } else {
         toast.error("Error submitting inquiry. Please try again later.");
@@ -429,10 +429,12 @@ const TourBookingPanel = ({
       // setFormData({ fullName: '', phone: '', email: '', message: '' });
     } catch (error) {
       console.error("Error submitting inquiry:", error);
+      toast.error("Error submitting inquiry. Please try again later.");
     } finally {
       setLoadingSubmit(false);
     }
   };
+
 
   const processedSeasons = seasons.map((season) => {
     // Find the max price in the pricing array
@@ -757,6 +759,7 @@ const TourBookingPanel = ({
         {/* {showCustomizeDialog && (
           <CustomizedQuery uuid={uuid} handleClose={close} />
         )} */}
+        <ToastContainer />
         {isLargeScreen && (
           <div className={styles["tour-booking-panel"]}>
             <p className={styles["panel-heading"]}>Book Your Tour</p>

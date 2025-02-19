@@ -293,7 +293,8 @@ const Itinerary = ({
                     </div>
                   </div>
                 )}
-
+             <>
+             <p className={styles["selectdate"]}>Select the date</p>
                 <div
                  style={{
                   display: "inline-block", // Space around the DatePicker
@@ -305,6 +306,7 @@ const Itinerary = ({
                 }}
                 className="animated-border"
                 >
+                  
                   <DatePicker
                     selected={selectedDate}
                     onChange={handleDateChange}
@@ -334,6 +336,7 @@ const Itinerary = ({
                     }}
                   />
                 </div>
+                </>
               </div>
               {categoryDetails.map((_, index) => {
                 const currentDate = new Date(startDate);

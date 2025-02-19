@@ -130,7 +130,7 @@
 }
 
 .search-headings-tour {
-    background-color: #edf2de;
+    background-color: rgb(234 243 249);
     max-width: 400px;
     padding-block: 15px;
     display: flex;
@@ -154,7 +154,7 @@
 }
 
 .search-headings-tour-selected {
-    background-color: #63ab45;
+    background-color: #17567E;
 
     color: white;
 }
@@ -187,7 +187,7 @@
     cursor: pointer;
   
     white-space: nowrap;
-    background-color: #63ab45;
+    background-color: #17567E;
     padding: 40px 53px;
     border-radius: 0 0 30px 0;
     color: white;
@@ -240,7 +240,7 @@
 }
 
 .search-options-tour {
-    background-color: #edf2de;
+    /* background-color: #f1f1f1; */
     display: flex;
     width: 100%;
     border-radius: 0 0 30px 30px;
@@ -260,7 +260,7 @@
 .search-options-outer {
     display: flex;
     width: 100%;
-    background-color: #edf2de;
+    background-color: rgb(234 243 249);
     border-radius: 0 0 30px 30px;
 }
 
@@ -404,7 +404,7 @@
         /* color: black; */
         grid-template-columns: repeat(2, 1fr);
         border-radius: 0;
-        margin-bottom: -50px
+        margin-bottom: -55px
 
     }
 
@@ -489,8 +489,8 @@
 
 @media screen and (max-width: 1180px) and (orientation: landscape) {
     /* Your CSS rules here */
-    .search-options-button{
+    /* .search-options-button{
         width: 216px;
-    }
+    } */
   }
   

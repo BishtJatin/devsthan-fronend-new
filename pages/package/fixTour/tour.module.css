@@ -87,6 +87,7 @@
  position: absolute;
  margin-top: -160px;
  width: 260px;
+ display: none;
 }
 
 .arrow{

@@ -1,6 +1,6 @@
 .tour-card {
   /* width: 300px; */
-  background-color: #edf2de;
+  background-color: rgb(234 243 249);
   padding: 1rem;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -12,7 +12,7 @@
 }
 
 .location-icon {
-  color: #63ab45;
+  color: #17567E;
   font-size: 15px;
 }
 
@@ -105,7 +105,7 @@
 }
 
 .starting-price {
-  color: green;
+  color: #17567E;
   font-size: 1.2rem;
 }
 
@@ -115,7 +115,7 @@
 }
 
 .book-btn {
-  background-color: #63ab45;
+  background-color: #17567E;
   color: white;
   padding: 10px;
   border: none;
@@ -133,7 +133,7 @@
   cursor: pointer;
   bottom: 20;
   right: 20; */
-  background-color: #63ab45;
+  background-color: #17567E;
   color: white;
   padding: 10px;
   border: none;
@@ -168,7 +168,7 @@
 
 .tour-hotel:hover {
   transform: scale(1.05);
-  color: #63ab45;
+  color: #17567E;
 }
 
 .tour-hotel svg {
