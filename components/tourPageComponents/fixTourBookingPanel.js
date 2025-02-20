@@ -48,6 +48,8 @@ const FixTourBookingPanel = ({ tourAllData }) => {
   const [date, setDate] = useState();
   const [selectedPrices, setSelectedPrices] = useState({});
 
+ 
+
   const [selectedPayment, setSelectedPayment] = useState("default");
   const [isLargeScreen, setIsLargeScreen] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -441,111 +443,107 @@ const FixTourBookingPanel = ({ tourAllData }) => {
           </div>
 
           <div className={styles["seasonsCardfix"]}>
-            {filteredBatches.map((season, index) => {
-              const selectedPrice =
-                season.selectedPrices?.[season._id] || "doubleSharingPrice";
+  {filteredBatches.map((season, index) => {
+    const selectedPrice =
+      selectedPrices[season._id] || "doubleSharingPrice";
 
-              return (
-                <div key={season._id} className={styles["seasonsCard-itemfix"]}>
-                  <div className={styles["seasonsCard-itfix"]}>
-                    <p className={styles["seasonsCard-datefix"]}>
-                      <strong>
-                        <IoLocationOutline style={{ color: "green" }} /> Starts{" "}
-                        {formatDay(season.tourStartDate)}
-                      </strong>
-                      <span>{formatDate(season.tourStartDate)}</span>
-                    </p>
-                    <p className={styles["seasonsCard-datefix"]}>
-                      <strong>
-                        <IoLocationOutline style={{ color: "red" }} /> Ends{" "}
-                        {formatDay(season.tourEndDate)}
-                      </strong>
-                      <span>{formatDate(season.tourEndDate)}</span>
-                    </p>
-                  </div>
+    return (
+      <div key={season._id} className={styles["seasonsCard-itemfix"]}>
+        <div className={styles["seasonsCard-itfix"]}>
+          <p className={styles["seasonsCard-datefix"]}>
+            <strong>
+              <IoLocationOutline style={{ color: "green" }} /> Starts{" "}
+              {formatDay(season.tourStartDate)}
+            </strong>
+            <span>{formatDate(season.tourStartDate)}</span>
+          </p>
+          <p className={styles["seasonsCard-datefix"]}>
+            <strong>
+              <IoLocationOutline style={{ color: "red" }} /> Ends{" "}
+              {formatDay(season.tourEndDate)}
+            </strong>
+            <span>{formatDate(season.tourEndDate)}</span>
+          </p>
+        </div>
 
-                  <div className={styles["seasonsCard-itsfix"]}>
-                    <div className={styles["sharing-optionsfix"]}>
-                      <label>
-                        <input
-                          type="radio"
-                          name={`sharing-${season._id}`}
-                          value="doubleSharingPrice"
-                          checked={
-                            selectedPrices[season._id] === "doubleSharingPrice"
-                          }
-                          onChange={() =>
-                            handlePriceChange(season._id, "doubleSharingPrice")
-                          }
-                          style={{ marginRight: "8px" }}
-                        />
-                        Double Sharing
-                      </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name={`sharing-${season._id}`}
-                          value="trippleSharingPrice"
-                          checked={
-                            selectedPrices[season._id] === "trippleSharingPrice"
-                          }
-                          onChange={() =>
-                            handlePriceChange(season._id, "trippleSharingPrice")
-                          }
-                          style={{ marginRight: "8px" }}
-                        />
-                        Triple Sharing
-                      </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name={`sharing-${season._id}`}
-                          value="quadSharingPrice"
-                          checked={
-                            selectedPrices[season._id] === "quadSharingPrice"
-                          }
-                          onChange={() =>
-                            handlePriceChange(season._id, "quadSharingPrice")
-                          }
-                          style={{ marginRight: "8px" }}
-                        />
-                        Quad Sharing
-                      </label>
-                    </div>
-
-                    <div className={styles["Selected-Pricefix"]}>
-                      <div>
-                        <p>
-                        <strong>Selected Price:</strong> ₹{season[selectedPrices[season._id]] || "N/A"}
-                        </p>
-                        <p className={styles["Selected-Pricefix1"]}>
-                          <strong>Group Size:</strong> {season.groupSize}
-                        </p>
-                      </div>
-                      <div>
-                        <p>
-                          <strong>Seats Booked:</strong> {season.seatBooked}
-                        </p>
-                        <div className={styles["Selected-icons"]}>
-                          <FaWhatsapp />
-                          <MdMail />
-                          <FaPhoneAlt />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <button
-                    className={styles["tour-booking-button-fix"]}
-                    onClick={() =>
-                      callbutton(index, season._id, season[selectedPrices[season._id]])
-                    }
-                  >
-                    Book Now
-                  </button>
-                </div>
-              );
-            })}
+        <div className={styles["seasonsCard-itsfix"]}>
+          <div className={styles["sharing-optionsfix"]}>
+            <label>
+              <input
+                type="radio"
+                name={`sharing-${season._id}`}
+                value="doubleSharingPrice"
+                checked={selectedPrice === "doubleSharingPrice"}
+                onChange={() =>
+                  handlePriceChange(season._id, "doubleSharingPrice")
+                }
+                style={{ marginRight: "8px" }}
+              />
+              Double Sharing
+            </label>
+            <label>
+              <input
+                type="radio"
+                name={`sharing-${season._id}`}
+                value="trippleSharingPrice"
+                checked={selectedPrice === "trippleSharingPrice"}
+                onChange={() =>
+                  handlePriceChange(season._id, "trippleSharingPrice")
+                }
+                style={{ marginRight: "8px" }}
+              />
+              Triple Sharing
+            </label>
+            <label>
+              <input
+                type="radio"
+                name={`sharing-${season._id}`}
+                value="quadSharingPrice"
+                checked={selectedPrice === "quadSharingPrice"}
+                onChange={() =>
+                  handlePriceChange(season._id, "quadSharingPrice")
+                }
+                style={{ marginRight: "8px" }}
+              />
+              Quad Sharing
+            </label>
           </div>
+
+          <div className={styles["Selected-Pricefix"]}>
+            <div>
+              <p>
+                <strong>Selected Price:</strong> ₹
+                {season[selectedPrice] || "N/A"}
+              </p>
+              <p className={styles["Selected-Pricefix1"]}>
+                <strong>Group Size:</strong> {season.groupSize}
+              </p>
+            </div>
+            <div>
+              <p>
+                <strong>Seats Booked:</strong> {season.seatBooked}
+              </p>
+              <div className={styles["Selected-icons"]}>
+                <FaWhatsapp />
+                <MdMail />
+                <FaPhoneAlt />
+              </div>
+            </div>
+          </div>
+        </div>
+        <button
+          className={styles["tour-booking-button-fix"]}
+          onClick={() =>
+            callbutton(index, season._id, season[selectedPrice])
+          }
+        >
+          Book Now
+        </button>
+      </div>
+    );
+  })}
+</div>
+
         </div>
         {showDialouge && (
           <div className={styles["dialog-overlay"]}>
@@ -559,14 +557,14 @@ const FixTourBookingPanel = ({ tourAllData }) => {
               <div className={styles["dialog-header"]}>
                 <div>
                   <h2>{tourAllData[0].name}</h2>
-                  <h4>Total Price: ₹{bookbutton.total}</h4>
+                  <h4>Total Price: <span>₹{bookbutton.total}</span></h4>
                   <h4>
                     ₹{" "}
-                    {selectedPayment === "partial" &&
+                    <span>{selectedPayment === "partial" &&
                     tourAllData[0]?.partialPayment?.amount
                       ? bookbutton.price *
                         (1 - tourAllData[0].partialPayment.amount / 100) // Apply discount if partial
-                      : bookbutton.price}{" "}
+                      : bookbutton.price}</span>{" "}
                     /per person
                   </h4>
 

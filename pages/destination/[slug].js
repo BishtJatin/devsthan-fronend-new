@@ -296,8 +296,9 @@ const Destination = ({ destinationData, destinationBanner }) => {
               </div>
             ))}
           </div>
-
+          
           <div className={styles["carousel-container"]}>
+          <h3 className={styles['header-text-title3']}>SubDestination</h3>
             <SubDestinationCarousel {...settings}>
               {destinationData?.subDestinations?.map((dest, index) => (
                 <div key={index} className={styles["carousel-item"]}>
@@ -320,6 +321,7 @@ const Destination = ({ destinationData, destinationBanner }) => {
           </div>
 
           <div className={styles["carousel-container"]}>
+          <h3 className={styles['header-text-title2']}>Destination Highlights</h3>
             <SubDestinationCarousel {...settings}>
               {destinationData?.highlights?.map((dest, index) => (
                 <div key={index} className={styles["carousel-item"]}>

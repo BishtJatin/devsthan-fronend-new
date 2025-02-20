@@ -201,7 +201,7 @@ max-width: 100%;
   padding: 13px 18px;
   font-size: 16px;
   background-color: #17567E;
-  font-weight: 400;
+  font-weight: 600;
   color: #fff;
 }
 
@@ -529,6 +529,7 @@ max-width: 100%;
   .tooltip-overlay{
     display: none;
   }
+
 }
 
 @media screen and (max-width:990px){
@@ -547,6 +548,7 @@ max-width: 100%;
     width: 5 00px;
     margin-left: 250px;
    }
+   
 }
 
 

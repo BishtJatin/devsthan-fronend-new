@@ -32,7 +32,7 @@ const ItineraryDetails = ({ itinerary }) => {
         infinite
         autoPlay={images.length > 1}
         autoPlaySpeed={5000}
-        arrows
+        arrows={false}
       >
         {images.map((image, idx) => (
           <div key={idx} className={styles["carousel-item"]}>

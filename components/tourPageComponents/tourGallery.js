@@ -18,44 +18,7 @@ const CustomNextArrow = ({ onClick }) => (
   </button>
 );
 
-const TourGallery = ({ images, name, state, city, location, duration,tourBanner }) => {
-
-  const [viewport, setViewport] = useState("desktop");
-
-  useEffect(() => {
-    const updateViewport = () => {
-      if (window.matchMedia("(max-width: 768px)").matches) {
-        setViewport("mobile");
-      } else if (window.matchMedia("(max-width: 1024px)").matches) {
-        setViewport("tablet");
-      } else {
-        setViewport("desktop");
-      }
-    };
-
-    // Initial check
-    updateViewport();
-
-    // Listen for changes
-    window.addEventListener("resize", updateViewport);
-    return () => window.removeEventListener("resize", updateViewport);
-  }, []);
-
-const getBannerImages = () => {
-  switch (viewport) {
-    case "mobile":
-      return tourBanner?.data?.bannerUrls?.mobile[0] || [];
-    case "tablet":
-      return tourBanner?.data?.bannerUrls?.tablet[0] || [];
-    case "desktop":
-    default:
-      return tourBanner?.data?.bannerUrls?.desktop[0] || [];
-  }
-};
-
-const bannerImages = getBannerImages();
-
-
+const TourGallery = ({ images, name, state, city, location, duration }) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -79,11 +42,13 @@ const bannerImages = getBannerImages();
 
       {/* Carousel Section */}
       <div className={styles['carousel-container']}>
-        
-            <div className={styles['carousel-item']}>
-              <Image src={ bannerImages}  layout="fill" className={styles['carousel-img']}/>
+        <Slider {...settings}>
+          {images?.map((image, index) => (
+            <div key={index} className={styles['carousel-item']}>
+              <Image src={image} alt={`Gallery Image ${index + 1}`} layout="fill" className={styles['carousel-img']}/>
             </div>
-         
+          ))}
+        </Slider>
       </div>
     </div>
   );

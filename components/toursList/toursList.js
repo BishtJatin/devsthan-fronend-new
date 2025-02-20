@@ -3,6 +3,8 @@ import TourCard from '../tourCard/tourCard';
 
 const ToursList = ({ tourData }) => {
   // Helper function to get the maximum price per person for a given season's pricing
+
+  console.log(tourData);
   const getMaxPricePerPerson = (seasons) => {
     if (!seasons || seasons.length === 0) {
       return 0; // Default case when no seasons are available
@@ -43,14 +45,14 @@ const ToursList = ({ tourData }) => {
           if (data.batch && data.batch.length > 0) {
             // Use batch data if available
             const latestBatch = data.batch[data.batch.length - 1]; // Latest batch
-            const { groupSharingPrice, doubleSharingPrice, quadSharingPrice } = latestBatch;
+            const { trippleSharingPrice, doubleSharingPrice, quadSharingPrice } = latestBatch;
 
             // Include all available pricing details
-            if (groupSharingPrice || doubleSharingPrice || quadSharingPrice) {
+            if (trippleSharingPrice || doubleSharingPrice || quadSharingPrice) {
               priceDetails = {
-                groupSharingPrice: groupSharingPrice || "N/A",
-                doubleSharingPrice: doubleSharingPrice || "N/A",
-                quadSharingPrice: quadSharingPrice || "N/A",
+                trippleSharingPrice: trippleSharingPrice || "0",
+                doubleSharingPrice: doubleSharingPrice || "0",
+                quadSharingPrice: quadSharingPrice || "0",
               };
               fallbackToSeason = false;
             }

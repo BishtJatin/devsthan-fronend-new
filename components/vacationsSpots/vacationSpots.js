@@ -67,7 +67,7 @@ const VacationSpots = ({ destinations }) => {
           responsive={responsive} 
           infinite 
           autoPlay={true} 
-          arrows 
+          arrows={false}
 
         >
           {destinations.length>0 && destinations && destinations?.slice(0, 8).map((dest) => (

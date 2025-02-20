@@ -33,17 +33,17 @@ const BannerInner = styled(Slider)`
   }
 `;
 
-const NextArrow = ({ onClick }) => (
-  <div className={`${styles["custom-arrow"]} ${styles["next-arrow"]}`} onClick={onClick}>
-    <MdOutlineArrowForwardIos />
-  </div>
-);
+// const NextArrow = ({ onClick }) => (
+//   <div className={`${styles["custom-arrow"]} ${styles["next-arrow"]}`} onClick={onClick}>
+//     <MdOutlineArrowForwardIos />
+//   </div>
+// );
 
-const PrevArrow = ({ onClick }) => (
-  <div className={`${styles["custom-arrow"]} ${styles["prev-arrow"]}`} onClick={onClick}>
-    <MdOutlineArrowBackIos />
-  </div>
-);
+// const PrevArrow = ({ onClick }) => (
+//   <div className={`${styles["custom-arrow"]} ${styles["prev-arrow"]}`} onClick={onClick}>
+//     <MdOutlineArrowBackIos />
+//   </div>
+// );
 
 const HomeBanner = ({ locations, homebanner }) => {
   const [viewport, setViewport] = useState("desktop");
@@ -66,8 +66,9 @@ const HomeBanner = ({ locations, homebanner }) => {
     autoplaySpeed: 10000, // Set autoplay interval (in milliseconds)
     speed: 500, // Transition speed
     fade: true, // Enable fade transition
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
+    // nextArrow: <NextArrow />,
+    // prevArrow: <PrevArrow />,
+    arrows:false,
   };
 
   useEffect(() => {

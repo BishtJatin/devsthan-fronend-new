@@ -50,7 +50,7 @@ const Meals = ({ itinerary }) => {
                   infinite
                   autoPlay={act.photos.length > 1}
                   autoPlaySpeed={5000}
-                  arrows
+                  arrows={false}
                 >
                   {act.photos.map((photo, idx) => (
                     <div key={idx} className={styles["carousel-item"]}>

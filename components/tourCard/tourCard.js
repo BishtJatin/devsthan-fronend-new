@@ -87,16 +87,18 @@ export default function TourCard({ duration, location, imageUrl, title, pricingD
           <div>
             <span className={styles['starting-price']}>{pricingDetails.seasonPrice}<span className={styles['starting']}>/per person</span></span>
           </div></>}
-          {pricingDetails.groupSharingPrice && (
-            <div className={styles['pricing']}>
-            <span className={styles['starting-from']}>Group Sharing Price: </span>
-           <span className={styles['starting-price']}>{pricingDetails.groupSharingPrice}<span className={styles['starting']}>/per person</span></span>
-           </div>  )}
-        {pricingDetails.doubleSharingPrice && (
+          {pricingDetails.doubleSharingPrice && (
           <div className={styles['pricing']}>
             <span className={styles['starting-from']}>Double Sharing Price:</span>
           <span className={styles['starting-price']}> {pricingDetails.doubleSharingPrice}<span className={styles['starting']}>/per person</span></span>
         </div>)}
+
+          {pricingDetails.trippleSharingPrice && (
+            <div className={styles['pricing']}>
+            <span className={styles['starting-from']}>Triple Sharing Price: </span>
+           <span className={styles['starting-price']}>{pricingDetails.trippleSharingPrice}<span className={styles['starting']}>/per person</span></span>
+           </div>  )}
+        
         {pricingDetails.quadSharingPrice && (
            <div className={styles['pricing']}>
             <span className={styles['starting-from']}>Quad Sharing Price:</span>

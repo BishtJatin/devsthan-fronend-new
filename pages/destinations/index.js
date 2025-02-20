@@ -9,7 +9,6 @@ const Destinations = ({ destinations,destinationsBanner }) => {
 
   const [viewport, setViewport] = useState("desktop");
 
- 
   const handleScrollParallax = () => {
     const parallaxImage = document.querySelector(`.${styles['parallax-image']}`);
     if (parallaxImage) {
@@ -47,7 +46,7 @@ const Destinations = ({ destinations,destinationsBanner }) => {
     const getBannerImages = () => {
       switch (viewport) {
         case "mobile":
-          return destinationsBanner?.data?.bannerUrls?.mobile || [];
+          return destinationsBanner?.data?.bannerUrls?.mobile[0] || [];
         case "tablet":
           return destinationsBanner?.data?.bannerUrls?.tablet || [];
         case "desktop":

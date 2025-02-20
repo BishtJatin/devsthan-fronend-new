@@ -105,7 +105,7 @@ export default function TravellerDetails() {
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = String(date.getFullYear()).slice(2); // Get the last two digits of the year
-    return `${day}/${month}/${year}`;
+    return `${day}${month}${year}`;
   };
 
   const handleDateChange = (date) => {
@@ -125,6 +125,8 @@ export default function TravellerDetails() {
       localStorage.setItem("departureDate", formattedDate);
     }
   };
+
+  const formattedDates = date.replace(/\/\//g, "/");
 
   // Custom Input Component for Date Picker
   const CustomInput = React.forwardRef(({ value, onClick }, ref) => (
@@ -652,7 +654,7 @@ export default function TravellerDetails() {
 
           <div className={styles["package-summary"]}>
             <div>
-              <span>Travel Date:</span> <strong>{date}</strong>
+              <span>Travel Date:</span> <strong>{formattedDates}</strong>
               <div className={styles["search-options-destination"]}>
                 <DatePicker
                   selected={selectedDate}

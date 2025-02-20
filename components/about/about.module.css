@@ -108,7 +108,9 @@
     padding: 20px;
     margin: 0 auto; /* Center container */
   }
-
+  .title{
+    font-size: 33px;
+  }
   .subtitle, .title, .button {
     text-align: center; /* Center-align specific elements */
   }

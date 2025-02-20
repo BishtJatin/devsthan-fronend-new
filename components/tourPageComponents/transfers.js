@@ -43,7 +43,7 @@ const Transfers = ({ itinerary }) => {
         infinite
         autoPlay={photos.length > 1}
         autoPlaySpeed={5000}
-        arrows
+        arrows={false}
     >
         {photos.map((photo, idx) => (
             <div key={idx} className={styles['carousel-item']}>

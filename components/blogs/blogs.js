@@ -65,7 +65,7 @@ const Blogs = ({ blogs }) => {
             infinite={true}
             autoPlay={isMobile} // Auto-play only on mobile
             autoPlaySpeed={3000}
-            arrows={true}
+            arrows={false}
           >
             {blogs.slice(0, 6).map((blog) => (
               <div key={blog.id}>

@@ -7,7 +7,7 @@ const destinationCard = ({ destination }) => {
         <>
             <Image src={destination.bannerImage} alt="Sweden" width={400} height={200} className={styles['grid-item-img']} />
             <div className={styles.overlay}>
-                <span className={styles.tourBadge}>{destination.tours.length} Tour</span>
+               {destination.tourCount <= 0  && !destination.tourCount? null : <span className={styles.tourBadge}>{destination.tourCount} Tour</span>} 
                 <div className={styles.textContainer}>
                     <span>Travel To</span>
                     <h3>{destination.location}</h3>

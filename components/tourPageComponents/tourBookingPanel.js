@@ -544,7 +544,7 @@ const TourBookingPanel = ({
     <>
       <div className={styles["tour-booking-panel-outer"]}>
         <div className={styles["tour-seasonsCard"]}>
-          <h1 className={styles["tour-seasonsCard-heading"]}>Choose Best Season & Price</h1>
+          <h1 className={styles["tour-seasonsCard-heading"]}>Choose Best <span> Season & Price </span> </h1>
 
           {/* Buttons for filtering by month */}
           <div className={styles["filter-buttons"]}>
@@ -585,7 +585,7 @@ const TourBookingPanel = ({
                 <div className={styles["seasonsCard-it"]}>
                   <p className={styles["seasonsCard-date"]}>
                     <strong>
-                      <IoLocationOutline style={{ color: "green" }} /> Starts
+                     <span> <IoLocationOutline style={{ color: "green" }} /> </span> Starts
                       Date{" "}
                     </strong>
                     <span>{formatDay(season.startDate)}</span>
@@ -594,7 +594,7 @@ const TourBookingPanel = ({
                   </p>
                   <p className={styles["seasonsCard-date"]}>
                     <strong>
-                      <IoLocationOutline style={{ color: "red" }} /> Ends Date{" "}
+                    <span> <IoLocationOutline style={{ color: "red" }} /> </span> Ends Date{" "}
                     </strong>
                     <span>{formatDay(season.endDate)}</span>
                     <span>{formatDate(season.endDate)}</span>
@@ -604,7 +604,7 @@ const TourBookingPanel = ({
                 <div className={styles["seasonsCard-its"]}>
                   <p>
                     <strong>₹{season.maxRoom.pricePerPerson}</strong> /per
-                    person
+                    p.p
                   </p>
                   <p>
                     <strong>Room:</strong> {season.maxRoom.room}
@@ -613,10 +613,12 @@ const TourBookingPanel = ({
                 <hr className={styles["seasonsCard-line"]} />
                 <div className={styles["seasonsCard-itss"]}>
                   <p>
+                    
+                      Total price for {season.maxRoom.maxP} pack is:
+                    {" "}
                     <strong>
-                      Total price for {season.maxRoom.maxP} people is:
-                    </strong>{" "}
-                    {season.maxRoom.price}
+                    {season.maxRoom.price}/₹
+                    </strong>
                   </p>
                 </div>
                 <hr className={styles["seasonsCard-line"]} />
@@ -644,8 +646,8 @@ const TourBookingPanel = ({
               <div className={styles["dialog-header"]}>
                 <div>
                   <h3>{name}</h3>
-                  <h4>Total Price: ₹{bookbutton.price.toFixed(2)}</h4>
-                  <h4>₹ {bookbutton.pricePerPerson}/per person</h4>
+                  <h4>Total Price: <span>₹{bookbutton.price.toFixed(2)}</span></h4>
+                  <h4><span>₹{bookbutton.pricePerPerson}</span>/per person</h4>
                   <div className={styles["dialog-row"]}>
                     <label>Number of Rooms</label>
                     <div className={styles["dialog-counter"]}>

@@ -269,6 +269,7 @@ const Itinerary = ({
           ref={tabsRef}
         >
           <div className={styles["day-plan-sidebar-days"]}>
+          <p className={styles["selectdate"]}>Select Date</p>
             <div className={styles["date-container"]}>
               <div className={styles["search-options-destination"]}>
                 {showDateTooltip && (
@@ -294,7 +295,7 @@ const Itinerary = ({
                   </div>
                 )}
              <>
-             <p className={styles["selectdate"]}>Select the date</p>
+            
                 <div
                  style={{
                   display: "inline-block", // Space around the DatePicker

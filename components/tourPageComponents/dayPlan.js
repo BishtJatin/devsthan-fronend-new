@@ -54,7 +54,7 @@ const DayPlan = ({ itinerary }) => {
               infinite
               autoPlay={itinerary.photos.length > 1}
               autoPlaySpeed={5000}
-              arrows
+              arrows={false}
             >
               {itinerary.photos.map((photo, index) => (
                 <div key={index} className={styles["carousel-item"]}>

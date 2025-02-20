@@ -260,8 +260,8 @@ const TourPage = ({ tourAllData,faqData,tourBanner }) => {
       <div className={styles["gallery"]}>
         <TourGallery
           duration={tourAllData[0].duration}
-          // images={bannerImages}
-          // bannerImage={bannerImages}
+          images={tourAllData[0].images}
+          bannerImage={tourAllData[0].bannerImage}
           tourBanner={tourBanner}
           name={tourAllData[0].name}
           state={tourAllData[0].state}
