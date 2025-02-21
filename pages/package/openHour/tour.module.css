@@ -1728,9 +1728,9 @@ padding: 10px 20px !important;
  
   }
   
-  .seasonsCard-line{
+  /* .seasonsCard-line{
     display: none;
-  }
+  } */
 
   .seasonsCard-item {
     width: 100%; /* Make each card take full width */

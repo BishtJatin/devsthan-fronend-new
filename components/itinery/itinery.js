@@ -301,6 +301,7 @@ const Itinerary = ({
                   display: "inline-block", // Space around the DatePicker
                   border: "3px solid transparent",
                   borderRadius: "8px",
+                  marginTop:"4px",
                   background:
                     "linear-gradient(white, white) padding-box, linear-gradient(45deg,  #6bff92, #6b92ff) border-box",
                   animation: "borderAnimation 4s linear infinite",

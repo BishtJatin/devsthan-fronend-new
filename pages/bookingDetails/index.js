@@ -694,10 +694,12 @@ export default function TravellerDetails() {
               </div>
             )}
 
+          {  cartData?.tourType == "openHours" &&
             <p>
               <span>No. of Rooms:</span>{" "}
               <strong>{cartData?.selectedRooms}</strong>
             </p>
+           }
             <p>
               <span>No. of Adults</span> <strong>{cartData?.adults}</strong>
             </p>

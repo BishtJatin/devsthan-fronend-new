@@ -189,6 +189,8 @@ max-width: 100%;
 
 }
 
+
+
 .day-details-dayheading {
   white-space: nowrap;
 }
@@ -581,7 +583,9 @@ max-width: 100%;
 
   .selectdate{
     font-size: 0.9rem;
-    margin-left: 15px;
+    margin-left: 10px;
+    margin-bottom: -9px;
+    margin-top: 5px;
   }
 
   .arrow{
