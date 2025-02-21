@@ -20,6 +20,7 @@
 .forget-password-link{
   margin-left: 345px;
   margin-bottom: 5px;
+  color:#17567E;
 }
 
 
@@ -107,7 +108,7 @@
   cursor: pointer;
 
   white-space: nowrap;
-  background-color: #63ab45;
+  background-color: #17567E;
   padding: 10px 10px;
 
   color: white;

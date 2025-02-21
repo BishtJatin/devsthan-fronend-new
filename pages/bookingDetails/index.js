@@ -575,7 +575,7 @@ export default function TravellerDetails() {
                 }
               />
             </label>
-            <label style={{ marginLeft: "10px" }}>
+            <label >
               Last Name:
               <input
                 type="text"
