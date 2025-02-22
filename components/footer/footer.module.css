@@ -407,7 +407,7 @@ color: white;
 }
 
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 350px) {
   .app-download1 {
     text-align: center;
     padding: 10px 30px;
