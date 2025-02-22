@@ -864,12 +864,28 @@ padding: 10px 20px !important;
   background-color: white;
   margin: 20px 0;
 }
-
 .tab-active {
-  border-bottom: 3px solid #17567E !important;
-  color: #17567E;
+  border-radius: 20px;
+  border: 1px solid #17567e !important;
+  color: #17567e !important;
+  white-space: nowrap;
 
 }
+
+.exclusions h2 {
+  text-align: center;
+ 
+  color: white;
+  margin-bottom: 25px;
+}
+
+.exclusions h2 span {
+ text-align: center;
+ background-color: #17567e;
+ color: white;
+ padding: 5px;
+}
+
 
 .tab-panel {
   display: flex;
@@ -911,6 +927,19 @@ padding: 10px 20px !important;
 }
 .policies > h2{
   margin-block: 10px;
+  text-align: center;
+  color: white;
+  margin: 25px;
+  /* max-width: 270px; */
+  /* padding-left: 5px; */
+}
+
+.policies h2 span{
+  
+  background-color: #17567E;
+  color: white;
+  /* max-width: 270px; */
+  padding: 8px;
 }
 .tour-booking-button-pannel {
   padding: 20px;
@@ -1251,8 +1280,20 @@ margin-bottom: 10px;
 }
 
 
-.summary h2 {
-  margin-bottom: 2%;
+.summary .summary-heading{
+  margin-bottom: 25px;
+ 
+  color: #fff;
+  /* max-width: 160px; */
+  padding-left: 20px;
+  text-align: center;
+  /* margin: 10px 100px; */
+}
+
+.summary-heading h2 {
+  background-color: #17567e;
+  display: inline-block; /* Shrinks the width to fit the text */
+  padding: 5px 10px; /* Add some padding if needed */
 }
 
 .success-message p {
@@ -1295,8 +1336,10 @@ margin-bottom: 10px;
   .tour-main {
     margin-top: -40px;
   }
-  .policies{
-    padding-left:5%;
+  .policies > h2{
+    font-size: medium;
+    /* max-width: 270px; */
+    /* padding-left: 5px; */
   }
   .summary {
     padding-left:5%;

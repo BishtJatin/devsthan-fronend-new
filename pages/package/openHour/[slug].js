@@ -11,14 +11,15 @@ import { apiCall } from "../../../utils/common";
 import { useRouter } from "next/router";
 import Itinerary from "../../../components/itinery/itinery";
 import Loader from "../../../components/loader/loader";
-
+import { toast, ToastContainer } from "react-toastify";
 import { PiArrowBendLeftDownBold } from "react-icons/pi";
 import FAQ from "../../../components/faq/faq";
+import TourBookingPanelMobile from "../../../components/tourPageComponents/tourBookingPanelMobile";
 
-const TourPage = ({ tourAllData,faqData,tourBanner }) => {
+const TourPage = ({ tourAllData, faqData, tourBanner }) => {
   const [selectedCategory, setSelectedCategory] = useState("standardDetails");
   const [activeTab, setActiveTab] = useState("Itinerary");
-   
+  const [storedUUID, setStoredUUID] = useState();
 
   console.log(tourAllData);
 
@@ -28,7 +29,13 @@ const TourPage = ({ tourAllData,faqData,tourBanner }) => {
   const [lastScrollPos, setLastScrollPos] = useState(0);
   const tabsRef = useRef(null);
   const [isClicked, setIsClicked] = useState(false);
-
+  const [formData, setFormData] = useState({
+    fullName: "",
+    phone: "",
+    email: "",
+    message: "",
+  });
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
 
   const itineraryRef = useRef(null);
   const policiesRef = useRef(null);
@@ -74,13 +81,27 @@ const TourPage = ({ tourAllData,faqData,tourBanner }) => {
     setActiveTab(tab);
   };
 
-  const [formData, setFormData] = useState({
-    fullName: "",
-    phone: "",
-    email: "",
-    message: "",
-  });
-  const [loadingSubmit, setLoadingSubmit] = useState(false);
+  //  useEffect(() => {
+  //     if (tourAllData[0].uuid) {
+  //       setStoredUUID(tourAllData[0].uuid);
+  //     }
+  //   }, [tourAllData[0].uuid]);
+
+  //   // Synchronize formData.uuid with storedUUID
+  //   useEffect(() => {
+  //     setFormData((prevData) => ({
+  //       ...prevData,
+  //       uuid: storedUUID,
+  //     }));
+  //   }, [storedUUID]);
+  //   const handleChange = (e) => {
+  //     const { name, value } = e.target;
+
+  //     setFormData((prevData) => ({
+  //       ...prevData,
+  //       [name]: value,
+  //     }));
+  //   };
 
   // API call function
   const apiCall = async ({ endpoint, method, body }) => {
@@ -96,45 +117,39 @@ const TourPage = ({ tourAllData,faqData,tourBanner }) => {
   };
 
   // Handle form submit
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      setLoadingSubmit(true);
+  // const handleSubmit = async (e) => {
+  //    e.preventDefault();
+  //    try {
+  //      setLoadingSubmit(true);
+  //      const createInquiry = await apiCall({
+  //        endpoint: "/api/createInquiry",
+  //        method: "POST",
+  //        body: formData,
+  //      });
 
-      // API request to submit inquiry
-      const createInquiry = await apiCall({
-        endpoint: "/api/createInquiry", // Replace with your API endpoint
-        method: "POST",
-        body: formData, // Sending the form data
-      });
-
-      if (createInquiry.success) {
-        toast.success("Inquiry submitted successfully!");
-        setFormData({
-          fullName: "",
-          phone: "",
-          email: "",
-          message: "",
-        });
-      } else {
-        toast.error("Error submitting inquiry. Please try again later.");
-      }
-    } catch (error) {
-      console.error("Error submitting inquiry:", error);
-      toast.error("An unexpected error occurred.");
-    } finally {
-      setLoadingSubmit(false);
-    }
-  };
+  //      if (createInquiry.success) {
+  //        toast.success("Inquiry submitted successfully!");
+  //        // Clear the form data
+  //        setFormData({ fullName: '', phone: '', email: '', message: '' });
+  //      } else {
+  //        toast.error("Error submitting inquiry. Please try again later.");
+  //      }
+  //    } catch (error) {
+  //      console.error("Error submitting inquiry:", error);
+  //      toast.error("Error submitting inquiry. Please try again later.");
+  //    } finally {
+  //      setLoadingSubmit(false);
+  //    }
+  //  };
 
   // Handle form field changes
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     [name]: value,
+  //   }));
+  // };
 
   const handleTooltipDone = () => {
     setShowTooltip(false);
@@ -206,8 +221,6 @@ const TourPage = ({ tourAllData,faqData,tourBanner }) => {
     }
   }, [activeTab]); // Runs this effect whenever activeTab changes
 
-    
-
   const categoryDetails =
     selectedCategory === "standardDetails"
       ? tourAllData[0].standardDetails
@@ -264,6 +277,7 @@ const TourPage = ({ tourAllData,faqData,tourBanner }) => {
           bannerImage={tourAllData[0].bannerImage}
           tourBanner={tourBanner}
           name={tourAllData[0].name}
+          groupSize={tourAllData[0].groupSize}
           state={tourAllData[0].state}
           city={tourAllData[0].city}
           location={tourAllData[0].location}
@@ -276,19 +290,25 @@ const TourPage = ({ tourAllData,faqData,tourBanner }) => {
             ref={tabsRef}
           >
             <button
-              className={activeTab === "Itinerary" ? styles["tab-active"] : ""}
+              className={`${
+                activeTab === "Itinerary" ? styles["tab-active"] : ""
+              }`}
               onClick={() => handleTabChange("Itinerary")}
             >
               Itinerary
             </button>
             <button
-              className={activeTab === "Policies" ? styles["tab-active"] : ""}
+              className={`${
+                activeTab === "Policies" ? styles["tab-active"] : ""
+              }`}
               onClick={() => handleTabChange("Policies")}
             >
               Policies
             </button>
             <button
-              className={activeTab === "Summary" ? styles["tab-active"] : ""}
+              className={`${
+                activeTab === "Summary" ? styles["tab-active"] : ""
+              }`}
               onClick={() => handleTabChange("Summary")}
             >
               Summary
@@ -391,7 +411,7 @@ const TourPage = ({ tourAllData,faqData,tourBanner }) => {
                       </div>
                     </div>
                   )} */}
-                  
+
                   <select
                     id="category-select"
                     value={selectedCategory}
@@ -416,10 +436,8 @@ const TourPage = ({ tourAllData,faqData,tourBanner }) => {
                       <option value="premiumDetails">Premium</option>
                     )}
                   </select>
-               
                 </div>
               </div>
-             
             )}
             {activeTab === "Itinerary" && (
               <div ref={itineraryRef}>
@@ -434,7 +452,9 @@ const TourPage = ({ tourAllData,faqData,tourBanner }) => {
 
             {activeTab === "Policies" && (
               <div ref={policiesRef} className={styles["policies"]}>
-                <h2>Cancellation Policies</h2>
+                <h2>
+                  <span>Cancellation Policies</span>
+                </h2>
                 <p
                   style={{ paddingLeft: "18px", paddingRight: "18px" }}
                   dangerouslySetInnerHTML={{
@@ -444,7 +464,9 @@ const TourPage = ({ tourAllData,faqData,tourBanner }) => {
                   }}
                 ></p>
 
-                <h2>Know before you go</h2>
+                <h2>
+                  <span>Know before you go</span>
+                </h2>
 
                 <div>
                   {Array.isArray(tourAllData[0].knowBeforeYouGo) ? (
@@ -469,135 +491,105 @@ const TourPage = ({ tourAllData,faqData,tourBanner }) => {
               </div>
             )}
 
-{activeTab === "Summary" && (
-  <div ref={summaryRef} className={styles["summary"]}>
-    <h2>Highlights</h2>
-    {categoryDetails?.highlights ? (
-      <ol className={styles["highlights"]}>
-        <li
-          dangerouslySetInnerHTML={{
-            __html: categoryDetails.highlights || "No highlights available.",
-          }}
-        />
-      </ol>
-    ) : (
-      <p>No highlights available.</p>
-    )}
+            {activeTab === "Summary" && (
+              <div ref={summaryRef} className={styles["summary"]}>
+                <div className={styles["summary-heading"]}>
+                  <h2>Highlights</h2>
+                </div>
+                {categoryDetails?.highlights ? (
+                  <ol className={styles["highlights"]}>
+                    <li
+                      dangerouslySetInnerHTML={{
+                        __html:
+                          categoryDetails.highlights ||
+                          "No highlights available.",
+                      }}
+                    />
+                  </ol>
+                ) : (
+                  <p>No highlights available.</p>
+                )}
 
-    <div className={styles["details-container"]}>
-      <div className={styles["inclusions"]}>
-        <h2>Inclusions</h2>
-        {categoryDetails?.whatsIncluded ? (
-          <ol>
-            <li
-              dangerouslySetInnerHTML={{
-                __html:
-                  categoryDetails.whatsIncluded || "No inclusions available.",
-              }}
-            />
-          </ol>
-        ) : (
-          <p>No inclusions available.</p>
-        )}
-      </div>
-      <div className={styles["exclusions"]}>
-        <h2>Exclusions</h2>
-        {categoryDetails?.whatsExcluded ? (
-          <ol>
-            <li
-              dangerouslySetInnerHTML={{
-                __html:
-                  categoryDetails.whatsExcluded || "No exclusions available.",
-              }}
-            />
-          </ol>
-        ) : (
-          <p>No exclusions available.</p>
-        )}
-      </div>
-    </div>
-  </div>
-)}
-
-
-
-<div className={styles["faq"]}><FAQ
-        faqData={faqData}
-        /></div>
-            {isSmallScreen && (
-              <div className={styles["tour-booking-panel"]}>
-                <p className={styles["panel-heading"]}>Book Your Tour</p>
-                <p className={styles["panel-des"]}>
-                  Reserve your ideal trip early for a hassle-free trip; secure
-                  comfort and convenience!
-                </p>
-                <form className={styles.inquiryForm} onSubmit={handleSubmit}>
-                  <label>Full Name</label>
-                  <input
-                    type="text"
-                    name="fullName"
-                    value={formData.fullName}
-                    onChange={handleChange}
-                    minLength="2"
-                    required
-                  />
-
-                  <label>Phone</label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    required
-                    pattern="\d{10}"
-                    title="Phone must be a 10-digit number"
-                  />
-
-                  <label>Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                  />
-
-                  <label>Message</label>
-                  <input
-                    type="text"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                  />
-
-                  {loadingSubmit ? (
-                    <Loader /> // Displaying the loader component while submitting
-                  ) : (
-                    <button type="submit">Submit</button>
-                  )}
-                </form>
+                <div className={styles["details-container"]}>
+                  <div className={styles["inclusions"]}>
+                    <div className={styles["summary-heading"]}>
+                      {" "}
+                      <h2>Inclusions</h2>{" "}
+                    </div>
+                    {categoryDetails?.whatsIncluded ? (
+                      <ol>
+                        <li
+                          dangerouslySetInnerHTML={{
+                            __html:
+                              categoryDetails.whatsIncluded ||
+                              "No inclusions available.",
+                          }}
+                        />
+                      </ol>
+                    ) : (
+                      <p>No inclusions available.</p>
+                    )}
+                  </div>
+                  <div className={styles["exclusions"]}>
+                    <h2>
+                      <span>Exclusions</span>
+                    </h2>
+                    {categoryDetails?.whatsExcluded ? (
+                      <ol>
+                        <li
+                          dangerouslySetInnerHTML={{
+                            __html:
+                              categoryDetails.whatsExcluded ||
+                              "No exclusions available.",
+                          }}
+                        />
+                      </ol>
+                    ) : (
+                      <p>No exclusions available.</p>
+                    )}
+                  </div>
+                </div>
               </div>
             )}
-            
+
+            <div className={styles["faq"]}>
+              <FAQ faqData={faqData} />
+            </div>
+            <ToastContainer />
+            {isSmallScreen && (
+              <TourBookingPanelMobile
+                duration={tourAllData[0].duration}
+                category={selectedCategory}
+                state={tourAllData[0].state}
+                city={tourAllData[0].city}
+                location={tourAllData[0].location}
+                name={tourAllData[0].name}
+                availability={tourAllData.availability}
+                uuid={tourAllData[0].uuid}
+                categoryDetails={categoryDetails}
+                date={tourAllData[0].date}
+                partialPayment={tourAllData[0].partialPayment}
+                seasons={categoryDetails.seasons}
+              />
+            )}
           </div>
-          
+
           <TourBookingPanel
-            duration={tourAllData[0].duration}
+            minPeople={tourAllData[0]?.minPeople}
+            duration={tourAllData[0]?.duration}
             category={selectedCategory}
-            state={tourAllData[0].state}
-            city={tourAllData[0].city}
-            location={tourAllData[0].location}
-            name={tourAllData[0].name}
+            state={tourAllData[0]?.state}
+            city={tourAllData[0]?.city}
+            location={tourAllData[0]?.location}
+            name={tourAllData[0]?.name}
             availability={tourAllData.availability}
-            uuid={tourAllData[0].uuid}
+            uuid={tourAllData[0]?.uuid}
             categoryDetails={categoryDetails}
-            date={tourAllData[0].date}
-            partialPayment={tourAllData[0].partialPayment}
+            date={tourAllData[0]?.date}
+            partialPayment={tourAllData[0]?.partialPayment}
             seasons={categoryDetails.seasons}
           />
         </div>
-        
       </div>
     </>
   );
@@ -631,7 +623,6 @@ export async function getStaticPaths() {
     };
   }
 }
-
 
 export async function getStaticProps({ params }) {
   try {
@@ -674,13 +665,13 @@ export async function getStaticProps({ params }) {
     });
 
     return {
-      props: { tourAllData, faqData,tourBanner },
+      props: { tourAllData, faqData, tourBanner },
       revalidate: 600,
     };
   } catch (error) {
     console.error("Error fetching tour data:", error);
     return {
-      props: { tourAllData: null, faqData: null, tourBanner:null },
+      props: { tourAllData: null, faqData: null, tourBanner: null },
       notFound: true,
     };
   }

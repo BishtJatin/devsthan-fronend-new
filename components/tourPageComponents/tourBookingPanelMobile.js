@@ -33,7 +33,7 @@ const formatDay = (dateString) => {
   return `${dayOfWeek} `; // Combining both
 };
 
-const TourBookingPanel = ({
+const TourBookingPanelMobile = ({
   uuid,
   categoryDetails,
   name,
@@ -41,7 +41,6 @@ const TourBookingPanel = ({
   category,
   partialPayment,
   seasons,
-  minPeople,
 }) => {
   const [storedUUID, setStoredUUID] = useState();
   const [isLoadingBook, setIsLoadingBook] = useState(false);
@@ -321,57 +320,41 @@ const TourBookingPanel = ({
     setBookButton((prev) => {
       let newAdults = prev.adults;
       let newChildren = prev.children;
-  
+
       // Find the selected season
       const selectedS = seasons.find((season) => season._id === selectedSeason);
       if (!selectedS) return prev; // Prevent errors if season not found
-  
+
       // Get the max person limit from the pricing array
       const maxPerson = Math.max(
         ...selectedS.pricing.map((p) => p.person || 0)
       ); // Max valid person count
-  
-      // Get the minimum people constraint from the API
-      const minPeoples = minPeople || { enabled: false, people: 0 };
-  
+
       let totalPersons = prev.adults + prev.children;
-  
+
       if (type === "adults") {
         if (operation === "increase" && totalPersons < maxPerson) {
           newAdults += 1;
-        } else if (
-          operation === "decrease" &&
-          newAdults > 1 &&
-          (!minPeoples.enabled || totalPersons - 1 >= minPeoples.people)
-        ) {
+        } else if (operation === "decrease" && newAdults > 1) {
           newAdults -= 1;
         }
       } else if (type === "children") {
         if (operation === "increase" && totalPersons < maxPerson) {
           newChildren += 1;
-        } else if (
-          operation === "decrease" &&
-          newChildren > 0 &&
-          (!minPeoples.enabled || totalPersons - 1 >= minPeoples.people)
-        ) {
+        } else if (operation === "decrease" && newChildren > 0) {
           newChildren -= 1;
         }
       }
-  
+
       // Update total persons
       totalPersons = newAdults + newChildren;
-  
-      // Prevent reducing totalPersons below minPeople.people
-      if (minPeople.enabled && totalPersons < minPeople.people) {
-        return prev; // Return previous state if totalPersons goes below minPeople.people
-      }
-  
+
       // Find matching pricing, but do not exceed maxPerson
       let matchedPricing =
         selectedS.pricing.find((p) => p.person === totalPersons) ||
         prev.matchedPricing ||
         {};
-  
+
       return calculateUpdatedPrice(
         {
           ...prev,
@@ -383,8 +366,6 @@ const TourBookingPanel = ({
       );
     });
   };
-  
-  
 
   const handlePaymentChange = (option) => {
     setPaymentOption(option);
@@ -564,228 +545,13 @@ const TourBookingPanel = ({
   return (
     <>
       <div className={styles["tour-booking-panel-outer"]}>
-        <div className={styles["tour-seasonsCard-main"]}>
-          
-          <h1 className={styles["tour-seasonsCard-heading"]}><span>Choose Best Season & Price  </span> </h1>
-          
-          {/* Buttons for filtering by month */}
-          <div className={styles["filter-buttons"]}>
-            <button
-              className={`${styles["filter-button"]} ${
-                selectedMonth === "All"
-                  ? styles["active-button"]
-                  : styles["inactive-button"]
-              }`}
-              onClick={() => handleMonthClick("All")}
-            >
-              All
-            </button>
-            {uniqueMonths.map((month) => (
-              <button
-                key={month}
-                className={`${styles["filter-button"]} ${
-                  selectedMonth === month.toString()
-                    ? styles["active-button"]
-                    : styles["inactive-button"]
-                }`}
-                onClick={() => handleMonthClick(month.toString())}
-              >
-                {new Date(0, month - 1).toLocaleString("default", {
-                  month: "short",
-                })}
-              </button>
-            ))}
-          </div>
-          <div className={styles["tour-seasonsCard"]}>
-          <div className={styles["seasonsCard"]}>
-            {filteredSeasons.map((season, index) => (
-              <div key={season._id} className={styles["seasonsCard-item"]}>
-                <h3 className={styles["seasonsCard-item-heading"]}>
-                  {season.seasonName}
-                </h3>
-                <hr className={styles["seasonsCard-line"]} />
-                <div className={styles["seasonsCard-it"]}>
-                  <p className={styles["seasonsCard-date"]}>
-                    <strong>
-                     <span> <IoLocationOutline style={{ color: "green" }} /> </span>Season Start
-                      {" "}
-                    </strong>
-                    <span>{formatDay(season.startDate)}</span>
-                    <span>{formatDate(season.startDate)}</span>
-                    
-                  </p>
-                  <p className={styles["seasonsCard-date"]}>
-                    <strong>
-                    <span> <IoLocationOutline style={{ color: "red" }} /> </span>Season Ends{" "}
-                    </strong>
-                    <span>{formatDay(season.endDate)}</span>
-                    <span>{formatDate(season.endDate)}</span>
-                  </p>
-                </div>
-                <hr className={styles["seasonsCard-line"]} />
-                <div className={styles["seasonsCard-its"]}>
-                  <p>
-                    <strong>₹{season.maxRoom.pricePerPerson}</strong> /per
-                    p.p
-                  </p>
-                  <p>
-                    <strong>Room:</strong> {season.maxRoom.room}
-                  </p>
-                </div>
-                <hr className={styles["seasonsCard-line"]} />
-                <div className={styles["seasonsCard-itss"]}>
-                  <p>
-                    
-                      Total price for {season.maxRoom.maxP} pack is:
-                    {" "}
-                    <strong>
-                    {season.maxRoom.price}/₹
-                    </strong>
-                  </p>
-                </div>
-                <hr className={styles["seasonsCard-line"]} />
-                <button
-                  className={styles["tour-booking-button-normal"]}
-                  onClick={() => callbutton(index, season._id)}
-                >
-                  Book Now
-                </button>
-              </div>
-            ))}
-          </div>
-          </div>
-        </div>
-
-        {console.log(paymentOption == "partial")}
-        {showDialouge && (
-          <div className={styles["dialog-overlay"]}>
-            <div className={styles["dialog-box"]}>
-              <button
-                className={styles["dialog-close"]}
-                onClick={() => setShowDialouge(false)}
-              >
-                &times;
-              </button>
-              <div className={styles["dialog-header"]}>
-                <div>
-                  <h3>{name}</h3>
-                  <h4>Total Price: <span>₹{bookbutton.price.toFixed(2)}</span></h4>
-                  <h4><span>₹{bookbutton.pricePerPerson}</span>/per person</h4>
-                  <div className={styles["dialog-row"]}>
-                    <label>Number of Rooms</label>
-                    <div className={styles["dialog-counter"]}>
-                      <span>{bookbutton.room}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* <div className={styles["dialog-details"]}>
-                  <span className={styles["dialog-badge"]}>{${duration}D / ${duration - 1}N}</span>
-                </div> */}
-               
-
-                <ToastContainer position="top-right" autoClose={3000} />
-              </div>
-              {/* Payment Options */}
-              <div className={styles["payment-options"]}>
-                <label>
-                  <input
-                    type="radio"
-                    name="payment"
-                    value="default"
-                    checked={paymentOption === "default"}
-                    onChange={() => handlePaymentChange("default")}
-                  />
-                  Default Payment
-                </label>
-
-                {partialPayment.enabled ? (
-                  <label>
-                    <input
-                      type="radio"
-                      name="payment"
-                      value="partial"
-                      checked={paymentOption === "partial"}
-                      onChange={() => handlePaymentChange("partial")}
-                    />
-                    Partial Payment
-                  </label>
-                ) : null}
-              </div>
-              <div className={styles["dialog-content"]}>
-                <div className={styles["button-fix"]}> 
-              <div className={styles["search-options-destination"]}>
-               <DatePicker
-                                  selected={selectedDate}
-                                  onChange={handleDateChange}
-                                  dateFormat="dd/MM/yyyy"
-                                  minDate={new Date()} // Disables all dates before today
-                                  className={styles["custom-datepicker-input"]}
-                                />
-                </div>
-                <div>
-                  {isLoadingBook ? (
-                    <Loader />
-                  ) : (
-                    <button
-                      className={styles["dialog-button-primary"]}
-                      onClick={handleBookNow}
-                    >
-                      Book Now
-                    </button>
-                  )}
-                </div>
-                </div>
-                <div className={styles["dialog-room-section"]}>
-                  <div className={styles["dialog-row"]}>
-                    <label>Adult</label>
-                    <div className={styles["dialog-counter"]}>
-                      <button
-                        onClick={() => handlePersonChange("adults", "decrease")}
-                      >
-                        -
-                      </button>
-                      <span>{bookbutton?.adults || 1}</span>
-                      <button
-                        onClick={() => handlePersonChange("adults", "increase")}
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Children Counter */}
-                  <div className={styles["dialog-row"]}>
-                    <label>Children</label>
-                    <div className={styles["dialog-counter"]}>
-                      <button
-                        onClick={() =>
-                          handlePersonChange("children", "decrease")
-                        }
-                      >
-                        -
-                      </button>
-                      <span>{bookbutton?.children || 0}</span>
-                      <button
-                        onClick={() =>
-                          handlePersonChange("children", "increase")
-                        }
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
+        {/*  */}
+     
         {/* {showCustomizeDialog && (
           <CustomizedQuery uuid={uuid} handleClose={close} />
         )} */}
         <ToastContainer />
-        {isLargeScreen && (
+         
           <div className={styles["tour-booking-panel"]}>
             <p className={styles["panel-heading"]}>Book Your Tour</p>
             <p className={styles["panel-des"]}>
@@ -837,10 +603,10 @@ const TourBookingPanel = ({
               )}
             </form>
           </div>
-        )}
+      
       </div>
     </>
   );
 };
 
-export default TourBookingPanel;
+export default TourBookingPanelMobile;

@@ -10,7 +10,7 @@ const destinationCard = ({ destination }) => {
                {destination.tourCount <= 0  && !destination.tourCount? null : <span className={styles.tourBadge}>{destination.tourCount} Tour</span>} 
                 <div className={styles.textContainer}>
                     <span>Travel To</span>
-                    <h3>{destination.location}</h3>
+                    <h3>{destination?.title}</h3>
                 </div>
 
             </div>

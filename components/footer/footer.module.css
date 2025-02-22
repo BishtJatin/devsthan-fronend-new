@@ -91,12 +91,15 @@ color: white;
   
   .quick-links li {
     margin-bottom: 5px;
+    -webkit-text-stroke: 0.4px white;
+    -webkit-text-fill-color:#17567E;
     color: #17567E;
-   
+    font-weight: bold; /* Optional: to make the outline more prominent */
+    text-shadow: none; 
   }
   .li{
     text-decoration: none;
-    color: white;
+    /* color: white; */
   }
   
   .payment-icons span {
@@ -348,8 +351,6 @@ color: white;
 .social-links{
   margin-left: 20px;/* Optional: Light background color */ /* Optional: Space between items */
   }
-}
-@media screen and (max-width: 450px) {
   .app-download1 {
     text-align: center;
     padding: 10px 49px;
@@ -360,6 +361,9 @@ color: white;
     margin: 10px auto;
     margin-top: 30px;
   }
+}
+@media screen and (max-width: 450px) {
+  
 .title1 {
     font-size: 1.1rem;
   }
@@ -402,3 +406,19 @@ color: white;
   }
 }
 
+
+@media screen and (max-width: 320px) {
+  .app-download1 {
+    text-align: center;
+    padding: 10px 30px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    max-width: 350px ;
+    margin: 10px auto;
+    margin-top: 30px;
+  }
+  .social-links{
+    margin-left: -12px;/* Optional: Light background color */ /* Optional: Space between items */
+    }
+}

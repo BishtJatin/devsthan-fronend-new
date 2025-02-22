@@ -92,7 +92,7 @@ const HomeBanner = ({ locations, homebanner }) => {
 
   useEffect(() => {
     const updateViewports = () => {
-      if (window.matchMedia("(max-width: 470px)").matches) {
+      if (window.matchMedia("(max-width: 540px)").matches) {
         setViewports("mobile");
       } else if (window.matchMedia("(max-width: 1024px)").matches) {
         setViewports("tablet");

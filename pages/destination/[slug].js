@@ -280,7 +280,7 @@ const Destination = ({ destinationData, destinationBanner }) => {
       </header>
       <div className={styles.container}>
         <section className={styles.mainContent}>
-          <h1>Welcome To {destinationData.location}</h1>
+          <h1>Welcome To {destinationData.title}</h1>
           <p>
             {destinationData.description}
           </p>
