@@ -619,9 +619,7 @@
     padding: 10px;
     border: none;
     cursor: pointer;
-    margin: 10 auto;
-   
-    
+    margin: 10px auto;  
 }
 @media screen and (max-width: 1040px){
 
