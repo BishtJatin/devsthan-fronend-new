@@ -9,10 +9,11 @@ import { FaCar } from "react-icons/fa";
 import { MdLocalDrink } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
 import Loader from '../loader/loader'; // Assuming loader is a component or image
+import { MdGroups2 } from "react-icons/md";
 
 import { useRouter } from 'next/router';
 
-export default function TourCard({ duration, location, imageUrl, title, pricingDetails, uuid, data ,tourType}) {
+export default function TourCard({ duration, location, imageUrl, title, pricingDetails, uuid, data ,tourType,groupSize}) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -41,7 +42,7 @@ export default function TourCard({ duration, location, imageUrl, title, pricingD
       <div className={styles['image-container']} onClick={handleGoToTour}>
         <Image src={imageUrl} alt={location} width={350} height={200} className={styles['image']} />
         <div className={styles['tag']}>
-          <span className={styles['duration']}>{`${duration - 1} Nights / ${duration} Days`}</span>
+          <span className={styles['duration']}>{`${duration - 1} N / ${duration} D`}<MdGroups2 className={styles["icon"]} /> {groupSize}</span>
           <span className={styles['location']}><FaLocationDot className={styles['location-icon']} />{location}</span>
         </div>
       </div>

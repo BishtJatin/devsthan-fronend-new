@@ -76,7 +76,8 @@ const ToursList = ({ tourData }) => {
 
           return (
             <TourCard
-              key={data.uuid} // Add a unique key for each child in a list
+              key={data.uuid}
+              groupSize={tourData[0]?.groupSize} // Add a unique key for each child in a list
               data={data}
               duration={data.duration}
               location={data.location}

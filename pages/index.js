@@ -15,7 +15,7 @@ import EnquiryPopup from "../components/enquiryPopup";
 
 export default function Home({ tourData, destinations,locations,whyChoose,blogs,homebanner ,tourFixData}) {
 
-  console.log(tourFixData);
+  console.log(tourData);
   
   return (
     <> <Head>

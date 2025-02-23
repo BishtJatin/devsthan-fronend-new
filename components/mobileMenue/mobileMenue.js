@@ -84,7 +84,7 @@ const MobileMenu = ({ isOpen, toggleMenu, isLoggedIn }) => {
                    
                 </li>
             <button className={styles["customized-query-button"]} onClick={toggleQueryForm}>
-            Customized Query
+            Customize Tour
           </button>
             </ul>
 

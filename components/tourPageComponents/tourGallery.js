@@ -52,12 +52,12 @@ const TourGallery = ({
   </span>
   <span className={`${styles["location"]} ${styles["icon-text"]}`}>
     <MdOutlineLocationOn className={styles["icon"]} />
-    {location}
+   <span className={styles["icon-location"]} >{location}</span> 
   </span>
-  <span className={`${styles["group-size"]} ${styles["icon-text"]}`}>
+{groupSize &&  <span className={`${styles["group-size"]} ${styles["icon-text"]}`}>
     <MdGroups2 className={styles["icon"]} />
     {groupSize}
-  </span>
+  </span>}
 </div>
 
       </div>

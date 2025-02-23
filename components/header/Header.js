@@ -132,7 +132,7 @@ const Header = () => {
 
           {/* Button to trigger CustomizedQuery form */}
           <button className={styles["customized-query-button"]} onClick={toggleQueryForm}>
-            Customized Query
+            Customize Tour
           </button>
 
           {/* Hamburger Menu */}

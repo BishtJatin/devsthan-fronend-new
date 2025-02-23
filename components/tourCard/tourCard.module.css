@@ -95,6 +95,9 @@
 .duration {
   padding: 0.5rem;
   background: black;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .pricing {
@@ -169,6 +172,13 @@
 .tour-hotel:hover {
   transform: scale(1.05);
   color: #17567E;
+}
+
+
+
+.icon {
+  font-size: 1.2rem;
+  color: white;
 }
 
 .tour-hotel svg {
