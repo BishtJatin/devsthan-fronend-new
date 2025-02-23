@@ -1,0 +1,388 @@
+.container {
+    display: flex;
+
+    max-width: 1350px;
+    margin-inline: auto;
+  }
+  .sidebar {
+    width: 300px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-right: 1px solid #ddd;
+  }
+
+  .editButton {
+  background-color: #17567E; /* Primary blue color */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.editButton:hover {
+  background-color: #17567E; /* Darker blue for hover */
+  transform: scale(1.05); /* Slight zoom on hover */
+}
+
+  .menuList {
+    list-style: none;
+    padding: 0;
+  }
+  .icon{
+    display: flex;
+    font-size: 22px;
+    color: #17567E;
+  }
+  .menuItem {
+    padding: 15px 20px;
+    margin: 5px 0;
+    cursor: pointer;
+    display: flex
+    ;
+        gap: 10px;
+        align-items: center;
+    border-radius: 5px;
+    transition: background 0.3s;
+  }
+  .menuItem:hover {
+    background-color: #eaeaea;
+  }
+  .active {
+    background-color: #d1d1d1;
+
+    font-weight: bold;
+    border-left: 5px solid #17567E;
+  }
+  .mainContent {
+    flex: 1;
+    padding: 20px;
+  }
+  .profileCard {
+    display: flex;
+
+    flex-direction: column;
+    align-items: flex-start;
+
+    gap: 20px;
+    padding: 60px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  .avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #ddd;
+  }
+  .userInfo {
+    flex: 1;
+  }
+  .userName {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .verifiedIcon {
+    color: blue;
+  }
+  .userDetail {
+    margin: 5px 0;
+  }
+  .editIcon {
+    cursor: pointer;
+  }
+  .cancelButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #d9534f; /* Red color for cancel button */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .cancelButton:hover {
+    background-color: #c9302c; /* Darker red on hover */
+  }
+  
+  .cancelButton:disabled {
+    background-color: #cccccc; /* Grey for disabled state */
+    color: #666666;
+    cursor: not-allowed;
+  }
+  
+  .bookedTours {
+    padding: 20px;
+    height: 600px;
+    overflow-y: scroll;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .bookedTours h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .bookedTours ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .bookedTours .tourItem {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .bookedTours .tourItem:last-child {
+    border-bottom: none;
+  }
+  
+  .bookedTours .tourTitle {
+    font-weight: bold;
+    color: #007bff;
+  }
+  
+  .bookedTours .tourDetail {
+    font-weight: 500;
+    color: #555;
+  }
+  
+  .bookedTours .noTours {
+    padding: 10px;
+    color: #777;
+    font-style: italic;
+  }
+  /* Assuming this is your CSS module or global CSS */
+/* .logout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.logout.visible {
+  opacity: 1;
+  visibility: visible;
+} */
+
+.logout h3 {
+ 
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.logoutButton {
+  background-color: #ff4d4d;
+  color: white;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.logoutButton:hover {
+  background-color: #ff3333;
+}
+
+.logoutButton:focus {
+  outline: none;
+}
+
+.contact-container {
+  padding: 2rem;
+ 
+ 
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  margin-bottom: 1.5rem;
+}
+
+.header span {
+  font-size: 1.2rem;
+  color: #333;
+  margin-right: 1rem;
+}
+.icons-outer{
+  display: flex;
+  margin-bottom: 10px;
+  gap: 10px;
+  align-items: center;
+}
+.contact-button {
+  padding: 0.7rem 1.2rem;
+  border: none;
+  background: #17567E;
+ color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.contact-button:hover {
+ 
+  color: #fff;
+}
+
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+.form-group-inner{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.form-group {
+  max-width: 1350px;
+  border: 2px solid #17567E;
+  padding: 1rem;
+  text-align: left;
+  width: 100%;
+}
+.social-links {
+  display: flex;
+  gap: 16px;
+}
+
+.social-icon {
+  font-size: 20px;
+color: black;
+  transition: color 0.3s;
+  margin-top: 15px;
+}
+
+.social-icon:hover {
+  color: #0070f3; /* Hover color, adjust as needed */
+}
+
+.form-group h3 {
+  margin-bottom: 0.5rem;
+}
+
+.social-group {
+  text-align: center;
+}
+
+.social-icons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+}
+
+.modal {
+  width: 90%;
+  max-width: 500px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  position: relative;
+  margin: 0 auto;
+  top: 20%;
+  transform: translateY(-50%);
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.button {
+  padding: 10px 15px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.buttonSave {
+  background-color: #17567E;
+  color: white;
+}
+
+.buttonSave:hover {
+  background-color: #45a049;
+}
+
+.buttonCancel {
+  background-color: #f44336;
+  color: white;
+}
+
+.buttonCancel:hover {
+  background-color: #d73226;
+}
+
+
+
+@media screen and (max-width: 740px) {
+ 
+  .container{
+    flex-direction: column;
+    gap: 20px;
+  }
+  .sidebar{
+    width: 100%;
+  }
+  .form-group-inner{
+    flex-direction: column;
+    gap: 20px;
+  }
+  .profileCard{
+    padding: 20px;
+  }
+}

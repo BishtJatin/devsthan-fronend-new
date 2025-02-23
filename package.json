@@ -1,0 +1,40 @@
+{
+  "name": "devsthan-frontend2",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@popperjs/core": "^2.11.8",
+    "html-react-parser": "^5.1.18",
+    "next": "15.0.3",
+    "next-sitemap": "^4.2.3",
+    "rc-slider": "^11.1.7",
+    "react": "18.3.1",
+    "react-datepicker": "^7.6.0",
+    "react-dom": "18.3.1",
+    "react-draggable": "^4.4.6",
+    "react-hot-toast": "^2.4.1",
+    "react-icons": "^5.3.0",
+    "react-modal": "^3.16.3",
+    "react-model": "^4.3.1",
+    "react-multi-carousel": "^2.8.5",
+    "react-range": "^1.10.0",
+    "react-select": "^5.8.2",
+    "react-slick": "^0.30.2",
+    "react-toastify": "^10.0.6",
+    "slick-carousel": "^1.8.1",
+    "styled-components": "^6.1.13",
+    "swiper": "^11.1.15",
+    "uuidv4": "^6.2.13",
+    "world-countries-capitals": "^3.4.0"
+  },
+  "devDependencies": {
+    "eslint": "9.13.0",
+    "eslint-config-next": "15.0.3"
+  }
+}

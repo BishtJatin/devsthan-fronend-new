@@ -1,0 +1,558 @@
+
+.aboutUs {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center vertically */
+  align-items: center;     /* Center horizontally */
+  min-height: 100vh;       /* Make the container take full viewport height */
+  padding: 50px 20px;
+  background-color: #f9f9f9;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.content {
+  margin-top: 350px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+  max-width: 1400px; /* Optional: limits the width */
+  padding: 20px; /* Optional: adds padding for spacing */
+  align-items: center; /* Center content horizontally */
+  text-align: center;  /* Optional: centers text inside the content */
+}
+
+
+.parallax-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  overflow: hidden;
+}
+
+.parallax-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translateY(0);
+  will-change: transform;
+}
+
+
+.image {
+  width: 100%;
+  height: auto;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.visionMission .image,
+.services .image {
+  width: 80%;
+  margin: 0 auto 15px auto;
+  display: block;
+}
+
+.statsmain{
+  width: 70%;
+  margin-left: 5%;
+  margin-top: 5%;
+}
+
+.stats{
+  display: flex;
+  justify-content: space-between;
+}
+
+.statsimage img{
+  width: 350px;
+  height: 400px;
+  margin-left: 20%;
+  margin-top: 35%;
+  
+}
+
+.statsContent{
+  margin-top: 8%;
+  margin-bottom: 5%;
+}
+
+.statsContentus h3 {
+  margin-bottom: -2%;
+}
+
+.statsContent p {
+  margin-top: 2%;
+}
+
+.statsContentus ul li {
+  max-width: 80%;
+  margin: 5% auto;
+
+}
+
+.intro {
+  background-color: #fff;
+  padding: 50px;
+  padding-top: 3%;
+}
+
+.intro h2 {
+  margin-bottom: 2%;
+}
+
+.subHeading {
+  font-size: 1.8rem;
+  color: #2b2b2b;
+  margin-bottom: 10px;
+}
+
+.description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #666;
+}
+
+
+.Visioncard{
+  margin-top: 1%;
+  display: flex;
+  gap: 80px;
+  padding: 50px;
+}
+
+.card h3{
+  margin-bottom: 20px;
+}
+
+.card ul li {
+  margin-bottom: 15px;
+}
+
+.visioncardimage img{
+  width: 350px;
+  height: 400px;
+}
+
+.visionMission {
+  display: flex;
+  gap: 20px;
+  margin-top: 6%;
+}
+
+.vision,
+.mission {
+  flex: 1;
+  background-color: #f1f1f1;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stats {
+  margin-top: -8%;
+  text-align: center;
+  background-color: #fff;
+  font-size: 1rem;
+  padding-bottom: 5%;
+}
+
+.howWeBoost {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.servicesGrid {
+  display: flex;
+
+}
+
+.service img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-bottom: 8%;
+}
+
+.services {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.service {
+  height: 300px;
+  width: 350px;
+  text-align: center;
+  flex: 1;
+  padding: 25px;
+  border-radius: 10px;
+  background-color: #f1f1f1;
+  margin: 0 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.service p{
+   margin-top: 3%;
+}
+
+
+@media (max-width: 2251px) {
+  .content{
+    /* margin-top: 15%; */
+  }
+}
+
+/* @media (max-width: 1923px) {
+  .content{
+  margin-top: 200px;
+  }
+} */
+
+
+
+/* For screens up to 2251px (larger desktop monitors) */
+@media (max-width: 2251px) {
+  .content {
+
+    /* margin-top: 15%; */
+
+  }
+}
+
+/* For screens up to 1280px (small desktop monitors) */
+@media (max-width: 1280px) {
+  .visioncardimage img {
+    width: 320px;
+    height: 400px;
+  }
+
+
+  /* .content {
+    margin-top: 25%;
+  } */
+
+}
+
+@media (max-width: 1150px) {
+  .visioncardimage img {
+    width: 320px;
+    height: 400px;
+  }
+
+  /* .content {
+    margin-top: 30%;
+  } */
+
+
+  .Visioncard{
+    margin-top: 1%;
+    display: flex;
+    gap: 50px;
+    padding: 30px;
+    font-size: 0.8rem;
+  }
+ 
+  .card h3{
+    margin-bottom: 10px;
+  }
+  
+  .card ul li {
+    margin-bottom: 5px;
+  }
+
+  .visioncardimage img {
+    width: 300px;
+    height: 400px;
+  }
+
+  .statsmain{
+    margin-top: 9%;
+  }
+
+  .service{
+    width: 280px;
+    height: 300px;
+    padding: 40px;
+    font-size: small;
+  }
+  .service p{
+    font-size: small;
+ }
+}
+
+
+@media (max-width: 1150px){
+  /* .content {
+    margin-top: 600px;
+  } */
+
+}
+
+
+/* For screens up to 768px (tablets and small laptops) */
+@media (max-width: 830px) {
+  .visionMission {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .visioncardimage img {
+    width: 600px;
+    height: 400px;
+  }
+
+  .services {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .stats{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .service {
+    margin: 10px 0;
+    width: 100%;
+  }
+
+  .statsimage img {
+    width: 600px;
+    height: 300px;
+    margin-left: 0;
+    margin-top: 10%;
+  }
+
+  .statsmain {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .intro {
+    padding: 30px;
+  }
+
+  .visioncard {
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+  }
+  .servicesGrid{
+    display: flex;
+    gap: 50px;
+    flex-direction: column;
+    font-size: large;
+  }
+}
+
+/* For screens up to 480px (mobile devices) */
+
+@media (max-width: 636px) {
+  .content {
+    margin-top: 450px;
+
+  }
+  .aboutUs{
+    padding: 0px 0px;
+  }
+  .visionMission p{
+    width: 100%;
+  }
+  .Visioncard{
+   flex-direction: column;
+  }
+  .statsContentus ul li {
+    font-size: small;
+  }
+  .subHeading {
+    font-size: 1.3rem;
+  }
+
+  .description {
+    font-size: 0.9rem;
+  }
+
+  .stats {
+    font-size: 0.9rem;
+  }
+
+  .services {
+    justify-content: center;
+  }
+
+  .service {
+    width: 80%;
+    margin: 0;
+    padding: 15px;
+  }
+
+  .servicesGrid{
+    margin-left: 20%;
+    margin-bottom: 5%;
+  }
+
+  .visioncardimage img {
+    width: 300px;
+    height: 300px;
+  }
+
+  .statsimage img {
+    width: 300px;
+    height: 250px;
+  }
+
+  .statsmain {
+    width: 100%;
+  }
+}
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .visionMission {
+    flex-direction: column;
+  }
+
+  .services {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .service {
+    margin: 0;
+  }
+}
+
+@media (max-width: 380px) {
+  .aboutUs{
+    margin: 0 0;
+    padding: 0 0;
+  }
+  .content {
+
+    /* margin-top: 80%; */
+    padding: 0 0;
+  }
+
+  .visionMission p{
+    width: 100%;
+  }
+  .Visioncard{
+   flex-direction: column;
+  }
+  .statsContentus ul li {
+    font-size: small;
+  }
+  .subHeading {
+    font-size: 1.3rem;
+  }
+  .card ul li {
+    font-size: 10px;
+  }
+
+  .description {
+    font-size: 0.9rem;
+  }
+
+  .stats {
+    font-size: 0.9rem;
+  }
+
+  .services {
+    justify-content: center;
+  }
+
+  .service {
+    width: 80%;
+    margin: 0;
+    padding: 15px;
+  }
+
+  .servicesGrid{
+    margin-left: 20%;
+    margin-bottom: 5%;
+  }
+
+  .visioncardimage img {
+    width: 300px;
+    height: 300px;
+  }
+
+  .statsimage img {
+    width: 300px;
+    height: 250px;
+  }
+
+  .statsmain {
+    width: 100%;
+  }
+}
+
+
+@media (max-width: 355px) {
+  
+  .visionMission p{
+    width: 90%;
+  }
+  .Visioncard{
+   flex-direction: column;
+  }
+  .statsContentus ul li {
+    font-size: small;
+  }
+  .subHeading {
+    font-size: 1rem;
+  }
+  .card ul li {
+    font-size: 8px;
+  }
+
+  .description {
+    font-size: 0.9rem;
+  }
+
+  .stats {
+    font-size: 0.8rem;
+    width: 90%;
+  }
+
+  .services {
+    justify-content: center;
+  }
+
+  .service {
+    width: 80%;
+    margin: 0;
+    padding: 15px;
+  }
+
+  .servicesGrid{
+    margin-left: 20%;
+    margin-bottom: 5%;
+  }
+
+  .visioncardimage img {
+    width: 260px;
+    height: 280px;
+  }
+
+  .statsimage img {
+    width: 260px;
+    height: 220px;
+  }
+
+  .statsmain {
+    width: 90%;
+  }
+}
+
+

@@ -1,0 +1,187 @@
+
+
+.contact-container-heading{
+  font-size: 2.1rem;
+  font-weight: 600;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  display: flex;
+  justify-content: center;
+}
+
+.contact-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 20px;
+
+    margin-bottom: 2%;
+
+    max-width: 1350px;
+    margin-inline: auto;
+  }
+  .header {
+    position: relative;
+    height: 50vh; /* Adjust height as needed */
+    overflow: hidden;
+    display: flex;
+          justify-content: center;
+        align-items: center;
+}
+.parallax-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.parallax-image {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  transform: translateY(0);
+  will-change: transform;
+}
+
+.header_content {
+  position: relative;
+  z-index: 2;
+  color: white;
+  text-align: center;
+}
+
+.parallax-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4); /* Optional overlay for better text contrast */
+}
+  .header_content{
+    position: absolute;
+  }
+  .title {
+    font-size: 3.5rem;
+    font-weight: bold;
+  }
+  .info-section {
+    flex: 1;
+
+
+  }
+  .info-icon{
+    display: flex;
+    margin-bottom: 20px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 20px 30px;
+    
+    align-items: center;
+    gap: 15px;
+    position: relative;
+  }
+ .icon-div{
+ background-color: #17567E;
+ color: white;
+ border-radius: 25px;
+ padding: 9px;
+ display: flex;
+  color: white;
+  font-size: 20px;
+ }
+  
+  .info-card h4 {
+    font-size: 18px;
+    color: #444;
+    margin-bottom: 5px;
+  }
+  
+  .info-card p {
+    font-size: 16px;
+    color: #555;
+    margin: 5px 0;
+  }
+  
+  .form-section {
+    flex: 1;
+
+    background: rgb(234 243 249);
+    border-radius: 8px;
+    padding: 40px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-section h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .contact-form label {
+    font-size: 14px;
+    color: #555;
+    font-weight: 500;
+    margin-bottom: 5px;
+  }
+  
+  .contact-form input,
+  .contact-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+  }
+  
+  .contact-form textarea {
+    resize: vertical;
+    height: 100px;
+  }
+  
+  .submit-button {
+    background-color: #17567E;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submit-button:hover {
+    background-color: #45a049;
+  }
+  
+  @media screen and (max-width: 850px) {
+
+    .contact-container-heading{
+      font-size: 1.5rem;
+      margin-top: 3%;
+    }
+   .contact-container{
+    flex-direction: column-reverse;
+    padding: 10px;
+   }
+   .form-section{
+    padding: 20px 10px;
+   }
+   .info-icon{
+    padding: 15px;
+   }
+   .info-card > p{
+    font-size: 14px;
+   }
+   .contact-form > input{
+    padding: 9px;
+   }
+  }
+  
