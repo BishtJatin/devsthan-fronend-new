@@ -191,7 +191,7 @@ const TourPage = ({ tourAllData, faqData, tourBanner }) => {
       // Check if the device is mobile or desktop
       if (window.innerWidth <= 768) {
         // Mobile breakpoint (can adjust as needed)
-        scrollOffset = 80; // Value for mobile
+        scrollOffset = 120; // Value for mobile
       } else {
         scrollOffset = 120; // Value for desktop
       }

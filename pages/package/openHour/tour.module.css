@@ -118,7 +118,7 @@
   text-align: center;
   background-color: #17567e;
   color: white;
-  padding: 5px;
+  padding: 10px 20px;
 }
 
 .tooltip-overlay {
@@ -686,7 +686,7 @@
       background-color: #17567E;
       /* Centers the text */
       line-height: 1.2; /* Adjusts the spacing between lines */
-     
+      padding: 10px 0;
       
     }
     
@@ -1071,9 +1071,10 @@
   margin-block: 10px;
   text-align: center;
   color: white;
-  margin: 25px;
+  margin-top: 10px;
+  margin-bottom: 25px;
   /* max-width: 270px; */
-  /* padding-left: 5px; */
+ 
 }
 
 .policies h2 span{
@@ -1081,8 +1082,12 @@
   background-color: #17567E;
   color: white;
   /* max-width: 270px; */
-  padding: 8px;
+  padding: 8px 15px;
 }
+
+/* .policies p {
+  margin-bottom: 30px;
+} */
 
 .tour-booking-button-pannel {
   padding: 20px;
@@ -1454,7 +1459,7 @@ margin-bottom: 10px;
 .summary-heading h2 {
   background-color: #17567e;
   display: inline-block; /* Shrinks the width to fit the text */
-  padding: 5px 10px; /* Add some padding if needed */
+  padding: 5px 20px; /* Add some padding if needed */
 }
 
 .success-message p {
@@ -1808,6 +1813,11 @@ padding: 10px 20px !important;
     /* padding-left: 5px; */
   }
   
+
+  .policies,
+.summary {
+  padding: 1px 10px;
+}
   /* .seasonsCard-line{
     display: none;
   } */
@@ -1841,7 +1851,9 @@ padding: 10px 20px !important;
 
   .header h1 {
     font-size: 24px;
-    margin-left: -40px;
+    margin-left: -42px;
+    padding-left: 5px;
+    padding-right: 5px;
   }
 
   .sub-header{
