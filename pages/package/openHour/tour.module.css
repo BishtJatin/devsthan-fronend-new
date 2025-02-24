@@ -22,6 +22,9 @@
 }
 
 
+
+
+
 .custom-datepicker-input {
   width: 100%;
   padding: 8px;
@@ -1678,6 +1681,31 @@ margin-bottom: 10px;
   margin-bottom: 10px;
 }
 
+.note {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: rgb(233, 233, 5);
+  border-radius: 5px;
+  text-align: center;
+  
+}
+
+.note-label {
+  font-weight: bold;
+  color: black;
+  font-size: 20px;
+  margin-bottom: 5px;
+  margin-right: 10px;
+}
+
+
+.note p {
+  font-size: 16px;
+  color: black;
+}
+
+
 .sharing-optionsfix label{
   /* margin-left: 10px; */
  
@@ -1774,6 +1802,8 @@ padding: 10px 20px !important;
   .seasonsCard-itss p{
     font-size: 13px;
   } 
+
+
 }
 
 
@@ -1950,7 +1980,7 @@ padding: 10px 20px !important;
   .tour-booking-button{
     margin-right: -350px;
   }
-
+ 
 }
 
 @media (orientation: landscape) and (max-width: 690px) {
@@ -1973,6 +2003,20 @@ padding: 10px 20px !important;
     
   }
 
+
+
+}
+
+@media screen and (max-width: 600px) {
+
+.note-label {
+  font-size: 16px;
+}
+
+
+.note p {
+  font-size: 13px;
+}
 }
 
 @media screen and (max-width: 400px) {

@@ -48,6 +48,7 @@ const TourBookingPanel = ({
   const [loadingSubmit, setLoadingSubmit] = useState(false);
   const [showDialouge, setShowDialouge] = useState(false);
   const [bookbutton, setBookButton] = useState(null);
+  const [maxbutton, setMaxButton] = useState(null);
   const [date, setDate] = useState();
   const [selectedSeason, setSelectedSeason] = useState();
   const [paymentOption, setPaymentOption] = useState("default");
@@ -87,12 +88,13 @@ const TourBookingPanel = ({
   // Handle date selection and update localStorage
   const handleDateChange = (date) => {
     setSelectedDate(date);
-    const formattedDate = `${date.getDate().toString().padStart(2, "0")}-${(date.getMonth() + 1)
+    const formattedDate = `${date.getDate().toString().padStart(2, "0")}-${(
+      date.getMonth() + 1
+    )
       .toString()
       .padStart(2, "0")}-${date.getFullYear()}`; // Format as dd-MM-yyyy
     localStorage.setItem("departureDate", formattedDate);
   };
-
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(min-width: 990px)");
@@ -107,7 +109,6 @@ const TourBookingPanel = ({
     return () => {
       mediaQuery.removeEventListener("change", handleResize);
     };
-
   }, []);
 
   const handlePaymentChangePartial = (event) => {
@@ -146,8 +147,6 @@ const TourBookingPanel = ({
       [name]: value,
     }));
   };
-
-  
 
   // const [selectedDate, setSelectedDate] = useState(null);
 
@@ -321,21 +320,21 @@ const TourBookingPanel = ({
     setBookButton((prev) => {
       let newAdults = prev.adults;
       let newChildren = prev.children;
-  
+
       // Find the selected season
       const selectedS = seasons.find((season) => season._id === selectedSeason);
       if (!selectedS) return prev; // Prevent errors if season not found
-  
+
       // Get the max person limit from the pricing array
       const maxPerson = Math.max(
         ...selectedS.pricing.map((p) => p.person || 0)
       ); // Max valid person count
-  
+
       // Get the minimum people constraint from the API
       const minPeoples = minPeople || { enabled: false, people: 0 };
-  
+
       let totalPersons = prev.adults + prev.children;
-  
+
       if (type === "adults") {
         if (operation === "increase" && totalPersons < maxPerson) {
           newAdults += 1;
@@ -357,21 +356,21 @@ const TourBookingPanel = ({
           newChildren -= 1;
         }
       }
-  
+
       // Update total persons
       totalPersons = newAdults + newChildren;
-  
+
       // Prevent reducing totalPersons below minPeople.people
       if (minPeople.enabled && totalPersons < minPeople.people) {
         return prev; // Return previous state if totalPersons goes below minPeople.people
       }
-  
+
       // Find matching pricing, but do not exceed maxPerson
       let matchedPricing =
         selectedS.pricing.find((p) => p.person === totalPersons) ||
         prev.matchedPricing ||
         {};
-  
+
       return calculateUpdatedPrice(
         {
           ...prev,
@@ -383,8 +382,6 @@ const TourBookingPanel = ({
       );
     });
   };
-  
-  
 
   const handlePaymentChange = (option) => {
     setPaymentOption(option);
@@ -439,11 +436,11 @@ const TourBookingPanel = ({
         method: "POST",
         body: formData,
       });
-  
+
       if (createInquiry.success) {
         toast.success("Inquiry submitted successfully!");
         // Clear the form data
-        setFormData({ fullName: '', phone: '', email: '', message: '' });
+        setFormData({ fullName: "", phone: "", email: "", message: "" });
       } else {
         toast.error("Error submitting inquiry. Please try again later.");
       }
@@ -454,8 +451,6 @@ const TourBookingPanel = ({
       setLoadingSubmit(false);
     }
   };
-  
-
 
   const processedSeasons = seasons.map((season) => {
     // Find the max price in the pricing array
@@ -516,6 +511,9 @@ const TourBookingPanel = ({
         : maxPricing.price.toFixed(2); // Handle price per person
 
     // Save the result to state dynamically (including adults and children)
+    setMaxButton({
+      adults: initialAdults,
+    });
     setBookButton({
       room: maxPricing.rooms,
       price: maxPricing.price,
@@ -565,9 +563,10 @@ const TourBookingPanel = ({
     <>
       <div className={styles["tour-booking-panel-outer"]}>
         <div className={styles["tour-seasonsCard-main"]}>
-          
-          <h1 className={styles["tour-seasonsCard-heading"]}><span>Choose Best Season & Price  </span> </h1>
-          
+          <h1 className={styles["tour-seasonsCard-heading"]}>
+            <span>Choose Best Season & Price </span>{" "}
+          </h1>
+
           {/* Buttons for filtering by month */}
           <div className={styles["filter-buttons"]}>
             <button
@@ -597,62 +596,63 @@ const TourBookingPanel = ({
             ))}
           </div>
           <div className={styles["tour-seasonsCard"]}>
-          <div className={styles["seasonsCard"]}>
-            {filteredSeasons.map((season, index) => (
-              <div key={season._id} className={styles["seasonsCard-item"]}>
-                <h3 className={styles["seasonsCard-item-heading"]}>
-                  {season.seasonName}
-                </h3>
-                <hr className={styles["seasonsCard-line"]} />
-                <div className={styles["seasonsCard-it"]}>
-                  <p className={styles["seasonsCard-date"]}>
-                    <strong>
-                     <span> <IoLocationOutline style={{ color: "green" }} /> </span>Season Start
-                      {" "}
-                    </strong>
-                    <span>{formatDay(season.startDate)}</span>
-                    <span>{formatDate(season.startDate)}</span>
-                    
-                  </p>
-                  <p className={styles["seasonsCard-date"]}>
-                    <strong>
-                    <span> <IoLocationOutline style={{ color: "red" }} /> </span>Season Ends{" "}
-                    </strong>
-                    <span>{formatDay(season.endDate)}</span>
-                    <span>{formatDate(season.endDate)}</span>
-                  </p>
+            <div className={styles["seasonsCard"]}>
+              {filteredSeasons.map((season, index) => (
+                <div key={season._id} className={styles["seasonsCard-item"]}>
+                  <h3 className={styles["seasonsCard-item-heading"]}>
+                    {season.seasonName}
+                  </h3>
+                  <hr className={styles["seasonsCard-line"]} />
+                  <div className={styles["seasonsCard-it"]}>
+                    <p className={styles["seasonsCard-date"]}>
+                      <strong>
+                        <span>
+                          {" "}
+                          <IoLocationOutline style={{ color: "green" }} />{" "}
+                        </span>
+                        Season Start{" "}
+                      </strong>
+                      <span>{formatDay(season.startDate)}</span>
+                      <span>{formatDate(season.startDate)}</span>
+                    </p>
+                    <p className={styles["seasonsCard-date"]}>
+                      <strong>
+                        <span>
+                          {" "}
+                          <IoLocationOutline style={{ color: "red" }} />{" "}
+                        </span>
+                        Season Ends{" "}
+                      </strong>
+                      <span>{formatDay(season.endDate)}</span>
+                      <span>{formatDate(season.endDate)}</span>
+                    </p>
+                  </div>
+                  <hr className={styles["seasonsCard-line"]} />
+                  <div className={styles["seasonsCard-its"]}>
+                    <p>
+                      <strong>₹{season.maxRoom.pricePerPerson}</strong> /per p.p
+                    </p>
+                    <p>
+                      <strong>Room:</strong> {season.maxRoom.room}
+                    </p>
+                  </div>
+                  <hr className={styles["seasonsCard-line"]} />
+                  <div className={styles["seasonsCard-itss"]}>
+                    <p>
+                      Total price for {season.maxRoom.maxP} pack is:{" "}
+                      <strong>{season.maxRoom.price}/₹</strong>
+                    </p>
+                  </div>
+                  <hr className={styles["seasonsCard-line"]} />
+                  <button
+                    className={styles["tour-booking-button-normal"]}
+                    onClick={() => callbutton(index, season._id)}
+                  >
+                    Book Now
+                  </button>
                 </div>
-                <hr className={styles["seasonsCard-line"]} />
-                <div className={styles["seasonsCard-its"]}>
-                  <p>
-                    <strong>₹{season.maxRoom.pricePerPerson}</strong> /per
-                    p.p
-                  </p>
-                  <p>
-                    <strong>Room:</strong> {season.maxRoom.room}
-                  </p>
-                </div>
-                <hr className={styles["seasonsCard-line"]} />
-                <div className={styles["seasonsCard-itss"]}>
-                  <p>
-                    
-                      Total price for {season.maxRoom.maxP} pack is:
-                    {" "}
-                    <strong>
-                    {season.maxRoom.price}/₹
-                    </strong>
-                  </p>
-                </div>
-                <hr className={styles["seasonsCard-line"]} />
-                <button
-                  className={styles["tour-booking-button-normal"]}
-                  onClick={() => callbutton(index, season._id)}
-                >
-                  Book Now
-                </button>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
           </div>
         </div>
 
@@ -669,8 +669,12 @@ const TourBookingPanel = ({
               <div className={styles["dialog-header"]}>
                 <div>
                   <h3>{name}</h3>
-                  <h4>Total Price: <span>₹{bookbutton.price.toFixed(2)}</span></h4>
-                  <h4><span>₹{bookbutton.pricePerPerson}</span>/per person</h4>
+                  <h4>
+                    Total Price: <span>₹{bookbutton.price.toFixed(2)}</span>
+                  </h4>
+                  <h4>
+                    <span>₹{bookbutton.pricePerPerson}</span>/per person
+                  </h4>
                   <div className={styles["dialog-row"]}>
                     <label>Number of Rooms</label>
                     <div className={styles["dialog-counter"]}>
@@ -682,9 +686,16 @@ const TourBookingPanel = ({
                 {/* <div className={styles["dialog-details"]}>
                   <span className={styles["dialog-badge"]}>{${duration}D / ${duration - 1}N}</span>
                 </div> */}
-               
 
                 <ToastContainer position="top-right" autoClose={3000} />
+              </div>
+              <div className={styles["note"]}>
+                <p>
+                  <span className={styles["note-label"]}>Note:</span> To book
+                  this tour, a minimum of <strong>{minPeople.people}</strong>{" "}
+                  people and a maximum of <strong>{maxbutton?.adults}</strong>{" "}
+                  people are allowed.
+                </p>
               </div>
               {/* Payment Options */}
               <div className={styles["payment-options"]}>
@@ -713,28 +724,28 @@ const TourBookingPanel = ({
                 ) : null}
               </div>
               <div className={styles["dialog-content"]}>
-                <div className={styles["button-fix"]}> 
-              <div className={styles["search-options-destination"]}>
-               <DatePicker
-                                  selected={selectedDate}
-                                  onChange={handleDateChange}
-                                  dateFormat="dd/MM/yyyy"
-                                  minDate={new Date()} // Disables all dates before today
-                                  className={styles["custom-datepicker-input"]}
-                                />
-                </div>
-                <div>
-                  {isLoadingBook ? (
-                    <Loader />
-                  ) : (
-                    <button
-                      className={styles["dialog-button-primary"]}
-                      onClick={handleBookNow}
-                    >
-                      Book Now
-                    </button>
-                  )}
-                </div>
+                <div className={styles["button-fix"]}>
+                  <div className={styles["search-options-destination"]}>
+                    <DatePicker
+                      selected={selectedDate}
+                      onChange={handleDateChange}
+                      dateFormat="dd/MM/yyyy"
+                      minDate={new Date()} // Disables all dates before today
+                      className={styles["custom-datepicker-input"]}
+                    />
+                  </div>
+                  <div>
+                    {isLoadingBook ? (
+                      <Loader />
+                    ) : (
+                      <button
+                        className={styles["dialog-button-primary"]}
+                        onClick={handleBookNow}
+                      >
+                        Book Now
+                      </button>
+                    )}
+                  </div>
                 </div>
                 <div className={styles["dialog-room-section"]}>
                   <div className={styles["dialog-row"]}>

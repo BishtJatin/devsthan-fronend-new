@@ -248,6 +248,12 @@
   cursor: not-allowed;
 }
 
+.min-people{
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+}
+
 
 @media screen and (max-width: 740px) {
 

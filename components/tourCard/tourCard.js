@@ -13,7 +13,7 @@ import { MdGroups2 } from "react-icons/md";
 
 import { useRouter } from 'next/router';
 
-export default function TourCard({ duration, location, imageUrl, title, pricingDetails, uuid, data ,tourType,groupSize}) {
+export default function TourCard({ duration, location, imageUrl, title, pricingDetails, uuid, data ,tourType,groupSize,minPeople}) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -80,10 +80,14 @@ export default function TourCard({ duration, location, imageUrl, title, pricingD
           </div>
         )}
       </div>
-
+       <div className={styles['min-people']}>
+        <div>MinPeople : {minPeople}</div>
+        <div>MaxPeople : {pricingDetails.seasonMaxPerson}</div>
+        </div>
       {/* Pricing and Button */}
       <div className={styles['pricing-and-button']}>
         <div className={styles['pricing']}>
+         
         {pricingDetails.seasonPrice &&<> <span className={styles['starting-from']}>Starting From:</span>
           <div>
             <span className={styles['starting-price']}>{pricingDetails.seasonPrice}<span className={styles['starting']}>/per person</span></span>
@@ -114,6 +118,8 @@ export default function TourCard({ duration, location, imageUrl, title, pricingD
             Book A Trip
           </button>
         )}
+
+
       </div>
     </div>
   );
