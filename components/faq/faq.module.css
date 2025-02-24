@@ -163,6 +163,20 @@
   .faq-heading {
     font-size: 1.4rem;
   }
+  .question {
+    font-size: 1rem;
+   
+  }
+
+  .dropdown-icon {
+    font-size: 1rem;/* Pushes the icon to the far right */
+  }
+  
+  .answer {
+    font-size: 0.8rem;
+  }
+
+  
 }
 
 @media screen and (max-width: 450px) {
@@ -173,4 +187,17 @@
   .faq-heading {
     font-size: 1.2rem;
   }
+  .question {
+    font-size: 0.8rem;
+   
+  }
+
+  .dropdown-icon {
+    font-size: 0.8rem;/* Pushes the icon to the far right */
+  }
+  
+  .answer {
+    font-size: 0.7rem;
+  }
+
 }

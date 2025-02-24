@@ -36,8 +36,10 @@ const FAQ = ({ faqData }) => {
     }));
   };
 
+  // Handle category click and update input
   const handleCategoryClick = (category) => {
-    setSelectedCategory(category);
+    setSearchTerm(category); // Update input field with clicked suggestion
+    setSelectedCategory(category); // Set the selected category
     setIsDropdownOpen(false); // Close the dropdown after selection
   };
 
@@ -76,30 +78,28 @@ const FAQ = ({ faqData }) => {
 
       {/* Display Questions and Answers */}
       <ul className={styles["questions-list"]}>
-  {filteredData.map((item, index) => (
-    <li key={item._id} className={styles["question-item"]}>
-      {/* Question with dropdown arrow aligned to the right */}
-      <div
-        className={styles["question"]}
-        onClick={() => toggleQuestion(index)}
-      >
-        {item.question}
-        <span className={styles["dropdown-icon"]}>
-          {expandedQuestions[index] ? "▲" : "▼"}
-        </span>
-      </div>
+        {filteredData.map((item, index) => (
+          <li key={item._id} className={styles["question-item"]}>
+            {/* Question with dropdown arrow aligned to the right */}
+            <div
+              className={styles["question"]}
+              onClick={() => toggleQuestion(index)}
+            >
+              {item.question}
+              <span className={styles["dropdown-icon"]}>
+                {expandedQuestions[index] ? "▲" : "▼"}
+              </span>
+            </div>
 
-      {/* Answer displayed in a separate div */}
-      {expandedQuestions[index] && (
-        <div className={styles["answer-container"]}>
-          <p className={styles["answer"]}>{item.answer}</p>
-        </div>
-      )}
-    </li>
-  ))}
-</ul>
-
-
+            {/* Answer displayed in a separate div */}
+            {expandedQuestions[index] && (
+              <div className={styles["answer-container"]}>
+                <p className={styles["answer"]}>{item.answer}</p>
+              </div>
+            )}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
