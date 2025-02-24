@@ -316,72 +316,72 @@ const TourBookingPanel = ({
       setIsLoadingBook(false);
     }
   };
-  const handlePersonChange = (type, operation) => {
-    setBookButton((prev) => {
-      let newAdults = prev.adults;
-      let newChildren = prev.children;
+const handlePersonChange = (type, operation) => {
+  setBookButton((prev) => {
+    let newAdults = prev.adults;
+    let newChildren = prev.children;
 
-      // Find the selected season
-      const selectedS = seasons.find((season) => season._id === selectedSeason);
-      if (!selectedS) return prev; // Prevent errors if season not found
+    const selectedS = seasons.find((season) => season._id === selectedSeason);
+    if (!selectedS) return prev;
 
-      // Get the max person limit from the pricing array
-      const maxPerson = Math.max(
-        ...selectedS.pricing.map((p) => p.person || 0)
-      ); // Max valid person count
+    const maxPerson = Math.max(
+      ...selectedS.pricing.map((p) => p.person || 0)
+    );
 
-      // Get the minimum people constraint from the API
-      const minPeoples = minPeople || { enabled: false, people: 0 };
+    const minPeoples = minPeople || { enabled: false, people: 0 };
 
-      let totalPersons = prev.adults + prev.children;
+    let totalPersons = prev.adults + prev.children;
 
-      if (type === "adults") {
-        if (operation === "increase" && totalPersons < maxPerson) {
-          newAdults += 1;
-        } else if (
-          operation === "decrease" &&
-          newAdults > 1 &&
-          (!minPeoples.enabled || totalPersons - 1 >= minPeoples.people)
-        ) {
-          newAdults -= 1;
-        }
-      } else if (type === "children") {
-        if (operation === "increase" && totalPersons < maxPerson) {
-          newChildren += 1;
-        } else if (
-          operation === "decrease" &&
-          newChildren > 0 &&
-          (!minPeoples.enabled || totalPersons - 1 >= minPeoples.people)
-        ) {
-          newChildren -= 1;
-        }
+    if (type === "adults") {
+      if (operation === "increase" && totalPersons < maxPerson) {
+        newAdults += 1;
+      } else if (
+        operation === "decrease" &&
+        newAdults > 1 &&
+        (!minPeoples.enabled || totalPersons - 1 >= minPeoples.people)
+      ) {
+        newAdults -= 1;
       }
-
-      // Update total persons
-      totalPersons = newAdults + newChildren;
-
-      // Prevent reducing totalPersons below minPeople.people
-      if (minPeople.enabled && totalPersons < minPeople.people) {
-        return prev; // Return previous state if totalPersons goes below minPeople.people
+    } else if (type === "children") {
+      if (operation === "increase" && totalPersons < maxPerson) {
+        newChildren += 1;
+      } else if (
+        operation === "decrease" &&
+        newChildren > 0 &&
+        (!minPeoples.enabled || totalPersons - 1 >= minPeoples.people)
+      ) {
+        newChildren -= 1;
       }
+    }
 
-      // Find matching pricing, but do not exceed maxPerson
-      let matchedPricing =
-        selectedS.pricing.find((p) => p.person === totalPersons) ||
-        prev.matchedPricing ||
-        {};
+    totalPersons = newAdults + newChildren;
 
-      return calculateUpdatedPrice(
-        {
-          ...prev,
-          adults: newAdults,
-          children: newChildren,
-        },
-        matchedPricing,
-        paymentOption
-      );
-    });
-  };
+    if (minPeoples.enabled && totalPersons < minPeoples.people) {
+      return prev;
+    }
+
+    let matchedPricing =
+      selectedS.pricing.find((p) => p.person === totalPersons) ||
+      prev.matchedPricing ||
+      {};
+
+    // Adjust price for children
+    const childPrice = selectedS.childPrice || selectedS.personPrice / 2;
+    const updatedPrice = bookbutton.price + (newChildren - prev.children) * childPrice;
+
+    return calculateUpdatedPrice(
+      {
+        ...prev,
+        adults: newAdults,
+        children: newChildren,
+        price: updatedPrice, // Ensure price is updated
+      },
+      matchedPricing,
+      paymentOption
+    );
+  });
+};
+
 
   const handlePaymentChange = (option) => {
     setPaymentOption(option);
@@ -399,34 +399,39 @@ const TourBookingPanel = ({
   };
 
   const calculateUpdatedPrice = (prev, matchedPricing, newPaymentOption) => {
+    // Use the previous adult price or derive it from the base price
     const basePrice = matchedPricing?.price || prev.originalPrice || 0; // Ensure original price is used
-
-    let finalPrice = basePrice;
-
-    // Apply discount for partial payment
-    if (newPaymentOption === "partial" && partialPayment?.amount) {
-      const discount = (basePrice * partialPayment.amount) / 100;
-      finalPrice = basePrice - discount;
-    }
-
     const totalPersons = prev.adults + prev.children || 1; // Avoid division by zero
-    const pricePerAdult = finalPrice / totalPersons;
-    const pricePerChild = pricePerAdult * 0.5; // *Fix: 50% of adult price*
-
-    const totalAdultPrice = prev.adults * pricePerAdult;
+    
+    const previousAdultPrice = prev.pricePerPerson
+      ? parseFloat(prev.pricePerPerson) // Use previously calculated adult price
+      : basePrice / totalPersons; // Fallback to a derived price
+  
+    // Adjust price per child as 50% of the adult price
+    const pricePerChild = previousAdultPrice * 0.5;
+  
+    // Recalculate total prices
+    const totalAdultPrice = prev.adults * previousAdultPrice;
     const totalChildPrice = prev.children * pricePerChild;
-    const updatedFinalPrice = totalAdultPrice + totalChildPrice; // *Fix: Correct total price*
-
+  
+    // Apply any discounts for partial payment
+    let finalPrice = totalAdultPrice + totalChildPrice;
+    if (newPaymentOption === "partial" && partialPayment?.amount) {
+      const discount = (finalPrice * partialPayment.amount) / 100;
+      finalPrice -= discount;
+    }
+  
+    // Return updated values
     return {
       ...prev,
-      price: updatedFinalPrice, // *Fix: Corrected final price*
-      pricePerPerson: pricePerAdult.toFixed(2), // Ensure correct display
-      pricePerChild: pricePerChild.toFixed(2), // *Fix: Add child price separately*
+      price: finalPrice, // Updated total price
+      pricePerPerson: previousAdultPrice.toFixed(2), // Retain adult price for consistency
+      pricePerChild: pricePerChild.toFixed(2), // Retain child price for consistency
       originalPrice: prev.originalPrice || basePrice, // Store original price
-      room: matchedPricing?.rooms || prev.room,
+      room: matchedPricing?.rooms || prev.room, // Room details remain unchanged
     };
   };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
