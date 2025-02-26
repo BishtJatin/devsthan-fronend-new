@@ -15,7 +15,7 @@ const FAQ = ({ faqData }) => {
       ...new Set(faqData.map((item) => item.category)),
     ];
     setSearchSuggestions(uniqueCategories);
-    setSelectedCategory(uniqueCategories[0]); // Set the first category as default
+    setSelectedCategory(uniqueCategories[2]); // Set the first category as default
   }, [faqData]);
 
   // Filter questions based on selected category
