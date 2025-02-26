@@ -480,16 +480,18 @@ const FixTourBookingPanel = ({ tourAllData }) => {
                     <div className={styles["seasonsCard-itfix"]}>
                       <p className={styles["seasonsCard-datefix"]}>
                         <strong>
-                          <IoLocationOutline style={{ color: "green" }} />{" "}
-                         Tour Starts Date{formatDay(season.tourStartDate)}
+                          <IoLocationOutline style={{ color: "green" , marginLeft:"-5px" }} />{" "}
+                         Tour Starts Date
                         </strong>
+                        <span>{formatDay(season.tourStartDate)}</span>
                         <span>{formatDate(season.tourStartDate)}</span>
                       </p>
                       <p className={styles["seasonsCard-datefix"]}>
                         <strong>
                           <IoLocationOutline style={{ color: "red" }} />Tour Ends Date{" "}
-                          {formatDay(season.tourEndDate)}
+                          
                         </strong>
+                        <span>{formatDay(season.tourEndDate)}</span>
                         <span>{formatDate(season.tourEndDate)}</span>
                       </p>
                     </div>
