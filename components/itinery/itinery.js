@@ -30,7 +30,7 @@ const Itinerary = ({
   const tooltipRef = useRef(null);
 
   useEffect(() => {
-    const storedDate = localStorage.getItem("departureDate");
+    const storedDate = localStorage.getItem("selectDate");
     if (storedDate) {
       const [day, month, year] = storedDate.split("-").map(Number);
       const parsedDate = new Date(year, month - 1, day);
@@ -144,7 +144,7 @@ const Itinerary = ({
 
     if (date) {
       const formattedDate = formatDate(date);
-      localStorage.setItem("departureDate", formattedDate);
+      localStorage.setItem("selectDate", formattedDate);
     }
   };
 
@@ -152,7 +152,7 @@ const Itinerary = ({
 
   useEffect(() => {
     const handleStorageChange = () => {
-      const storedDate = localStorage.getItem("departureDate");
+      const storedDate = localStorage.getItem("selectDate");
       if (storedDate) {
         const [day, month, year] = storedDate.split("-").map(Number);
         const parsedDate = new Date(year, month - 1, day);
@@ -198,7 +198,7 @@ const Itinerary = ({
   };
 
   useEffect(() => {
-    const departureDetails = localStorage.getItem("departureDate");
+    const departureDetails = localStorage.getItem("selectDate");
     if (departureDetails) {
       // Parse the custom date format (e.g., "19-12-2024")
       const [day, month, year] = departureDetails.split("-").map(Number);

@@ -38,6 +38,10 @@
   margin-bottom: 20px;
 }
 
+.min-people strong{
+  font-size: larger;
+}
+
 .pricing-and-button {
   justify-content: space-between;
   display: flex;

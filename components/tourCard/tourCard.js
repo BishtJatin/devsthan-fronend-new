@@ -81,8 +81,8 @@ export default function TourCard({ duration, location, imageUrl, title, pricingD
         )}
       </div>
        <div className={styles['min-people']}>
-        <div>Min.{" "}People {""}: {""}{minPeople}</div>
-        <div>Max.{" "}People {""}: {""} {pricingDetails.seasonMaxPerson}</div>
+        <div><strong>{minPeople}</strong> {" "}: {" "}Min.{" "}People {""}</div>
+        <div><strong>{pricingDetails.seasonMaxPerson}</strong>{" "}: {" "}Max.{" "}People {""}</div>
         </div>
       {/* Pricing and Button */}
       <div className={styles['pricing-and-button']}>

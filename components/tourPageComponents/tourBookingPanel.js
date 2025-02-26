@@ -68,33 +68,6 @@ const TourBookingPanel = ({
   }, []);
 
   // Listen for storage events to sync date changes
-  useEffect(() => {
-    const handleStorageChange = (event) => {
-      if (event.key === "departureDate" && event.newValue) {
-        const [day, month, year] = event.newValue.split("-").map(Number);
-        const parsedDate = new Date(year, month - 1, day); // Parse from dd-MM-yyyy
-        if (!isNaN(parsedDate)) {
-          setSelectedDate(parsedDate);
-        }
-      }
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []);
-
-  // Handle date selection and update localStorage
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-    const formattedDate = `${date.getDate().toString().padStart(2, "0")}-${(
-      date.getMonth() + 1
-    )
-      .toString()
-      .padStart(2, "0")}-${date.getFullYear()}`; // Format as dd-MM-yyyy
-    localStorage.setItem("departureDate", formattedDate);
-  };
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(min-width: 990px)");
@@ -278,7 +251,7 @@ const TourBookingPanel = ({
         }
 
         const queryParams = {
-          date: date,
+          date: bookbutton?.startDate,
           tourType: "openHours",
           category: category,
         };
@@ -297,7 +270,7 @@ const TourBookingPanel = ({
         localStorage.setItem("userTempId", userTempId);
 
         const queryParams = {
-          date: date,
+          date: bookbutton?.startDate,
         };
 
         if (selectedPaymentOption === "partial") {
@@ -316,72 +289,65 @@ const TourBookingPanel = ({
       setIsLoadingBook(false);
     }
   };
-const handlePersonChange = (type, operation) => {
-  setBookButton((prev) => {
-    let newAdults = prev.adults;
-    let newChildren = prev.children;
+  const handlePersonChange = (type, operation) => {
+    setBookButton((prev) => {
+      let newAdults = prev.adults;
+      let newChildren = prev.children;
 
-    const selectedS = seasons.find((season) => season._id === selectedSeason);
-    if (!selectedS) return prev;
+      const selectedS = seasons.find((season) => season._id === selectedSeason);
+      if (!selectedS) return prev;
 
-    const maxPerson = Math.max(
-      ...selectedS.pricing.map((p) => p.person || 0)
-    );
+      const maxPerson = Math.max(
+        ...selectedS.pricing.map((p) => p.person || 0)
+      );
+      const minPeoples = minPeople || { enabled: false, people: 0 };
+      let totalPersons = prev.adults + prev.children;
 
-    const minPeoples = minPeople || { enabled: false, people: 0 };
-
-    let totalPersons = prev.adults + prev.children;
-
-    if (type === "adults") {
-      if (operation === "increase" && totalPersons < maxPerson) {
-        newAdults += 1;
-      } else if (
-        operation === "decrease" &&
-        newAdults > 1 &&
-        (!minPeoples.enabled || totalPersons - 1 >= minPeoples.people)
-      ) {
-        newAdults -= 1;
+      if (type === "adults") {
+        if (operation === "increase" && totalPersons < maxPerson) {
+          newAdults += 1;
+        } else if (
+          operation === "decrease" &&
+          newAdults > 1 &&
+          (!minPeoples.enabled || totalPersons - 1 >= minPeoples.people)
+        ) {
+          newAdults -= 1;
+        }
+      } else if (type === "children") {
+        if (operation === "increase" && totalPersons < maxPerson) {
+          newChildren += 1;
+        } else if (
+          operation === "decrease" &&
+          newChildren > 0 &&
+          (!minPeoples.enabled || totalPersons - 1 >= minPeoples.people)
+        ) {
+          newChildren -= 1;
+        }
       }
-    } else if (type === "children") {
-      if (operation === "increase" && totalPersons < maxPerson) {
-        newChildren += 1;
-      } else if (
-        operation === "decrease" &&
-        newChildren > 0 &&
-        (!minPeoples.enabled || totalPersons - 1 >= minPeoples.people)
-      ) {
-        newChildren -= 1;
+
+      totalPersons = newAdults + newChildren;
+
+      if (minPeoples.enabled && totalPersons < minPeoples.people) {
+        return prev;
       }
-    }
 
-    totalPersons = newAdults + newChildren;
+      let matchedPricing =
+        selectedS.pricing.find((p) => p.person === totalPersons) ||
+        prev.matchedPricing ||
+        {};
 
-    if (minPeoples.enabled && totalPersons < minPeoples.people) {
-      return prev;
-    }
-
-    let matchedPricing =
-      selectedS.pricing.find((p) => p.person === totalPersons) ||
-      prev.matchedPricing ||
-      {};
-
-    // Adjust price for children
-    const childPrice = selectedS.childPrice || selectedS.personPrice / 2;
-    const updatedPrice = bookbutton.price + (newChildren - prev.children) * childPrice;
-
-    return calculateUpdatedPrice(
-      {
-        ...prev,
-        adults: newAdults,
-        children: newChildren,
-        price: updatedPrice, // Ensure price is updated
-      },
-      matchedPricing,
-      paymentOption
-    );
-  });
-};
-
+      return calculateUpdatedPrice(
+        {
+          ...prev,
+          adults: newAdults,
+          children: newChildren,
+        },
+        matchedPricing,
+        paymentOption,
+        selectedS
+      );
+    });
+  };
 
   const handlePaymentChange = (option) => {
     setPaymentOption(option);
@@ -398,40 +364,49 @@ const handlePersonChange = (type, operation) => {
     });
   };
 
-  const calculateUpdatedPrice = (prev, matchedPricing, newPaymentOption) => {
-    // Use the previous adult price or derive it from the base price
-    const basePrice = matchedPricing?.price || prev.originalPrice || 0; // Ensure original price is used
-    const totalPersons = prev.adults + prev.children || 1; // Avoid division by zero
-    
-    const previousAdultPrice = prev.pricePerPerson
-      ? parseFloat(prev.pricePerPerson) // Use previously calculated adult price
-      : basePrice / totalPersons; // Fallback to a derived price
-  
-    // Adjust price per child as 50% of the adult price
-    const pricePerChild = previousAdultPrice * 0.5;
-  
-    // Recalculate total prices
-    const totalAdultPrice = prev.adults * previousAdultPrice;
-    const totalChildPrice = prev.children * pricePerChild;
-  
-    // Apply any discounts for partial payment
+  const calculateUpdatedPrice = (
+    prev,
+    matchedPricing,
+    newPaymentOption,
+    selectedS
+  ) => {
+    if (!matchedPricing) return prev;
+
+    const numAdults = prev.adults || 1;
+    const numChildren = prev.children || 0;
+    const totalPersons = numAdults + numChildren;
+
+    let basePrice = matchedPricing.price || prev.originalPrice || 0;
+
+    // ✅ Calculate price per person
+    let pricePerPerson = basePrice / totalPersons;
+
+    // ✅ Ensure child price is exactly 50% of price per person
+    let pricePerAdult = pricePerPerson;
+    let pricePerChild = pricePerPerson * 0.5;
+
+    let totalAdultPrice = numAdults * pricePerAdult;
+    let totalChildPrice = numChildren * pricePerChild;
+
     let finalPrice = totalAdultPrice + totalChildPrice;
+
     if (newPaymentOption === "partial" && partialPayment?.amount) {
-      const discount = (finalPrice * partialPayment.amount) / 100;
-      finalPrice -= discount;
+      const discountFactor = 1 - partialPayment.amount / 100;
+      finalPrice *= discountFactor;
+      pricePerAdult *= discountFactor;
+      pricePerChild *= discountFactor;
     }
-  
-    // Return updated values
+
     return {
       ...prev,
-      price: finalPrice, // Updated total price
-      pricePerPerson: previousAdultPrice.toFixed(2), // Retain adult price for consistency
-      pricePerChild: pricePerChild.toFixed(2), // Retain child price for consistency
-      originalPrice: prev.originalPrice || basePrice, // Store original price
-      room: matchedPricing?.rooms || prev.room, // Room details remain unchanged
+      price: finalPrice,
+      pricePerAdult: pricePerAdult.toFixed(2),
+      pricePerChild: pricePerChild.toFixed(2),
+      originalPrice: prev.originalPrice || basePrice,
+      room: matchedPricing.rooms || prev.room,
     };
   };
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -488,50 +463,44 @@ const handlePersonChange = (type, operation) => {
     };
   });
 
-  const callbutton = (index, seasonId) => {
+  const callbutton = (index, seasonId, startDate,endDate) => {
+    localStorage.setItem("departureDates", startDate);
+    localStorage.setItem("endDate", endDate);
     // Extract the selected season's pricing array
     const pricingArray = seasons[index]?.pricing;
     setSelectedSeason(seasonId);
+
     // Find the max price in the pricing array
     const maxPricing = pricingArray.reduce(
-      (max, current) => {
-        // Compare the prices directly
-        if (current.price > max.price) {
-          return current; // Update max if current price is higher
-        }
-        return max;
-      },
-      { price: 0 } // Initial value to ensure comparison works
+      (max, current) => (current.price > max.price ? current : max),
+      { price: 0 }
     );
 
-    // Initialize adults to the maxPricing.person value (if it's greater than 0), and children to 0
-    const initialAdults = maxPricing.person > 0 ? maxPricing.person : 1; // Ensure at least 1 adult if no value
-    const initialChildren = 0; // Start with 0 children
+    // Ensure at least 1 adult if no value is available
+    const initialAdults = maxPricing.person > 0 ? maxPricing.person : 1;
+    const initialChildren = 0;
 
-    // Calculate price per person based on adults and children
-    const totalPersons = initialAdults + initialChildren; // Total number of people
-    const pricePerPerson =
-      maxPricing.person !== null
-        ? (maxPricing.price / totalPersons).toFixed(2) // Price per person based on total people
-        : maxPricing.price.toFixed(2); // Handle price per person
+    // ✅ Set correct price per adult
+    const pricePerAdult = (maxPricing.price / initialAdults).toFixed(2);
 
-    // Save the result to state dynamically (including adults and children)
     setMaxButton({
       adults: initialAdults,
     });
+
     setBookButton({
       room: maxPricing.rooms,
       price: maxPricing.price,
-      pricePerPerson, // Use the formatted value
-      totalPersons, // Display the total number of persons (initially adults + children)
-      adults: initialAdults, // Save initial adults count
+      pricePerAdult, // ✅ Correctly setting price per adult
+      totalPersons: initialAdults + initialChildren,
+      adults: initialAdults,
       children: initialChildren,
-      seasonId: seasonId, // Save initial children count
-      maxPricing, // Save maxPricing to state
-      pricingArray, // Save pricing array
+      seasonId,
+      maxPricing,
+      pricingArray,
+      startDate,
+      endDate,
     });
 
-    // Show the dialogue
     setShowDialouge(true);
   };
 
@@ -563,6 +532,31 @@ const handlePersonChange = (type, operation) => {
     const seasonStartMonth = new Date(season.startDate).getMonth() + 1; // Months are 0-indexed
     return seasonStartMonth === parseInt(selectedMonth, 10);
   });
+
+  useEffect(() => {
+    const handleStorageChange = (event) => {
+      if (event.key === "departureDate" && event.newValue) {
+        const [day, month, year] = event.newValue.split("-").map(Number);
+        const parsedDate = new Date(year, month - 1, day); // Parse from dd-MM-yyyy
+        if (!isNaN(parsedDate)) {
+          setSelectedDate(parsedDate);
+        }
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
+  // Handle date selection and update localStorage
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    localStorage.setItem("departureDates", bookbutton?.startDate); // Store startDate directly
+  };
+
+  console.log(bookbutton?.startDate);
 
   return (
     <>
@@ -650,18 +644,24 @@ const handlePersonChange = (type, operation) => {
                   </div>
                   <hr className={styles["seasonsCard-line"]} />
                   <button
-                    className={styles["tour-booking-button-normal"]}
-                    onClick={() => callbutton(index, season._id)}
+                    className={
+                      season.isAvailable
+                        ? styles["tour-booking-button-normal"]
+                        : styles["tour-booking-button-disabled"]
+                    }
+                    onClick={() =>
+                      season.isAvailable &&
+                      callbutton(index, season._id, season.startDate,season.endDate)
+                    }
+                    disabled={!season.isAvailable} // Prevent click if not available
                   >
-                    Book Now
+                    {season.isAvailable ? "Book Now" : "Sold Out"}
                   </button>
                 </div>
               ))}
             </div>
           </div>
         </div>
-
-        {console.log(paymentOption == "partial")}
         {showDialouge && (
           <div className={styles["dialog-overlay"]}>
             <div className={styles["dialog-box"]}>
@@ -674,35 +674,46 @@ const handlePersonChange = (type, operation) => {
               <div className={styles["dialog-header"]}>
                 <div>
                   <h3>{name}</h3>
+
+                  <h4>
+                    <span>₹{bookbutton.pricePerAdult}</span> / per adult
+                    <strong> x {bookbutton?.adults || 1}</strong>
+                  </h4>
+                  {bookbutton.children > 0 && (
+                    <h4>
+                      <span>₹{bookbutton.pricePerChild}</span> / per child
+                      <strong> x {bookbutton?.children}</strong>
+                    </h4>
+                  )}
                   <h4>
                     Total Price: <span>₹{bookbutton.price.toFixed(2)}</span>
                   </h4>
-                  <h4>
-                    <span>₹{bookbutton.pricePerPerson}</span>/per person
-                  </h4>
-                  <div className={styles["dialog-row"]}>
-                    <label>Number of Rooms</label>
+                  <div className={styles["dialog"]}>
+                    <label>Number of Rooms : </label>
+                    <span>{bookbutton.room}</span>
                     <div className={styles["dialog-counter"]}>
-                      <span>{bookbutton.room}</span>
+                   
                     </div>
                   </div>
                 </div>
 
-                {/* <div className={styles["dialog-details"]}>
-                  <span className={styles["dialog-badge"]}>{${duration}D / ${duration - 1}N}</span>
-                </div> */}
-
                 <ToastContainer position="top-right" autoClose={3000} />
               </div>
+
               <div className={styles["note"]}>
                 <p>
                   <span className={styles["note-label"]}>Note:</span> To book
-                  this tour, a minimum of <strong>{minPeople.people}</strong>{" "}
-                  people and a maximum of <strong>{maxbutton?.adults}</strong>{" "}
-                  people are allowed.
+                  this tour, a minimum of
+                  <strong>
+                    {" "}
+                    {minPeople.enabled ? minPeople.people : 1}
+                  </strong>{" "}
+                  people and a maximum of
+                  <strong> {maxbutton?.adults}</strong> people are allowed
+                  (including children).
                 </p>
               </div>
-              {/* Payment Options */}
+
               <div className={styles["payment-options"]}>
                 <label>
                   <input
@@ -712,10 +723,10 @@ const handlePersonChange = (type, operation) => {
                     checked={paymentOption === "default"}
                     onChange={() => handlePaymentChange("default")}
                   />
-                  Default Payment
+                  {" "} Full Payment (Pay 100% now)
                 </label>
 
-                {partialPayment.enabled ? (
+                {partialPayment.enabled && (
                   <label>
                     <input
                       type="radio"
@@ -724,18 +735,20 @@ const handlePersonChange = (type, operation) => {
                       checked={paymentOption === "partial"}
                       onChange={() => handlePaymentChange("partial")}
                     />
-                    Partial Payment
+                    {" "}Partial Payment (Pay {partialPayment.amount}% now)
                   </label>
-                ) : null}
+                )}
               </div>
+
               <div className={styles["dialog-content"]}>
                 <div className={styles["button-fix"]}>
                   <div className={styles["search-options-destination"]}>
                     <DatePicker
-                      selected={selectedDate}
+                      selected={new Date(bookbutton?.startDate)} // Use the passed start date
                       onChange={handleDateChange}
                       dateFormat="dd/MM/yyyy"
-                      minDate={new Date()} // Disables all dates before today
+                      minDate={new Date(bookbutton?.startDate)} // Ensure earliest selectable date
+                      maxDate={new Date(bookbutton?.endDate || new Date())} // Optional: limit to season end date
                       className={styles["custom-datepicker-input"]}
                     />
                   </div>
@@ -752,9 +765,11 @@ const handlePersonChange = (type, operation) => {
                     )}
                   </div>
                 </div>
+
                 <div className={styles["dialog-room-section"]}>
+                  {/* Adults Counter */}
                   <div className={styles["dialog-row"]}>
-                    <label>Adult</label>
+                    <label>Adults</label>
                     <div className={styles["dialog-counter"]}>
                       <button
                         onClick={() => handlePersonChange("adults", "decrease")}
@@ -796,8 +811,7 @@ const handlePersonChange = (type, operation) => {
             </div>
           </div>
         )}
-
-        {/* {showCustomizeDialog && (
+     {/* {showCustomizeDialog && (
           <CustomizedQuery uuid={uuid} handleClose={close} />
         )} */}
         <ToastContainer />

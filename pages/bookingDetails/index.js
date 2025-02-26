@@ -108,21 +108,54 @@ export default function TravellerDetails() {
     return `${day}${month}${year}`;
   };
 
-  const handleDateChange = (date) => {
-    if (date) {
-      const formattedDate = formatDate(date);
-      setStartDate(date);
-      setSelectedDate(date);
-      setDate(formattedDate);
-      localStorage.setItem("departureDate", formattedDate); // Ensure this is logged correctly
-      console.log("Saved to LocalStorage:", formattedDate);
+  // const handleDateChange = (date) => {
+  //   if (date) {
+  //     const formattedDate = formatDate(date);
+  //     setStartDate(date);
+  //     setSelectedDate(date);
+  //     setDate(formattedDate);
+  //     localStorage.setItem("departureDates", formattedDate); // Ensure this is logged correctly
+  //     console.log("Saved to LocalStorage:", formattedDate);
+  //   }
+  // };
+
+
+
+  const [departureDates, setDepartureDates] = useState(new Date());
+  const [selectedDates, setselectedDates] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [displayDate, setDisplayDate] = useState("");
+
+  // Retrieve and set the date from localStorage
+  useEffect(() => {
+    const storedDate = localStorage.getItem("departureDates");
+    const storedEndDate = localStorage.getItem("endDate");
+    if (storedDate) {
+      const parsedDate = new Date(storedDate);
+      const pareseEnd = new Date(storedEndDate);
+      if (!isNaN(parsedDate)) {
+        setDepartureDates(parsedDate);
+        setselectedDates(parsedDate);
+        setEndDate(pareseEnd);
+        setDisplayDate(parsedDate.toLocaleDateString("en-GB")); // Format as dd/MM/yyyy
+      }
+    } else {
+      const today = new Date();
+      setDisplayDate(today.toLocaleDateString("en-GB"));
     }
+  }, []);
+
+  // Handle date change
+  const handleDateChange = (date) => {
+    setDepartureDates(date);
+    localStorage.setItem("departureDates", date); // Save to localStorage
+    setDisplayDate(date.toLocaleDateString("en-GB")); // Update display date
   };
 
   const handleBookingDateChange = (date) => {
     if (date) {
       const formattedDate = formatDate(date); // Use the same formatDate function as in Itinerary
-      localStorage.setItem("departureDate", formattedDate);
+      localStorage.setItem("departureDates", formattedDate);
     }
   };
 
@@ -142,7 +175,7 @@ export default function TravellerDetails() {
   CustomInput.displayName = "CustomInput";
 
   useEffect(() => {
-    const departureDate = localStorage.getItem("departureDate");
+    const departureDate = localStorage.getItem("departureDates");
     if (departureDate) {
       try {
         const [day, month, year] = departureDate.split("/").map(Number);
@@ -162,9 +195,11 @@ export default function TravellerDetails() {
       localStorage.getItem("token") || sessionStorage.getItem("token");
     const userId =
       localStorage.getItem("userId") || sessionStorage.getItem("userId");
-    const departureDate = localStorage.getItem("departureDate");
+    const departureDate = localStorage.getItem("departureDates");
     const username = localStorage.getItem("username");
     const userTempId = localStorage.getItem("userTempId");
+
+    console.log(departureDate);
 
     setUsername(username);
 
@@ -201,7 +236,7 @@ export default function TravellerDetails() {
   }, [selectedDate]); // Runs only when 'selectedDate' changes
 
   const adjustedDate =
-    selectedDate && new Date(selectedDate.getTime() - 24 * 60 * 60 * 1000);
+  departureDates && new Date(departureDates.getTime() - 24 * 60 * 60 * 1000);
 
   useEffect(() => {
     const token =
@@ -244,7 +279,7 @@ export default function TravellerDetails() {
  
 
 
- console.log(date);
+ console.log(cartData?.tourType);
 
   const distributePersons = (adults, children) => {
     const totalPersons = adults + children;
@@ -417,7 +452,7 @@ export default function TravellerDetails() {
                   email: email || "",
                   rooms: rooms || 0,
                   username: username || "",
-                  date: date || "",
+                  date: departureDates || "",
                 },
               });
 
@@ -430,7 +465,7 @@ export default function TravellerDetails() {
                     totalPrice: orderResponse.order?.finalPrice || 0, // Ensure finalPrice exists
                     adults: cartData?.adults || 0,
                     children: cartData?.childern || 0,
-                    date: selectedDate || "N/A",
+                    date: departureDates || "N/A",
                   };
 
                   router.push({
@@ -654,15 +689,17 @@ export default function TravellerDetails() {
 
           <div className={styles["package-summary"]}>
             <div>
-              <span>Travel Date:</span> <strong>{formattedDates}</strong>
+            { cartData?.tourType !== "fixedTour" ? <span>Travel Date:</span>  :  <span>Departure Date:</span>}<strong>{displayDate}</strong>
               <div className={styles["search-options-destination"]}>
-                <DatePicker
-                  selected={selectedDate}
-                  onChange={handleDateChange}
-                  dateFormat="dd/MM/yyyy"
-                  minDate={new Date()}
-                  className={styles["custom-datepicker-input"]} // Use custom input
-                />
+              { cartData?.tourType !== "fixedTour" &&
+               <DatePicker
+               selected={departureDates}
+               onChange={handleDateChange}
+               dateFormat="dd/MM/yyyy"
+               minDate={new Date(selectedDates)}
+               maxDate={endDate} // Optional: Prevent selecting past dates
+               className={styles["custom-datepicker-input"]}
+             />}
               </div>
             </div>
             {/* Coupon Code Section */}
@@ -725,7 +762,7 @@ export default function TravellerDetails() {
                 <strong>₹{responsedata.discountedPrice.toFixed(2)}</strong>
               </p>
             )}
-            {console.log(cartData)}
+            {/* {console.log(cartData)} */}
             <p>
               <span>Gst</span> <strong>₹{gst}</strong>
             </p>
@@ -781,7 +818,7 @@ export default function TravellerDetails() {
                     : parseFloat(cartData?.partialPayment?.amount ?? 0))
                 ).toFixed(2)}{" "}
                 due after{" "}
-                {selectedDate
+                {departureDates
                   ? adjustedDate?.toLocaleDateString("en-GB") // Format as dd/mm/yyyy
                   : "a selected date"}
                 .

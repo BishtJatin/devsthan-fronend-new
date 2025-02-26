@@ -50,7 +50,7 @@ const TourSearch = ({ locations }) => {
       // Format the date as dd-MM-yyyy and save it
 
       const formattedDate = formatDate(date);
-      localStorage.setItem("departureDate", formattedDate);
+      localStorage.setItem("selectDate", formattedDate);
     }
   };
 

@@ -9,15 +9,20 @@ const BookedTourDetails = () => {
 
   const [date, setDate] = useState("");
 
-  // Safely access localStorage in the browser
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedDate = localStorage.getItem("departureDate");
-      setDate(storedDate);
+// Safely access localStorage in the browser
+useEffect(() => {
+  if (typeof window !== "undefined") {
+    const storedDate = localStorage.getItem("departureDates");
+    if (storedDate) {
+      const parsedDate = new Date(storedDate);
+      const formattedDate = `${String(parsedDate.getDate()).padStart(2, "0")}-${String(parsedDate.getMonth() + 1).padStart(2, "0")}-${parsedDate.getFullYear()}`; // Format as DD-MM-YYYY
+      setDate(formattedDate);
     }
-  }, []);
+  }
+}, []);
 
-  console.log(date);
+console.log(date); 
+  
 
 
   return (

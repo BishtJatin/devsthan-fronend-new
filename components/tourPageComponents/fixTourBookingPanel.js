@@ -49,50 +49,42 @@ const FixTourBookingPanel = ({ tourAllData }) => {
   const [date, setDate] = useState();
   const [selectedPrices, setSelectedPrices] = useState({});
 
- 
-
   const [selectedPayment, setSelectedPayment] = useState("default");
   const [isLargeScreen, setIsLargeScreen] = useState(false);
-    const [selectedDate, setSelectedDate] = useState(new Date());
-  
-    // Sync with localStorage on component mount
-    useEffect(() => {
-      const storedDate = localStorage.getItem("departureDate");
-      if (storedDate) {
-        const [day, month, year] = storedDate.split("-").map(Number);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+  // Sync with localStorage on component mount
+  useEffect(() => {
+    const storedDate = localStorage.getItem("departureDate");
+    if (storedDate) {
+      const [day, month, year] = storedDate.split("-").map(Number);
+      const parsedDate = new Date(year, month - 1, day); // Parse from dd-MM-yyyy
+      if (!isNaN(parsedDate)) {
+        setSelectedDate(parsedDate);
+      }
+    }
+  }, []);
+
+  // Listen for storage events to sync date changes
+  useEffect(() => {
+    const handleStorageChange = (event) => {
+      if (event.key === "departureDate" && event.newValue) {
+        const [day, month, year] = event.newValue.split("-").map(Number);
         const parsedDate = new Date(year, month - 1, day); // Parse from dd-MM-yyyy
         if (!isNaN(parsedDate)) {
           setSelectedDate(parsedDate);
         }
       }
-    }, []);
-  
-    // Listen for storage events to sync date changes
-    useEffect(() => {
-      const handleStorageChange = (event) => {
-        if (event.key === "departureDate" && event.newValue) {
-          const [day, month, year] = event.newValue.split("-").map(Number);
-          const parsedDate = new Date(year, month - 1, day); // Parse from dd-MM-yyyy
-          if (!isNaN(parsedDate)) {
-            setSelectedDate(parsedDate);
-          }
-        }
-      };
-  
-      window.addEventListener("storage", handleStorageChange);
-      return () => {
-        window.removeEventListener("storage", handleStorageChange);
-      };
-    }, []);
-  
-    // Handle date selection and update localStorage
-    const handleDateChange = (date) => {
-      setSelectedDate(date);
-      const formattedDate = `${date.getDate().toString().padStart(2, "0")}-${(date.getMonth() + 1)
-        .toString()
-        .padStart(2, "0")}-${date.getFullYear()}`; // Format as dd-MM-yyyy
-      localStorage.setItem("departureDate", formattedDate);
     };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
+  // Handle date selection and update localStorage
+ 
 
   const uuid = tourAllData[0].uuid;
 
@@ -166,7 +158,6 @@ const FixTourBookingPanel = ({ tourAllData }) => {
       [name]: value,
     }));
   };
-
 
   const close = () => {
     setShowCustomizeDialog(false);
@@ -293,39 +284,49 @@ const FixTourBookingPanel = ({ tourAllData }) => {
   };
 
   const handleSubmit = async (e) => {
-     e.preventDefault();
-     try {
-       setLoadingSubmit(true);
-       const createInquiry = await apiCall({
-         endpoint: "/api/createInquiry",
-         method: "POST",
-         body: formData,
-       });
-   
-       if (createInquiry.success) {
-         toast.success("Inquiry submitted successfully!");
-         // Clear the form data
-         setFormData({ fullName: '', phone: '', email: '', message: '' });
-       } else {
-         toast.error("Error submitting inquiry. Please try again later.");
-       }
-     } catch (error) {
-       console.error("Error submitting inquiry:", error);
-       toast.error("Error submitting inquiry. Please try again later.");
-     } finally {
-       setLoadingSubmit(false);
-     }
-   };
-   
+    e.preventDefault();
+    try {
+      setLoadingSubmit(true);
+      const createInquiry = await apiCall({
+        endpoint: "/api/createInquiry",
+        method: "POST",
+        body: formData,
+      });
 
-  const callbutton = (index, seasonId, selectedCurrentPrice) => {
+      if (createInquiry.success) {
+        toast.success("Inquiry submitted successfully!");
+        // Clear the form data
+        setFormData({ fullName: "", phone: "", email: "", message: "" });
+      } else {
+        toast.error("Error submitting inquiry. Please try again later.");
+      }
+    } catch (error) {
+      console.error("Error submitting inquiry:", error);
+      toast.error("Error submitting inquiry. Please try again later.");
+    } finally {
+      setLoadingSubmit(false);
+    }
+  };
+
+  const callbutton = (
+    index,
+    seasonId,
+    selectedCurrentPrice,
+    startDate,
+    groupSize,
+    seatBooked
+  ) => {
     // Set initial state for booking
+    localStorage.setItem("departureDates", startDate);
     setBookButton({
       price: selectedCurrentPrice, // Set price per person
       total: selectedCurrentPrice, // Initially, total price equals price per person
       adults: 1, // Default 1 adult
       children: 0,
-      seasonId: seasonId, // Default no children
+      seasonId: seasonId,
+      startDate,
+      groupSize,
+      seatBooked, // Default no children
     });
 
     // Show the dialogue
@@ -334,21 +335,28 @@ const FixTourBookingPanel = ({ tourAllData }) => {
 
   const handleAdultsChange = (action) => {
     setBookButton((prev) => {
+      const maxAllowed = prev.groupSize - prev.seatBooked;
+      const currentTotal = prev.adults + prev.children;
       const newAdults =
-        action === "increment" ? prev.adults + 1 : Math.max(prev.adults - 1, 1); // Ensure adults never go below 1
+        action === "increment" && currentTotal < maxAllowed
+          ? prev.adults + 1
+          : action === "decrement"
+          ? Math.max(prev.adults - 1, 1) // Ensure adults never go below 1
+          : prev.adults;
+  
       let newTotal =
-        newAdults * prev.price + prev.children * (prev.price * 0.5); // Calculate the base total
-
-      // Apply discount if selectedPayment is "partial" and partialpayment.amount is available
+        newAdults * prev.price + prev.children * (prev.price * 0.5);
+  
+      // Apply discount if selectedPayment is "partial" and partialPayment.amount is available
       if (
         selectedPayment === "partial" &&
         tourAllData &&
         tourAllData[0]?.partialPayment?.amount
       ) {
-        const discountPercentage = tourAllData[0].partialPayment.amount / 100; // Convert the amount to a percentage
-        newTotal = newTotal * (1 - discountPercentage); // Apply the discount to the total
+        const discountPercentage = tourAllData[0].partialPayment.amount / 100;
+        newTotal = newTotal * (1 - discountPercentage);
       }
-
+  
       return {
         ...prev,
         adults: newAdults,
@@ -356,26 +364,31 @@ const FixTourBookingPanel = ({ tourAllData }) => {
       };
     });
   };
-
+  
   const handleChildrenChange = (action) => {
     setBookButton((prev) => {
+      const maxAllowed = prev.groupSize - prev.seatBooked;
+      const currentTotal = prev.adults + prev.children;
       const newChildren =
-        action === "increment"
+        action === "increment" && currentTotal < maxAllowed
           ? prev.children + 1
-          : Math.max(prev.children - 1, 0); // Children can go down to 0
+          : action === "decrement"
+          ? Math.max(prev.children - 1, 0) // Children can go down to 0
+          : prev.children;
+  
       let newTotal =
-        prev.adults * prev.price + newChildren * (prev.price * 0.5); // Calculate the base total
-
+        prev.adults * prev.price + newChildren * (prev.price * 0.5);
+  
       // Apply discount if selectedPayment is "partial" and partialPayment.amount is available
       if (
         selectedPayment === "partial" &&
         tourAllData &&
         tourAllData[0]?.partialPayment?.amount
       ) {
-        const discountPercentage = tourAllData[0].partialPayment.amount / 100; // Convert amount to a percentage
-        newTotal *= 1 - discountPercentage; // Apply the discount to the total
+        const discountPercentage = tourAllData[0].partialPayment.amount / 100;
+        newTotal = newTotal * (1 - discountPercentage);
       }
-
+  
       return {
         ...prev,
         children: newChildren,
@@ -383,6 +396,7 @@ const FixTourBookingPanel = ({ tourAllData }) => {
       };
     });
   };
+  
 
   const handlePriceChange = (seasonId, priceType) => {
     // Update selectedPrices with the new selection for the specific seasonId
@@ -413,11 +427,18 @@ const FixTourBookingPanel = ({ tourAllData }) => {
     return startMonth === parseInt(selectedMonth, 10);
   });
 
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    localStorage.setItem("departureDates", bookbutton?.startDate); // Store startDate directly
+};
+
   return (
     <>
       <div className={styles["tour-booking-panel-outer"]}>
         <div className={styles["tour-seasonsCard-main"]}>
-          <h1 className={styles["tour-seasonsCard-heading"]}><span>Choose Best Season & Price</span></h1>
+          <h1 className={styles["tour-seasonsCard-heading"]}>
+            <span>Choose Best Season & Price</span>
+          </h1>
 
           {/* Month Buttons */}
           <div className={styles["filter-buttons"]}>
@@ -446,108 +467,139 @@ const FixTourBookingPanel = ({ tourAllData }) => {
             ))}
           </div>
           <div className={styles["tour-seasonsCardfix"]}>
-          <div className={styles["seasonsCardfix"]}>
-  {filteredBatches.map((season, index) => {
-    const selectedPrice =
-      selectedPrices[season._id] || "doubleSharingPrice";
+            <div className={styles["seasonsCardfix"]}>
+              {filteredBatches.map((season, index) => {
+                const selectedPrice =
+                  selectedPrices[season._id] || "doubleSharingPrice";
 
-    return (
-      <div key={season._id} className={styles["seasonsCard-itemfix"]}>
-        <div className={styles["seasonsCard-itfix"]}>
-          <p className={styles["seasonsCard-datefix"]}>
-            <strong>
-              <IoLocationOutline style={{ color: "green" }} /> Starts{" "}
-              {formatDay(season.tourStartDate)}
-            </strong>
-            <span>{formatDate(season.tourStartDate)}</span>
-          </p>
-          <p className={styles["seasonsCard-datefix"]}>
-            <strong>
-              <IoLocationOutline style={{ color: "red" }} /> Ends{" "}
-              {formatDay(season.tourEndDate)}
-            </strong>
-            <span>{formatDate(season.tourEndDate)}</span>
-          </p>
-        </div>
+                return (
+                  <div
+                    key={season._id}
+                    className={styles["seasonsCard-itemfix"]}
+                  >
+                    <div className={styles["seasonsCard-itfix"]}>
+                      <p className={styles["seasonsCard-datefix"]}>
+                        <strong>
+                          <IoLocationOutline style={{ color: "green" }} />{" "}
+                         Tour Starts Date{formatDay(season.tourStartDate)}
+                        </strong>
+                        <span>{formatDate(season.tourStartDate)}</span>
+                      </p>
+                      <p className={styles["seasonsCard-datefix"]}>
+                        <strong>
+                          <IoLocationOutline style={{ color: "red" }} />Tour Ends Date{" "}
+                          {formatDay(season.tourEndDate)}
+                        </strong>
+                        <span>{formatDate(season.tourEndDate)}</span>
+                      </p>
+                    </div>
 
-        <div className={styles["seasonsCard-itsfix"]}>
-          <div className={styles["sharing-optionsfix"]}>
-            <label>
-              <input
-                type="radio"
-                name={`sharing-${season._id}`}
-                value="doubleSharingPrice"
-                checked={selectedPrice === "doubleSharingPrice"}
-                onChange={() =>
-                  handlePriceChange(season._id, "doubleSharingPrice")
-                }
-                style={{ marginRight: "8px" }}
-              />
-              Double Sharing
-            </label>
-            <label>
-              <input
-                type="radio"
-                name={`sharing-${season._id}`}
-                value="trippleSharingPrice"
-                checked={selectedPrice === "trippleSharingPrice"}
-                onChange={() =>
-                  handlePriceChange(season._id, "trippleSharingPrice")
-                }
-                style={{ marginRight: "8px" }}
-              />
-              Triple Sharing
-            </label>
-            <label>
-              <input
-                type="radio"
-                name={`sharing-${season._id}`}
-                value="quadSharingPrice"
-                checked={selectedPrice === "quadSharingPrice"}
-                onChange={() =>
-                  handlePriceChange(season._id, "quadSharingPrice")
-                }
-                style={{ marginRight: "8px" }}
-              />
-              Quad Sharing
-            </label>
-          </div>
+                    <div className={styles["seasonsCard-itsfix"]}>
+                      <div className={styles["sharing-optionsfix"]}>
+                        <label>
+                          <input
+                            type="radio"
+                            name={`sharing-${season._id}`}
+                            value="doubleSharingPrice"
+                            checked={selectedPrice === "doubleSharingPrice"}
+                            onChange={() =>
+                              handlePriceChange(
+                                season._id,
+                                "doubleSharingPrice"
+                              )
+                            }
+                            style={{ marginRight: "8px" }}
+                          />
+                          Double Sharing
+                        </label>
+                        <label>
+                          <input
+                            type="radio"
+                            name={`sharing-${season._id}`}
+                            value="trippleSharingPrice"
+                            checked={selectedPrice === "trippleSharingPrice"}
+                            onChange={() =>
+                              handlePriceChange(
+                                season._id,
+                                "trippleSharingPrice"
+                              )
+                            }
+                            style={{ marginRight: "8px" }}
+                          />
+                          Triple Sharing
+                        </label>
+                        <label>
+                          <input
+                            type="radio"
+                            name={`sharing-${season._id}`}
+                            value="quadSharingPrice"
+                            checked={selectedPrice === "quadSharingPrice"}
+                            onChange={() =>
+                              handlePriceChange(season._id, "quadSharingPrice")
+                            }
+                            style={{ marginRight: "8px" }}
+                          />
+                          Quad Sharing
+                        </label>
+                      </div>
 
-          <div className={styles["Selected-Pricefix"]}>
-            <div>
-              <p>
-                <strong>Selected Price:</strong> ₹
-                {season[selectedPrice] || "N/A"}
-              </p>
-              <p className={styles["Selected-Pricefix1"]}>
-                <strong>Group Size:</strong> {season.groupSize}
-              </p>
+                      <div className={styles["Selected-Pricefix"]}>
+                        <div>
+                          <p>
+                            <strong>Selected Price:</strong> ₹
+                            {season[selectedPrice] || "N/A"}
+                          </p>
+                          <p className={styles["Selected-Pricefix1"]}>
+                            <strong>Group Size:</strong> {season.groupSize}
+                          </p>
+                        </div>
+                        <div>
+                          <p>
+                            <strong>Seats Booked:</strong> {season.seatBooked}
+                          </p>
+                          <div className={styles["Selected-icons"]}>
+                            <FaWhatsapp />
+                            <MdMail />
+                            <FaPhoneAlt />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <button
+                      className={
+                        season.isAvailable &&
+                        season.groupSize - season.seatBooked > 0
+                          ? styles["tour-booking-button-fix"]
+                          : styles["tour-booking-button-disabled"]
+                      }
+                      onClick={() =>
+                        season.isAvailable &&
+                        season.groupSize - season.seatBooked > 0 &&
+                        callbutton(
+                          index,
+                          season._id,
+                          season[selectedPrice],
+                          season.tourStartDate,
+                          season.groupSize,
+                          season.seatBooked
+                        )
+                      }
+                      disabled={
+                        !season.isAvailable ||
+                        season.groupSize - season.seatBooked <= 0
+                      } // Disable button
+                    >
+                      {season.isAvailable &&
+                      season.groupSize - season.seatBooked > 0
+                        ? "Book Now"
+                        : "Sold Out"}
+                    </button>
+                  </div>
+                );
+              })}
             </div>
-            <div>
-              <p>
-                <strong>Seats Booked:</strong> {season.seatBooked}
-              </p>
-              <div className={styles["Selected-icons"]}>
-                <FaWhatsapp />
-                <MdMail />
-                <FaPhoneAlt />
-              </div>
-            </div>
           </div>
-        </div>
-        <button
-          className={styles["tour-booking-button-fix"]}
-          onClick={() =>
-            callbutton(index, season._id, season[selectedPrice])
-          }
-        >
-          Book Now
-        </button>
-      </div>
-    );
-  })}
-         </div>
-         </div>
         </div>
         {showDialouge && (
           <div className={styles["dialog-overlay"]}>
@@ -561,14 +613,18 @@ const FixTourBookingPanel = ({ tourAllData }) => {
               <div className={styles["dialog-header"]}>
                 <div>
                   <h2>{tourAllData[0].name}</h2>
-                  <h4>Total Price: <span>₹{bookbutton.total}</span></h4>
+                  <h4>
+                    Total Price: <span>₹{bookbutton.total}</span>
+                  </h4>
                   <h4>
                     ₹{" "}
-                    <span>{selectedPayment === "partial" &&
-                    tourAllData[0]?.partialPayment?.amount
-                      ? bookbutton.price *
-                        (1 - tourAllData[0].partialPayment.amount / 100) // Apply discount if partial
-                      : bookbutton.price}</span>{" "}
+                    <span>
+                      {selectedPayment === "partial" &&
+                      tourAllData[0]?.partialPayment?.amount
+                        ? bookbutton.price *
+                          (1 - tourAllData[0].partialPayment.amount / 100) // Apply discount if partial
+                        : bookbutton.price}
+                    </span>{" "}
                     /per person
                   </h4>
 
@@ -587,8 +643,6 @@ const FixTourBookingPanel = ({ tourAllData }) => {
                     </button>
                   )}
                 </div> */}
-
-                
               </div>
               <div className={styles["payment-options"]}>
                 <label>
@@ -599,7 +653,7 @@ const FixTourBookingPanel = ({ tourAllData }) => {
                     checked={selectedPayment === "default"}
                     onChange={() => handlePaymentChange("default")}
                   />
-                  Default Payment
+                  {" "}Default Payment
                 </label>
 
                 {tourAllData[0].partialPayment.enabled ? (
@@ -611,33 +665,47 @@ const FixTourBookingPanel = ({ tourAllData }) => {
                       checked={selectedPayment === "partial"}
                       onChange={() => handlePaymentChange("partial")}
                     />
-                    Partial Payment
+                   {" "} Partial Payment
                   </label>
                 ) : null}
               </div>
+              <div className={styles["note"]}>
+                <p>
+                  <span className={styles["note-label"]}>Note:</span> This tour
+                  has a group size of <strong>{bookbutton?.groupSize}</strong>,
+                  with <strong>{bookbutton?.seatBooked}</strong> seats already
+                  booked. Total seats available:{" "}
+                  <strong>
+                    {bookbutton?.groupSize - bookbutton?.seatBooked}
+                  </strong>
+                  .
+                </p>
+              </div>
+
               <div className={styles["dialog-content"]}>
-              <div className={styles["button-fix"]}> 
-              <div className={styles["search-options-destination"]}>
-               <DatePicker
-                                  selected={selectedDate}
-                                  onChange={handleDateChange}
-                                  dateFormat="dd/MM/yyyy"
-                                  minDate={new Date()} // Disables all dates before today
-                                  className={styles["custom-datepicker-input"]}
-                                />
-                </div>
-                <div>
-                  {isLoadingBook ? (
-                    <Loader />
-                  ) : (
-                    <button
-                      className={styles["dialog-button-primary"]}
-                      onClick={handleBookNow}
-                    >
-                      Book Now
-                    </button>
-                  )}
-                </div>
+                <div className={styles["button-fix"]}>
+                  <div className={styles["search-options-destination"]}>
+                    {/* <DatePicker
+                      selected={new Date(bookbutton?.startDate)} // Use the passed start date
+                      onChange={handleDateChange}
+                      dateFormat="dd/MM/yyyy"
+                      minDate={new Date(bookbutton?.startDate)} // Ensure earliest selectable date
+                      maxDate={new Date(bookbutton?.endDate || new Date())} // Optional: limit to season end date
+                      className={styles["custom-datepicker-input"]}
+                    /> */}
+                  </div>
+                  <div>
+                    {isLoadingBook ? (
+                      <Loader />
+                    ) : (
+                      <button
+                        className={styles["dialog-button-primary"]}
+                        onClick={handleBookNow}
+                      >
+                        Book Now
+                      </button>
+                    )}
+                  </div>
                 </div>
                 <div className={styles["dialog-room-section"]}>
                   <div className={styles["dialog-row"]}>
