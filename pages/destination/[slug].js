@@ -67,11 +67,11 @@ const responsive = {
 };
 
 const SubDestinationCarousel = styled(Slider)``;
-const TourCarousel = styled(Carousel)`
-  .react-multi-carousel-item > div {
-    margin-right: 15px;
-  }
-`;
+// const TourCarousel = styled(Carousel)`
+//   .react-multi-carousel-item > div {
+//     margin-right: 15px;
+//   }
+// `;
 
 const Destination = ({ destinationData, destinationBanner }) => {
   const [viewport, setViewport] = useState("desktop");
@@ -80,7 +80,7 @@ const Destination = ({ destinationData, destinationBanner }) => {
   const [loading, setLoading] = useState(true); // Track loading state
   const [error, setError] = useState(null); // Track error state
   const [fixtours, setFixTours] = useState();
-  console.log(destinationData);
+
 
   const slickSettings = {
     dots: true,
@@ -280,13 +280,13 @@ const Destination = ({ destinationData, destinationBanner }) => {
       </header>
       <div className={styles.container}>
         <section className={styles.mainContent}>
-          <h1>Welcome To {destinationData.title}</h1>
+          <h1>Welcome To {destinationData?.title}</h1>
           <p>
-            {destinationData.description}
+            {destinationData?.description}
           </p>
 
           <div className={styles.imageGrid}>
-            {destinationData?.images.slice(0, 4)?.map((img, index) => (
+            {destinationData?.images?.slice(0, 4)?.map((img, index) => (
               <div key={index} className={styles.imageCard}>
                 <img
                   src={`${img}`}
@@ -386,16 +386,9 @@ const Destination = ({ destinationData, destinationBanner }) => {
               ))}
             </SlickSlider>
           </div>
-    
-          {/* Slider for Fixed Tours */}
-          <div className={styles["tourcardsslide"]}>
-          <div className={styles['header-text']}>
-        <p className={styles['header-text-subtitle']}>Holy Destinations</p>
 
-        <h2 className={styles['header-text-title']}>Explore sacred places that offer peace and spiritual reflection</h2>
-        <h3 className={styles['header-text-title1']}>Fixed Tour</h3>
-      </div>
-
+          {/* <div className={styles["tourcardsslide"]}>
+            
             <SlickSlider {...slickSettings}>
               {fixtours?.map((tour, index) => (
                 <div key={index} className={styles["card-wrapper"]}>
@@ -404,6 +397,25 @@ const Destination = ({ destinationData, destinationBanner }) => {
               ))}
             </SlickSlider>
           </div>
+     */}
+    
+          {/* Slider for Fixed Tours */}
+          {/* <div className={styles["tourcardsslide"]}>
+          <div className={styles['header-text']}>
+        <p className={styles['header-text-subtitle']}>Holy Destinations</p>
+
+        <h2 className={styles['header-text-title']}>Explore sacred places that offer peace and spiritual reflection</h2>
+        <h3 className={styles['header-text-title1']}>Fixed Tour</h3>
+      </div>
+      
+            <SlickSlider {...slickSettings}>
+              {fixtours?.map((tour, index) => (
+                <div key={index} className={styles["card-wrapper2"]}>
+                  <ToursList tourData={[tour]} />
+                </div>
+              ))}
+            </SlickSlider>
+          </div> */}
         </div>
 
           // <TourCarousel
@@ -462,7 +474,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   try {
-    console.log("Received params:", params); // Debug log
+   
 
     const { slug } = params;
 
@@ -472,7 +484,7 @@ export async function getStaticProps({ params }) {
       method: "GET",
     });
 
-    console.log("Fetched all destinations:", allDestinations); // Debug log
+    // Debug log
 
     // Find the destination that matches the slug
     const destination = allDestinations.find(
@@ -484,7 +496,7 @@ export async function getStaticProps({ params }) {
       return { notFound: true };
     }
 
-    console.log("Matched destination:", destination); // Debug log
+    // Debug log
 
     // Fetch destination details
     const destinationData = await apiCall({
@@ -492,7 +504,6 @@ export async function getStaticProps({ params }) {
       method: "POST",
     });
 
-    console.log("Fetched destinationData:", destinationData); // Debug log
 
     // Fetch banner
     const destinationBanner = await apiCall({

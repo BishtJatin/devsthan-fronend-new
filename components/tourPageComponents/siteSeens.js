@@ -37,7 +37,7 @@ const Meals = ({ itinerary }) => {
   };
 
 
-  console.log(itinerary);
+
 
   return (
     <div className={styles["day-details-outer"]}>

@@ -55,9 +55,39 @@ const TourBookingPanel = ({
   const [isLargeScreen, setIsLargeScreen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
 
-  // Sync with localStorage on component mount
+
+
   useEffect(() => {
-    const storedDate = localStorage.getItem("departureDate");
+    // Check if the dates are already in localStorage
+    const existingDepartureDates = localStorage.getItem("departureDates");
+    const existingEndDate = localStorage.getItem("endDate");
+
+    // Proceed only if dates are not already set
+    if (!existingDepartureDates || !existingEndDate) {
+      if (seasons && seasons.length > 0) {
+        const sortedSeasons = [...seasons].sort(
+          (a, b) => new Date(a.startDate) - new Date(b.startDate)
+        );
+
+        const firstSeason = sortedSeasons[0]; // Get the first season
+
+        if (firstSeason) {
+          localStorage.setItem("departureDates", firstSeason.startDate);
+          localStorage.setItem("endDate", firstSeason.endDate);
+
+        }
+      }
+    } else {
+      console.log("LocalStorage already has the dates. No action needed.");
+    }
+  }, [seasons]);
+
+  // Sync with localStorage on component mount
+
+
+
+  useEffect(() => {
+    const storedDate = localStorage.getItem("departureDates");
     if (storedDate) {
       const [day, month, year] = storedDate.split("-").map(Number);
       const parsedDate = new Date(year, month - 1, day); // Parse from dd-MM-yyyy
@@ -99,7 +129,7 @@ const TourBookingPanel = ({
   `;
   // Set storedUUID when uuid prop changes
   useEffect(() => {
-    setDate(localStorage.getItem("departureDate"));
+    setDate(localStorage.getItem("departureDates"));
     if (uuid) {
       setStoredUUID(uuid);
     }
@@ -199,7 +229,7 @@ const TourBookingPanel = ({
 
   const handleBookNow = async () => {
     setIsLoadingBook(true);
-    const departureDate = localStorage.getItem("departureDate"); // Assuming the key is 'departureDate'
+    const departureDate = localStorage.getItem("departureDates"); // Assuming the key is 'departureDate'
     if (!departureDate) {
       toast.error("Please select a departure date before proceeding.");
       setIsLoadingBook(false);
@@ -289,27 +319,27 @@ const TourBookingPanel = ({
       setIsLoadingBook(false);
     }
   };
+  
   const handlePersonChange = (type, operation) => {
     setBookButton((prev) => {
       let newAdults = prev.adults;
       let newChildren = prev.children;
-
+  
       const selectedS = seasons.find((season) => season._id === selectedSeason);
       if (!selectedS) return prev;
-
-      const maxPerson = Math.max(
-        ...selectedS.pricing.map((p) => p.person || 0)
-      );
+  
+      const maxPerson = Math.max(...selectedS.pricing.map((p) => p.person || 0));
       const minPeoples = minPeople || { enabled: false, people: 0 };
-      let totalPersons = prev.adults + prev.children;
-
+  
+      let totalPersons = newAdults + newChildren; // Current total persons
+  
       if (type === "adults") {
         if (operation === "increase" && totalPersons < maxPerson) {
           newAdults += 1;
         } else if (
           operation === "decrease" &&
           newAdults > 1 &&
-          (!minPeoples.enabled || totalPersons - 1 >= minPeoples.people)
+          (!minPeoples.enabled || newAdults - 1 + newChildren >= minPeoples.people)
         ) {
           newAdults -= 1;
         }
@@ -319,23 +349,25 @@ const TourBookingPanel = ({
         } else if (
           operation === "decrease" &&
           newChildren > 0 &&
-          (!minPeoples.enabled || totalPersons - 1 >= minPeoples.people)
+          (!minPeoples.enabled || newAdults + newChildren - 1 >= minPeoples.people)
         ) {
           newChildren -= 1;
         }
       }
-
-      totalPersons = newAdults + newChildren;
-
-      if (minPeoples.enabled && totalPersons < minPeoples.people) {
+  
+      totalPersons = newAdults + newChildren; // Update total count
+  
+      // ✅ Prevent exceeding maxPerson limit
+      if (totalPersons > maxPerson) {
         return prev;
       }
-
+  
+      // ✅ Match the correct pricing tier for adults
       let matchedPricing =
-        selectedS.pricing.find((p) => p.person === totalPersons) ||
+        selectedS.pricing.find((p) => p.person === newAdults) ||
         prev.matchedPricing ||
         {};
-
+  
       return calculateUpdatedPrice(
         {
           ...prev,
@@ -348,64 +380,66 @@ const TourBookingPanel = ({
       );
     });
   };
-
+  
   const handlePaymentChange = (option) => {
     setPaymentOption(option);
 
     setBookButton((prev) => {
-      const totalPersons = prev.adults + prev.children;
-      const selectedS = seasons.find((season) => season._id === selectedSeason);
-      const matchedPricing =
-        selectedS?.pricing.find((p) => p.person === totalPersons) ||
-        prev.matchedPricing ||
-        {};
+        const totalPersons = prev.adults;
+        const selectedS = seasons.find((season) => season._id === selectedSeason);
+        const matchedPricing =
+            selectedS?.pricing.find((p) => p.person === totalPersons) ||
+            prev.matchedPricing ||
+            {};
 
-      return calculateUpdatedPrice(prev, matchedPricing, option);
+        return calculateUpdatedPrice(prev, matchedPricing, option);
     });
-  };
+};
+  
+const calculateUpdatedPrice = (prev, matchedPricing, newPaymentOption) => {
+  if (!matchedPricing) return prev;
 
-  const calculateUpdatedPrice = (
-    prev,
-    matchedPricing,
-    newPaymentOption,
-    selectedS
-  ) => {
-    if (!matchedPricing) return prev;
+  const numAdults = prev.adults || 1;
+  const numChildren = prev.children || 0;
 
-    const numAdults = prev.adults || 1;
-    const numChildren = prev.children || 0;
-    const totalPersons = numAdults + numChildren;
+  // ✅ Always fetch the correct base price dynamically
+  let basePrice = matchedPricing.price || prev.originalPrice || 0;
+  let pricePerAdult = basePrice / numAdults;
+  let pricePerChild = pricePerAdult * 0.5;
 
-    let basePrice = matchedPricing.price || prev.originalPrice || 0;
+  let totalAdultPrice = numAdults * pricePerAdult;
+  let totalChildPrice = numChildren * pricePerChild;
 
-    // ✅ Calculate price per person
-    let pricePerPerson = basePrice / totalPersons;
+  let totalPrice = totalAdultPrice + totalChildPrice;
+  let finalPrice = totalPrice;
+  let pendingAmount = 0;
+  let discountFactor = 1; // Default to full payment
 
-    // ✅ Ensure child price is exactly 50% of price per person
-    let pricePerAdult = pricePerPerson;
-    let pricePerChild = pricePerPerson * 0.5;
+  
 
-    let totalAdultPrice = numAdults * pricePerAdult;
-    let totalChildPrice = numChildren * pricePerChild;
+  // ✅ Apply Partial Payment Correctly
+  if (newPaymentOption === "partial" && partialPayment?.amount) {
+      discountFactor = partialPayment.amount / 100; // Example: 50% = 0.5
+      pendingAmount = totalPrice * (1 - discountFactor);
+      finalPrice = totalPrice * discountFactor;
 
-    let finalPrice = totalAdultPrice + totalChildPrice;
-
-    if (newPaymentOption === "partial" && partialPayment?.amount) {
-      const discountFactor = 1 - partialPayment.amount / 100;
-      finalPrice *= discountFactor;
+      // ✅ Reduce price per adult & child accordingly
       pricePerAdult *= discountFactor;
       pricePerChild *= discountFactor;
-    }
 
-    return {
+  }
+
+  return {
       ...prev,
-      price: finalPrice,
-      pricePerAdult: pricePerAdult.toFixed(2),
-      pricePerChild: pricePerChild.toFixed(2),
+      totalPrice: totalPrice, // ✅ Keep total price dynamic
+      price: finalPrice, // ✅ Show the amount to be paid in partial payment
+      pendingAmount: pendingAmount.toFixed(2), // ✅ Show pending amount if partial payment is selected
+      pricePerAdult: pricePerAdult.toFixed(2), // ✅ Now updates after partial payment
+      pricePerChild: pricePerChild.toFixed(2), // ✅ Now updates after partial payment
       originalPrice: prev.originalPrice || basePrice,
       room: matchedPricing.rooms || prev.room,
-    };
   };
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -535,7 +569,7 @@ const TourBookingPanel = ({
 
   useEffect(() => {
     const handleStorageChange = (event) => {
-      if (event.key === "departureDate" && event.newValue) {
+      if (event.key === "departureDates" && event.newValue) {
         const [day, month, year] = event.newValue.split("-").map(Number);
         const parsedDate = new Date(year, month - 1, day); // Parse from dd-MM-yyyy
         if (!isNaN(parsedDate)) {
@@ -553,10 +587,10 @@ const TourBookingPanel = ({
   // Handle date selection and update localStorage
   const handleDateChange = (date) => {
     setSelectedDate(date);
-    localStorage.setItem("departureDates", bookbutton?.startDate); // Store startDate directly
+    localStorage.setItem("departureDate", bookbutton?.startDate); // Store startDate directly
   };
 
-  console.log(bookbutton?.startDate);
+
 
   return (
     <>

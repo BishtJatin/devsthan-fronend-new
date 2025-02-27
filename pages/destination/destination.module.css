@@ -183,6 +183,10 @@
     font-weight: bold;
   }
   
+  .card-wrapper2 {
+    display: flex;
+  }
+
   .offerButton {
     margin-top: 1rem;
     padding: 0.8rem 1.5rem;

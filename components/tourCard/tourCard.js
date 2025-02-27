@@ -17,7 +17,7 @@ export default function TourCard({ duration, location, imageUrl, title, pricingD
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  console.log(pricingDetails);
+ 
   const handleGoToTour = async () => {
     try {
       setIsLoading(true); // Start the loader

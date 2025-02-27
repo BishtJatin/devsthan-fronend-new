@@ -38,8 +38,7 @@ const formatDay = (dateString) => {
 };
 
 const FixTourBookingPanelMobile = ({ tourAllData }) => {
-  console.log("Function called");
-  console.log(tourAllData);
+
 
   const [storedUUID, setStoredUUID] = useState();
   const [isLoadingBook, setIsLoadingBook] = useState(false);
@@ -392,7 +391,7 @@ const FixTourBookingPanelMobile = ({ tourAllData }) => {
     }));
   };
 
-  console.log(selectedPrices);
+
 
   const [selectedMonth, setSelectedMonth] = useState("All");
 

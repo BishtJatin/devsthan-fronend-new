@@ -108,16 +108,7 @@ export default function TravellerDetails() {
     return `${day}${month}${year}`;
   };
 
-  // const handleDateChange = (date) => {
-  //   if (date) {
-  //     const formattedDate = formatDate(date);
-  //     setStartDate(date);
-  //     setSelectedDate(date);
-  //     setDate(formattedDate);
-  //     localStorage.setItem("departureDates", formattedDate); // Ensure this is logged correctly
-  //     console.log("Saved to LocalStorage:", formattedDate);
-  //   }
-  // };
+
 
 
 
@@ -199,7 +190,7 @@ export default function TravellerDetails() {
     const username = localStorage.getItem("username");
     const userTempId = localStorage.getItem("userTempId");
 
-    console.log(departureDate);
+    
 
     setUsername(username);
 
@@ -254,7 +245,7 @@ export default function TravellerDetails() {
           method: "POST",
           body: userData,
         });
-        console.log(response);
+       
         // Handle response
         setTourInfo(response.tour);
         distributePersons(response.cart.adults, response.cart.children);
@@ -279,7 +270,7 @@ export default function TravellerDetails() {
  
 
 
- console.log(cartData?.tourType);
+
 
   const distributePersons = (adults, children) => {
     const totalPersons = adults + children;
@@ -304,31 +295,9 @@ export default function TravellerDetails() {
     setRooms(roomArr);
   };
 
-  console.log(cartData);
+ 
 
-  // useEffect(() => {
-  //   if (!cartData.details) {
-  //     setCartData((prev) => ({
-  //       ...prev,
-  //       details: Array((cartData?.adults || 0) + (cartData?.children || 0)).fill({
-  //         firstName: "",
-  //         lastName: "",
-  //       }),
-  //     }));
-  //   }
-  // }, [cartData]);
-  
-
-  // const handleInputChange = (personIndex, key, value) => {
-  //   setCartData((prev) => {
-  //     const updatedDetails = prev.details ? [...prev.details] : [];
-  //     if (!updatedDetails[personIndex]) {
-  //       updatedDetails[personIndex] = { firstName: "", lastName: "" };
-  //     }
-  //     updatedDetails[personIndex][key] = value;
-  //     return { ...prev, details: updatedDetails };
-  //   });
-  // };
+ 
 
   const [travelerDetails, setTravelerDetails] = useState([]);
 
@@ -425,7 +394,7 @@ export default function TravellerDetails() {
               },
             });
 
-            console.log("Verify Payment Response:", verifyResponse);
+           
 
             if (verifyResponse.success) {
               setFullLoading(true);
@@ -452,7 +421,7 @@ export default function TravellerDetails() {
                   email: email || "",
                   rooms: rooms || 0,
                   username: username || "",
-                  date: departureDates || "",
+                  date: displayDate || "",
                 },
               });
 
@@ -536,7 +505,7 @@ export default function TravellerDetails() {
     Pay Now
   </button>;
   
-  console.log("selectedDate", selectedDate);
+
 
   return (
     <>
@@ -762,7 +731,6 @@ export default function TravellerDetails() {
                 <strong>₹{responsedata.discountedPrice.toFixed(2)}</strong>
               </p>
             )}
-            {/* {console.log(cartData)} */}
             <p>
               <span>Gst</span> <strong>₹{gst}</strong>
             </p>

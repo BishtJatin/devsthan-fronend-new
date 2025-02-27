@@ -8,7 +8,7 @@ import parse from "html-react-parser";
 
 export default function Blog({ blogs, blogBanner }) {
    
-  console.log(blogs);
+  
 
   const handleScrollParallax = () => {
     const parallaxImage = document.querySelector(

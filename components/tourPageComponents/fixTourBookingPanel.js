@@ -38,8 +38,7 @@ const formatDay = (dateString) => {
 };
 
 const FixTourBookingPanel = ({ tourAllData }) => {
-  console.log("Function called");
-  console.log(tourAllData);
+ 
 
   const [storedUUID, setStoredUUID] = useState();
   const [isLoadingBook, setIsLoadingBook] = useState(false);
@@ -55,7 +54,7 @@ const FixTourBookingPanel = ({ tourAllData }) => {
 
   // Sync with localStorage on component mount
   useEffect(() => {
-    const storedDate = localStorage.getItem("departureDate");
+    const storedDate = localStorage.getItem("departureDates");
     if (storedDate) {
       const [day, month, year] = storedDate.split("-").map(Number);
       const parsedDate = new Date(year, month - 1, day); // Parse from dd-MM-yyyy
@@ -68,7 +67,7 @@ const FixTourBookingPanel = ({ tourAllData }) => {
   // Listen for storage events to sync date changes
   useEffect(() => {
     const handleStorageChange = (event) => {
-      if (event.key === "departureDate" && event.newValue) {
+      if (event.key === "departureDates" && event.newValue) {
         const [day, month, year] = event.newValue.split("-").map(Number);
         const parsedDate = new Date(year, month - 1, day); // Parse from dd-MM-yyyy
         if (!isNaN(parsedDate)) {
@@ -137,7 +136,7 @@ const FixTourBookingPanel = ({ tourAllData }) => {
   `;
   // Set storedUUID when uuid prop changes
   useEffect(() => {
-    setDate(localStorage.getItem("departureDate"));
+    setDate(localStorage.getItem("departureDates"));
     if (uuid) {
       setStoredUUID(uuid);
     }
@@ -185,7 +184,7 @@ const FixTourBookingPanel = ({ tourAllData }) => {
 
   const handleBookNow = async () => {
     setIsLoadingBook(true);
-    const departureDate = localStorage.getItem("departureDate"); // Assuming the key is 'departureDate'
+    const departureDate = localStorage.getItem("departureDates"); // Assuming the key is 'departureDate'
     if (!departureDate) {
       toast.error("Please select a departure date before proceeding.");
       setIsLoadingBook(false);
@@ -406,7 +405,7 @@ const FixTourBookingPanel = ({ tourAllData }) => {
     }));
   };
 
-  console.log(selectedPrices);
+
 
   const [selectedMonth, setSelectedMonth] = useState("All");
 

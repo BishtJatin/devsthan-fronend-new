@@ -21,7 +21,7 @@ const TourPage = ({ tourAllData, faqData, tourBanner }) => {
   const [activeTab, setActiveTab] = useState("Itinerary");
   const [storedUUID, setStoredUUID] = useState();
 
-  console.log(tourAllData);
+
 
   const [showTooltip, setShowTooltip] = useState(true);
   const [isSticky, setIsSticky] = useState(false);
@@ -609,7 +609,7 @@ export async function getStaticPaths() {
       params: { slug: tour.name.replace(/\s+/g, "-").toLowerCase() }, // Slugified name
     }));
 
-    console.log("Generated Paths:", paths); // ✅ Debugging
+  
 
     return {
       paths,
@@ -626,10 +626,9 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   try {
-    console.log("Received params:", params); // ✅ Debugging
+  
 
-    const { slug } = params;
-    console.log("Extracted slug:", slug); // ✅ Check if slug exists
+    const { slug } = params; // ✅ Check if slug exists
 
     // Fetch all tours to find the matching UUID
     const allTours = await apiCall({
@@ -643,11 +642,10 @@ export async function getStaticProps({ params }) {
     );
 
     if (!tour) {
-      console.log("Tour not found for slug:", slug);
+
       return { notFound: true };
     }
 
-    console.log("Found tour:", tour); // ✅ Check if the tour is found
 
     const tourAllData = await apiCall({
       endpoint: `/api/getTour/${tour.uuid}`,

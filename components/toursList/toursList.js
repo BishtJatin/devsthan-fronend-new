@@ -4,7 +4,7 @@ import TourCard from '../tourCard/tourCard';
 const ToursList = ({ tourData }) => {
   // Helper function to get the maximum price per person for a given season's pricing
   
-console.log(tourData);
+
   const getMaxPricePerPerson = (seasons) => {
     if (!seasons || seasons.length === 0) {
       return 0; // Default case when no seasons are available
@@ -111,7 +111,7 @@ console.log(tourData);
           }
           
 
-          console.log(data?.minPeople);
+       
           return (
             <TourCard
               key={data.uuid}

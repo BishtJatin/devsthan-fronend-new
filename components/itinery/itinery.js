@@ -22,57 +22,95 @@ const Itinerary = ({
   const tabsRef = useRef(null);
   const dayRefs = useRef([]); // Array of refs for each day
   const parentRef = useRef(null); // Ref for the parent container
-  const [selectedDate, setSelectedDate] = useState(new Date()); // Default to today's date
+  
+ const [departureDates, setDepartureDates] = useState(new Date());
+   const [endDate, setEndDate] = useState(new Date());
+  // Default to today's date
   const [startDate, setStartDate] = useState(new Date()); // State for start date
   const [isSticky, setIsSticky] = useState(false); // State for sticky tabs
   const [lastScrollPos, setLastScrollPos] = useState(0); // Track the last scroll position
   const [activeTab, setActiveTab] = useState("day-plan");
   const tooltipRef = useRef(null);
 
+  // useEffect(() => {
+  //   const storedDate = localStorage.getItem("departureDates");
+  //   if (storedDate) {
+  //     const [day, month, year] = storedDate.split("-").map(Number);
+  //     const parsedDate = new Date(year, month - 1, day);
+  //     if (!isNaN(parsedDate)) {
+       
+  //       setSelectedDate(parsedDate);
+  //     }
+  //   }
+  // }, []);
+
+
   useEffect(() => {
-    const storedDate = localStorage.getItem("selectDate");
-    if (storedDate) {
-      const [day, month, year] = storedDate.split("-").map(Number);
-      const parsedDate = new Date(year, month - 1, day);
-      if (!isNaN(parsedDate)) {
-        setStartDate(parsedDate);
-        setSelectedDate(parsedDate);
+    const handleStorageUpdate = () => {
+      const storedDate = localStorage.getItem("departureDates");
+      const storedEndDate = localStorage.getItem("endDate");
+
+      if (storedDate && storedEndDate) {
+        const parsedDate = new Date(storedDate);
+        const parsedEnd = new Date(storedEndDate);
+
+        if (!isNaN(parsedDate)) {
+          setDepartureDates(parsedDate);
+          setStartDate(parsedDate);
+          setEndDate(parsedEnd);
+
+          console.log(
+            `Loaded from localStorage: startDate=${parsedDate}, endDate=${parsedEnd}`
+          );
+        }
       }
-    }
+    };
+
+    // Listen for the custom event
+    window.addEventListener("storageUpdated", handleStorageUpdate);
+
+    // Read immediately if `localStorage` is already set
+    handleStorageUpdate();
+
+    // Clean up the event listener
+    return () => {
+      window.removeEventListener("storageUpdated", handleStorageUpdate);
+    };
   }, []);
 
+
   // Scroll to tooltip on load with offset
-  useEffect(() => {
-    if (showDateTooltip && tooltipRef.current) {
-      const tooltipElement = tooltipRef.current;
-      const elementPosition =
-        tooltipElement.getBoundingClientRect().top + window.pageYOffset;
-      const offset = 140; // Space at the top
-      setTimeout(() => {
-        window.scrollTo({
-          top: elementPosition - offset,
-          behavior: "smooth",
-        });
-      }, 0); // Allow time for DOM updates
-    }
-  }, [showDateTooltip]);
+  // useEffect(() => {
+  //   if (showDateTooltip && tooltipRef.current) {
+  //     const tooltipElement = tooltipRef.current;
+  //     const elementPosition =
+  //       tooltipElement.getBoundingClientRect().top + window.pageYOffset;
+  //     const offset = 140; // Space at the top
+  //     setTimeout(() => {
+  //       window.scrollTo({
+  //         top: elementPosition - offset,
+  //         behavior: "smooth",
+  //       });
+  //     }, 0); // Allow time for DOM updates
+  //   }
+  // }, [showDateTooltip]);
 
   // Close tooltip when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (tooltipRef.current && !tooltipRef.current.contains(event.target)) {
-        handleDateTooltipDone(); // Ensure this toggles showDateTooltip correctly
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     if (tooltipRef.current && !tooltipRef.current.contains(event.target)) {
+  //       handleDateTooltipDone(); // Ensure this toggles showDateTooltip correctly
+  //     }
+  //   };
 
-    if (showDateTooltip) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
+  //   if (showDateTooltip) {
+  //     document.addEventListener("mousedown", handleClickOutside);
+  //   }
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [showDateTooltip, handleDateTooltipDone]);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [showDateTooltip, handleDateTooltipDone]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -139,8 +177,8 @@ const Itinerary = ({
   };
 
   const handleDateChange = (date) => {
-    setSelectedDate(date);
-    setStartDate(date);
+    // setSelectedDate(date);
+    // setStartDate(date);
 
     if (date) {
       const formattedDate = formatDate(date);
@@ -150,29 +188,29 @@ const Itinerary = ({
 
  
 
-  useEffect(() => {
-    const handleStorageChange = () => {
-      const storedDate = localStorage.getItem("selectDate");
-      if (storedDate) {
-        const [day, month, year] = storedDate.split("-").map(Number);
-        const parsedDate = new Date(year, month - 1, day);
-        if (!isNaN(parsedDate)) {
-          setStartDate(parsedDate); // Update state with new date
-          setSelectedDate(parsedDate); // Ensure the itinerary date picker is updated
-        }
-      }
-    };
+  // useEffect(() => {
+  //   const handleStorageChange = () => {
+  //     const storedDate = localStorage.getItem("departureDates");
+  //     if (storedDate) {
+  //       const [day, month, year] = storedDate.split("-").map(Number);
+  //       const parsedDate = new Date(year, month - 1, day);
+  //       if (!isNaN(parsedDate)) {
+  //         setStartDate(parsedDate); // Update state with new date
+  //         setSelectedDate(parsedDate); // Ensure the itinerary date picker is updated
+  //       }
+  //     }
+  //   };
 
-    // Listen for changes to localStorage
-    window.addEventListener("storage", handleStorageChange);
+  //   // Listen for changes to localStorage
+  //   window.addEventListener("storage", handleStorageChange);
 
-    // Call the handler initially to set the date on load
-    handleStorageChange();
+  //   // Call the handler initially to set the date on load
+  //   handleStorageChange();
 
-    return () => {
-      window.removeEventListener("storage", handleStorageChange); // Clean up listener
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("storage", handleStorageChange); // Clean up listener
+  //   };
+  // }, []);
 
   const [selectedDay, setSelectedDay] = useState(0);
 
@@ -197,20 +235,20 @@ const Itinerary = ({
     parentRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  useEffect(() => {
-    const departureDetails = localStorage.getItem("selectDate");
-    if (departureDetails) {
-      // Parse the custom date format (e.g., "19-12-2024")
-      const [day, month, year] = departureDetails.split("-").map(Number);
-      const parsedDate = new Date(year, month - 1, day); // Month is 0-indexed
-      if (!isNaN(parsedDate)) {
-        setStartDate(parsedDate); // Set it as a Date object
-        setSelectedDate(parsedDate); // Update selected date as well
-      } else {
-        console.error("Invalid date format in localStorage.");
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   const departureDetails = localStorage.getItem("departureDates");
+  //   if (departureDetails) {
+  //     // Parse the custom date format (e.g., "19-12-2024")
+  //     const [day, month, year] = departureDetails.split("-").map(Number);
+  //     const parsedDate = new Date(year, month - 1, day); // Month is 0-indexed
+  //     if (!isNaN(parsedDate)) {
+  //       setStartDate(parsedDate); // Set it as a Date object
+  //       setSelectedDate(parsedDate); // Update selected date as well
+  //     } else {
+  //       console.error("Invalid date format in localStorage.");
+  //     }
+  //   }
+  // }, []);
   return (
     <div className={styles["itinerary"]} ref={parentRef}>
       {/* Tabs */}
@@ -310,11 +348,12 @@ const Itinerary = ({
                 >
                   
                   <DatePicker
-                    selected={selectedDate}
+                    selected={departureDates}
                     onChange={handleDateChange}
                     dateFormat="dd/MM/yyyy"
                     customInput={<CustomInput />}
-                    minDate={new Date()} // Disables all dates before today
+                    minDate={new Date(departureDates)}
+                    maxDate={endDate}  // Disables all dates before today
                     popperPlacement="bottom"
                     popperProps={{
                       modifiers: [

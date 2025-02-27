@@ -28,15 +28,13 @@ const TourCategory = ({ tourData, categories, locations, location, toursBanner }
   const [isListVisible, setIsListVisible] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [filteredOptions, setFilteredOptions] = useState(
-    locations.destinations
+    locations?.destinations
   );
   const router = useRouter();
   const [viewport, setViewport] = useState("desktop");
 
   const { query } = router;
   
-  console.log( query );
-
   const toggleDialog = () => {
     setIsDialogOpen(!isDialogOpen);
   };
@@ -44,7 +42,7 @@ const TourCategory = ({ tourData, categories, locations, location, toursBanner }
     const query = e.target.value;
     setSearchText(query);
 
-    const filtered = locations.destinations.filter((location) =>
+    const filtered = locations?.destinations?.filter((location) =>
       location.toLowerCase().includes(query.toLowerCase())
     );
     setFilteredOptions(filtered);
@@ -99,7 +97,7 @@ const TourCategory = ({ tourData, categories, locations, location, toursBanner }
 
   const handleInputChange = (e) => {
     const query = e.target.value.toLowerCase();
-    const filtered = locations.destinations.filter((location) =>
+    const filtered = locations?.destinations?.filter((location) =>
       location.toLowerCase().includes(query)
     );
     setFilteredOptions(filtered);
@@ -481,14 +479,14 @@ export async function getStaticPaths() {
   const destinations = locations?.destinations
     ?.map((dest) => dest.trim().toLowerCase())
     .filter((value, index, self) => self.indexOf(value) === index);
-  destinations.push("allTours");
-  const paths = destinations.map((destination) => ({
+  destinations?.push("allTours");
+  const paths = destinations?.map((destination) => ({
     params: { location: encodeURIComponent(destination) },
   }));
 
   return {
     paths,
-    fallback: "blocking",
+    fallback:"blocking",
   };
 }
 
